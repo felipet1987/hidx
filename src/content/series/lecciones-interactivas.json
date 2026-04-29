@@ -1,0 +1,13 @@
+{
+  "title": "Lecciones interactivas (Brilliant-style)",
+  "description": "Lecciones cortas frame-by-frame para aprender click-by-click sin scroll. Estilo Brilliant.org. 5-10 min cada una. Ganá XP completando.",
+  "order": 6,
+  "level": "beginner",
+  "steamCategories": ["M", "A"],
+  "ageMin": 8,
+  "ageMax": 12,
+  "lessons": [
+    "mobius-en-8-frames",
+    "teselados-en-6-frames"
+  ]
+}
