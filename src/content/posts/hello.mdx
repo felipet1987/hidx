@@ -5,7 +5,7 @@ publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
-import { Callout, Steps, CodeDemo, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
+import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
 
 ## Por qué existe este artículo
 
@@ -43,6 +43,71 @@ que los componentes están conectados y que el layout del artículo funciona de 
   code={`export function saludo(nombre: string): string {
   return \`hola, \${nombre}\`;
 }`}
+/>
+
+## Tabs de código multi-archivo
+
+<CodeTabs
+  tabs={[
+    {
+      label: 'package.json',
+      lang: 'json',
+      code: `{
+  "name": "hidx",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  }
+}`,
+    },
+    {
+      label: 'astro.config.mjs',
+      lang: 'js',
+      code: `import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+
+export default defineConfig({
+  integrations: [mdx()],
+});`,
+    },
+    {
+      label: 'src/pages/index.astro',
+      lang: 'astro',
+      code: `---
+const title = 'hidx';
+---
+<h1>{title}</h1>`,
+    },
+  ]}
+/>
+
+## Diff de código
+
+<CodeDiff
+  title="src/lib/theme.ts"
+  code={`-export type Theme = 'dark';
++export type Theme = 'light' | 'dark';
+
+ export function applyTheme(theme: Theme): void {
+   document.documentElement.dataset.theme = theme;
++  localStorage.setItem('theme', theme);
+ }`}
+/>
+
+## Sesión de terminal
+
+<Terminal
+  title="bootstrap hidx"
+  lines={[
+    { type: 'comment', text: 'Clonar e instalar' },
+    { type: 'cmd', text: 'git clone git@github.com:felipet1987/hidx.git' },
+    { type: 'cmd', text: 'cd hidx && pnpm install' },
+    { type: 'out', text: 'Done in 22.4s using pnpm v10.33.2' },
+    { type: 'cmd', text: 'pnpm dev' },
+    { type: 'out', text: '┃ Local    http://localhost:4321/' },
+    { type: 'comment', text: 'Listo. Editar src/ recarga en caliente.' },
+  ]}
 />
 
 ## Una imagen optimizada

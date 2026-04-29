@@ -3,10 +3,13 @@
 export { default as AffiliateLink } from './AffiliateLink.astro';
 export { default as Callout } from './Callout.astro';
 export { default as CodeDemo } from './CodeDemo.astro';
+export { default as CodeDiff } from './CodeDiff.astro';
+export { default as CodeTabs } from './CodeTabs.astro';
 export { default as Figure } from './Figure.astro';
 export { default as Gallery } from './Gallery.astro';
 export { default as Image } from './Image.astro';
 export { default as Steps } from './Steps.astro';
+export { default as Terminal } from './Terminal.astro';
 export { default as TipJar } from './TipJar.astro';
 export { default as Video } from './Video.astro';
 export { default as YouTubeEmbed } from './YouTubeEmbed.astro';
@@ -19,10 +22,13 @@ export const MDX_COMPONENT_WHITELIST = [
   'AffiliateLink',
   'Callout',
   'CodeDemo',
+  'CodeDiff',
+  'CodeTabs',
   'Figure',
   'Gallery',
   'Image',
   'Steps',
+  'Terminal',
   'TipJar',
   'Video',
   'YouTubeEmbed',

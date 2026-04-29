@@ -1,0 +1,80 @@
+---
+interface Line {
+  type: 'cmd' | 'out' | 'err' | 'comment';
+  text: string;
+}
+
+interface Props {
+  lines: Line[];
+  prompt?: string;
+  title?: string;
+}
+
+const { lines, prompt = '$', title } = Astro.props;
+---
+<figure class="terminal not-prose">
+  {title && <figcaption>{title}</figcaption>}
+  <div class="term-body">
+    {lines.map((l) => {
+      if (l.type === 'cmd') {
+        return (
+          <div class="term-line term-cmd">
+            <span class="term-prompt" aria-hidden="true">{prompt}</span>
+            <span class="term-text">{l.text}</span>
+          </div>
+        );
+      }
+      if (l.type === 'err') return <div class="term-line term-err">{l.text}</div>;
+      if (l.type === 'comment') return <div class="term-line term-comment"># {l.text}</div>;
+      return <div class="term-line term-out">{l.text}</div>;
+    })}
+  </div>
+</figure>
+
+<style>
+  .terminal {
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: oklch(0.16 0.01 260);
+  }
+  .terminal figcaption {
+    padding: 0.4rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: oklch(0.7 0.01 260);
+    background: oklch(0.22 0.012 260);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .term-body {
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: oklch(0.9 0.005 260);
+    overflow-x: auto;
+  }
+  .term-line {
+    white-space: pre;
+  }
+  .term-cmd {
+    color: oklch(0.96 0.005 260);
+  }
+  .term-prompt {
+    color: oklch(0.78 0.14 200);
+    font-weight: 700;
+    margin-right: 0.5rem;
+    user-select: none;
+  }
+  .term-out {
+    color: oklch(0.78 0.01 260);
+  }
+  .term-err {
+    color: oklch(0.7 0.18 25);
+  }
+  .term-comment {
+    color: oklch(0.55 0.01 260);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import { codeToHtml } from 'shiki';
+
+interface Props {
+  code: string;
+  title?: string;
+}
+
+const { code, title } = Astro.props;
+const html = await codeToHtml(code, {
+  lang: 'diff',
+  themes: { light: 'github-light', dark: 'github-dark' },
+  defaultColor: 'dark',
+});
+---
+<figure class="code-diff not-prose">
+  {title && <figcaption>{title}</figcaption>}
+  <div set:html={html} />
+</figure>
+
+<style is:global>
+  .code-diff {
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-bg-elev);
+  }
+  .code-diff figcaption {
+    padding: 0.4rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    background: color-mix(in oklch, var(--color-bg-elev) 60%, transparent);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .code-diff pre {
+    margin: 0;
+    padding: 1rem;
+    background: transparent !important;
+    overflow-x: auto;
+    font-size: 0.82rem;
+  }
+  /* Override Shiki diff line bg for stronger contrast */
+  .code-diff .line {
+    display: inline-block;
+    width: 100%;
+  }
+  .code-diff .line.diff.add,
+  .code-diff .line:has(> :first-child:where(:contains('+'))) {
+    background: color-mix(in oklch, oklch(0.7 0.16 145) 18%, transparent);
+  }
+  .code-diff .line.diff.remove {
+    background: color-mix(in oklch, oklch(0.65 0.18 25) 18%, transparent);
+  }
+</style>

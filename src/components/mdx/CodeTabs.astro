@@ -1,0 +1,169 @@
+---
+import { codeToHtml } from 'shiki';
+
+interface Tab {
+  label: string;
+  lang: string;
+  code: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  defaultIndex?: number;
+}
+
+const { tabs, defaultIndex = 0 } = Astro.props;
+const groupId = `ct-${Math.random().toString(36).slice(2, 9)}`;
+
+const renderedTabs = await Promise.all(
+  tabs.map(async (t) => ({
+    ...t,
+    html: await codeToHtml(t.code, {
+      lang: t.lang,
+      themes: { light: 'github-light', dark: 'github-dark' },
+      defaultColor: 'dark',
+    }),
+  })),
+);
+---
+<code-tabs class="code-tabs" data-group={groupId}>
+  <div class="ct-tablist" role="tablist" aria-label="Code files">
+    {renderedTabs.map((t, i) => (
+      <button
+        type="button"
+        role="tab"
+        class="ct-tab"
+        data-ct-tab={i}
+        aria-selected={i === defaultIndex}
+        aria-controls={`${groupId}-panel-${i}`}
+        id={`${groupId}-tab-${i}`}
+      >
+        {t.label}
+      </button>
+    ))}
+  </div>
+  {renderedTabs.map((t, i) => (
+    <div
+      class="ct-panel"
+      role="tabpanel"
+      id={`${groupId}-panel-${i}`}
+      aria-labelledby={`${groupId}-tab-${i}`}
+      hidden={i !== defaultIndex}
+      set:html={t.html}
+    />
+  ))}
+
+  <details class="ct-accordion" hidden>
+    {renderedTabs.map((t) => (
+      <details class="ct-acc-item">
+        <summary>{t.label}</summary>
+        <div set:html={t.html}></div>
+      </details>
+    ))}
+  </details>
+</code-tabs>
+
+<script>
+  class CodeTabs extends HTMLElement {
+    connectedCallback() {
+      const tabs = this.querySelectorAll<HTMLButtonElement>('[data-ct-tab]');
+      const panels = this.querySelectorAll<HTMLElement>('.ct-panel');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const idx = Number(tab.dataset.ctTab);
+          tabs.forEach((t, i) => t.setAttribute('aria-selected', String(i === idx)));
+          panels.forEach((p, i) => (p.hidden = i !== idx));
+        });
+        tab.addEventListener('keydown', (e) => {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+          e.preventDefault();
+          const idx = Number(tab.dataset.ctTab);
+          const next = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+          (tabs[next] as HTMLButtonElement).focus();
+          tabs[next].click();
+        });
+      });
+    }
+  }
+  if (!customElements.get('code-tabs')) {
+    customElements.define('code-tabs', CodeTabs);
+  }
+</script>
+
+<style is:global>
+  .code-tabs {
+    display: block;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--color-bg-elev);
+  }
+  .ct-tablist {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    border-bottom: 1px solid var(--color-border);
+    background: color-mix(in oklch, var(--color-bg-elev) 60%, transparent);
+  }
+  .ct-tab {
+    flex-shrink: 0;
+    padding: 0.55rem 1rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .ct-tab:hover {
+    color: var(--color-fg);
+  }
+  .ct-tab[aria-selected='true'] {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+  .ct-panel pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    background: transparent !important;
+    font-size: 0.82rem;
+  }
+  @media (max-width: 640px) {
+    .ct-tablist,
+    .ct-panel {
+      display: none;
+    }
+    .ct-accordion {
+      display: block !important;
+    }
+    .ct-acc-item {
+      border-bottom: 1px solid var(--color-border);
+    }
+    .ct-acc-item:last-child {
+      border-bottom: 0;
+    }
+    .ct-acc-item summary {
+      padding: 0.55rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      cursor: pointer;
+      color: var(--color-muted);
+      background: color-mix(in oklch, var(--color-bg-elev) 60%, transparent);
+    }
+    .ct-acc-item[open] summary {
+      color: var(--color-accent);
+    }
+    .ct-acc-item pre {
+      margin: 0;
+      padding: 1rem;
+      overflow-x: auto;
+      background: transparent !important;
+      font-size: 0.82rem;
+    }
+  }
+</style>

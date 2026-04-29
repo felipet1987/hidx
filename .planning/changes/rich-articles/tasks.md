@@ -16,10 +16,10 @@
 
 ## Phase 2: Code (S4b)
 
-- [ ] 2.1 `src/components/mdx/CodeTabs.astro` — Shiki render per tab; `<code-tabs>` Web Component switch ~500B; horizontal scroll-snap ≥640px / `<details>` accordion <640px
-- [ ] 2.2 `src/components/mdx/CodeDiff.astro` — Shiki lang `diff`, +/- bg overrides match theme tokens
-- [ ] 2.3 `src/components/mdx/Terminal.astro` — shell prompt `$` + ANSI-style colored output via inline classes
-- [ ] 2.4 Update `hello.mdx` exercise CodeTabs + CodeDiff + Terminal
+- [x] 2.1 `src/components/mdx/CodeTabs.astro` — Shiki per tab; `<code-tabs>` Web Component switch with arrow-key keyboard nav; scroll-snap ≥640px / `<details>` accordion <640px
+- [x] 2.2 `src/components/mdx/CodeDiff.astro` — Shiki lang `diff`, +/- bg overrides via theme color-mix
+- [x] 2.3 `src/components/mdx/Terminal.astro` — prompt `$`, line types: cmd/out/err/comment with semantic classes
+- [x] 2.4 Update `hello.mdx` exercise CodeTabs (3 files: package.json + astro.config + index.astro) + CodeDiff + Terminal session
 
 ## Phase 3: Mermaid build-time (S4c)
 
