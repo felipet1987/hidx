@@ -9,6 +9,7 @@
 // Reused from previous era (relevantes STEAM)
 export { default as Aside } from './Aside.astro';
 export { default as Callout } from './Callout.astro';
+export { default as Compare } from './Compare.astro';
 export { default as Figure } from './Figure.astro';
 export { default as Footnotes } from './Footnotes.astro';
 export { default as FullBleed } from './FullBleed.astro';
@@ -47,6 +48,7 @@ export const MDX_COMPONENT_WHITELIST = [
   // Reused
   'Aside',
   'Callout',
+  'Compare',
   'Figure',
   'Footnotes',
   'FullBleed',
@@ -82,7 +84,6 @@ export const MDX_COMPONENT_DEPRECATED = [
   'CodeDemo',
   'CodeDiff',
   'CodeTabs',
-  'Compare',
   'Mermaid',
   'RepoCard',
   'Terminal',

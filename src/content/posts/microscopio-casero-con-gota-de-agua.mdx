@@ -1,0 +1,111 @@
+---
+title: Microscopio casero con gota de agua
+description: Convertí tu celular en un microscopio usando una gota de agua. Observá células reales y conectá con la teoría celular del MINEDUC 8° básico.
+publishedAt: 2026-04-29
+tags: [biologia, celula, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 2
+durationMinutes: 30
+steamCategories: [S, T]
+materials:
+  - { name: 'Smartphone con cámara', qty: '1 unidad' }
+  - { name: 'Gotero o jeringa sin aguja', qty: '1 unidad' }
+  - { name: 'Agua de florero o estanque (con vida)', qty: '50 ml' }
+  - { name: 'Vidrio chico o portaobjetos casero', qty: '2 unidades' }
+  - { name: 'Lámpara o linterna', qty: '1 unidad' }
+  - { name: 'Hojas de cebolla', qty: '1 capa transparente', optional: true }
+safetyNotes:
+  - { type: 'supervision', text: 'Lavarse las manos después de manipular agua de florero o estanque (puede tener bacterias).' }
+parentTip: |
+  Esta lección mapea directo a OA1 y OA2 del currículum chileno 8° básico:
+  evolución de modelos celulares (Hooke, Leeuwenhoek, Virchow, Schleiden, Schwann)
+  y diferencia entre células eucariontes (con núcleo) y procariontes (sin núcleo).
+
+  Leeuwenhoek descubrió microorganismos en 1676 con un microscopio similar a este.
+  La gota de agua actúa como **lente convexa** (la curvatura magnifica). Con la cámara
+  del celular se logran 100-400× aumentos — suficiente para ver paramecios, algas,
+  células epiteliales de cebolla, y bacterias grandes.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Quote, Highlight,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['S', 'T']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={30} />
+</div>
+
+En 1676, **Antonie van Leeuwenhoek** descubrió un mundo invisible a simple vista usando un microscopio de lente única.
+Hoy vas a hacer prácticamente lo mismo — pero con tu celular y una gota de agua. Bienvenido al universo microscópico.
+
+<Quote cite="Antonie van Leeuwenhoek" source="Carta a la Royal Society, 1676">
+  Vi animálculos pequeñísimos moviéndose alegremente en una gota de agua de lluvia.
+</Quote>
+
+<MaterialsList items={[
+  { name: 'Smartphone con cámara', qty: '1 unidad' },
+  { name: 'Gotero o jeringa sin aguja', qty: '1 unidad' },
+  { name: 'Agua de florero o estanque', qty: '50 ml' },
+  { name: 'Vidrio chico o portaobjetos casero', qty: '2 unidades' },
+  { name: 'Lámpara o linterna', qty: '1 unidad' },
+  { name: 'Hojas de cebolla', qty: '1 capa transparente', optional: true },
+]} />
+
+<SafetyNote type="supervision">
+Lavate las manos después de manipular agua de florero o estanque — puede tener bacterias.
+</SafetyNote>
+
+## Construir el "microscopio"
+
+<ExperimentSteps steps={[
+  { title: 'Preparar la muestra', body: 'Pasá una gota de agua de florero o estanque al vidrio. La gota debe ser bien chica (1-2 mm de diámetro) para hacer una lente curva pronunciada.' },
+  { title: 'Iluminar por debajo', body: 'Apoyá el vidrio sobre una superficie translúcida (vaso al revés, plástico). Encendé la linterna apuntando desde abajo, atravesando la gota.' },
+  { title: 'Acercar el celular', body: 'Activá la cámara con zoom MÁXIMO. Acercá el lente a la gota (a 1-2 cm). Movélo despacio hasta que enfoque y veas la magnificación.' },
+  { title: 'Observar y capturar', body: 'Vas a ver puntos moviéndose (paramecios), formas verdes inmóviles (algas), o células flotantes. Tomá foto/video. Comparalo con imágenes de internet para identificar.' },
+  { title: 'Probar con cebolla', body: 'Pelá una capa transparente de cebolla (la membrana entre dos capas). Apoyala sobre el vidrio con una gota de agua encima. Vas a ver claramente las células rectangulares con núcleo central — es CÉLULA VEGETAL EUCARIONTE.' },
+]} />
+
+## Lo que viste (teoría celular del MINEDUC 8°)
+
+<Highlight variant="cyan">**Teoría celular**</Highlight> (Schleiden 1838, Schwann 1839, Virchow 1855):
+
+1. **Todos los seres vivos están formados por células.**
+2. **La célula es la unidad básica de vida** (más pequeña capaz de funciones vitales).
+3. **Toda célula proviene de otra célula** (no surge de la nada).
+
+Las células que viste pueden ser:
+
+- **Procariontes** (sin núcleo definido, ADN suelto): bacterias en el agua sucia.
+- **Eucariontes** (con núcleo, organelos): paramecios, algas, células de cebolla.
+
+<Callout type="info" title="Hooke, Leeuwenhoek y los microscopios">
+- **Hooke (1665)**: vio "celdillas" en el corcho — inventó el término "célula".
+- **Leeuwenhoek (1676)**: pulió lentes mejores y descubrió microorganismos. Su microscopio era una sola lente esférica, similar al efecto de tu gota de agua.
+- **Virchow (1855)**: "Omnis cellula e cellula" — toda célula nace de otra célula.
+</Callout>
+
+## Reto extra (8° básico chileno)
+
+- Identificá si lo que viste es procarionte o eucarionte. (Pista: si tiene un punto oscuro central = núcleo = eucarionte)
+- Probá con muestras de **mejilla** (raspá suave con palillo, transferí a la gota). Vas a ver TUS PROPIAS células epiteliales.
+- Mirá hojas de Elodea (planta acuática común en peceras). Vas a ver cloroplastos VERDES moviéndose adentro de la célula — fotosíntesis en vivo.
+
+<ParentTip>
+**OA del currículum nacional chileno cubiertos**:
+- **CN08 OA 01**: evolución modelos celulares (Hooke→Leeuwenhoek→Schleiden/Schwann/Virchow).
+- **CN08 OA 02**: diferenciación eucariontes vs procariontes con observación directa.
+
+**Conexión histórica**: Leeuwenhoek era pulidor de telas, no científico. Hizo más de 500 microscopios artesanales. La ciencia avanzó porque alguien curioso miró más cerca.
+
+**Para extender** (chicos 13-14):
+- Hablale del experimento de Pasteur (los microbios no aparecen "por generación espontánea").
+- Compará con microscopios electrónicos modernos (1.000.000× aumento, ven moléculas).
+- Conexión con vacunas: el microscopio permitió descubrir bacterias y virus → posible vacunarlos.
+
+**Tiempo real**: 30 min preparar + 30 min explorar = 60 min total.
+</ParentTip>

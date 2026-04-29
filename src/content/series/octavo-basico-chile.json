@@ -1,0 +1,20 @@
+{
+  "title": "Octavo básico Chile — STEAM aplicado al currículum MINEDUC",
+  "description": "Lecciones hands-on alineadas a los Objetivos de Aprendizaje de 8° básico Chile (Bases Curriculares MINEDUC). Cubre Matemática, Ciencias Naturales (Bio + Física + Química) y Tecnología.",
+  "order": 4,
+  "level": "intermediate",
+  "steamCategories": ["S", "T", "E", "A", "M"],
+  "ageMin": 11,
+  "ageMax": 14,
+  "lessons": [
+    "microscopio-casero-con-gota-de-agua",
+    "circuito-limon",
+    "volcan-de-bicarbonato-y-vinagre",
+    "pitagoras-con-cordel-y-nudos-egipcios",
+    "fibonacci-escondido-en-las-pinas",
+    "graficos-enganosos-como-detectar-trampas",
+    "codigo-secreto-cesar-con-disco",
+    "catapulta-carton",
+    "cinta-de-mobius-magia-matematica"
+  ]
+}

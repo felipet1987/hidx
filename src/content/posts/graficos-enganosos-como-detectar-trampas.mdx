@@ -1,0 +1,133 @@
+---
+title: Gráficos engañosos — cómo detectar trampas
+description: Aprendé a identificar manipulación visual en gráficos de redes sociales, noticias y publicidad. Estadística aplicada para chicos LatAm.
+publishedAt: 2026-04-29
+tags: [matematica, estadistica, alfabetizacion-mediatica, octavo-basico, kids]
+ageMin: 12
+ageMax: 14
+difficulty: 2
+durationMinutes: 25
+steamCategories: [M, T]
+materials:
+  - { name: 'Hojas blancas A4', qty: '4 unidades' }
+  - { name: 'Marcadores de 3 colores', qty: '3 unidades' }
+  - { name: 'Regla', qty: '1 unidad' }
+  - { name: 'Calculadora', qty: '1 unidad' }
+  - { name: 'Acceso a internet (para buscar ejemplos reales)', qty: '—', optional: true }
+parentTip: |
+  Esta lección mapea OA16 del currículum chileno 8° básico: evaluación de presentación
+  de datos y detección de manipulaciones gráficas.
+
+  Es una de las habilidades más críticas para vivir en 2026: las redes sociales,
+  noticias y publicidad usan trucos visuales para distorsionar datos. Saber detectarlos
+  es alfabetización ciudadana esencial.
+
+  6 trucos clásicos: eje truncado, escala desproporcionada, cherry-picking, gráfico 3D
+  innecesario, ejes invertidos, áreas vs longitudes mal proporcionadas.
+---
+
+import {
+  MaterialsList, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Quote, Highlight, Compare,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={12} max={14} />
+  <STEAMBadge categories={['M', 'T']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={25} />
+</div>
+
+¿Cuántas veces viste un gráfico que parecía decir A pero los números reales decían B?
+Hoy aprendés los **6 trucos** que usan medios, redes y publicidad para distorsionar datos.
+Una vez que los conocés, no podés desverlos.
+
+<Quote cite="Mark Twain (atribuido)">
+  Hay tres tipos de mentiras: mentiras, mentiras malditas, y estadísticas.
+</Quote>
+
+<MaterialsList items={[
+  { name: 'Hojas blancas A4', qty: '4 unidades' },
+  { name: 'Marcadores de 3 colores', qty: '3 unidades' },
+  { name: 'Regla', qty: '1 unidad' },
+  { name: 'Calculadora', qty: '1 unidad' },
+]} />
+
+## Los 6 trucos clásicos
+
+### 1. Eje Y truncado
+
+Es el más común. En vez de empezar el eje vertical en cero, lo empiezan en un valor alto. Resultado: diferencias chiquitas parecen enormes.
+
+**Ejemplo**: Empresa A vende 100 unidades, Empresa B vende 105. Si el gráfico empieza el eje en 95, parece que B vende DOBLE. Si empieza en 0, casi no se ve diferencia.
+
+### 2. Escala desproporcionada
+
+Mostrar dos números con escalas distintas para confundir.
+
+**Ejemplo**: gráfico de barras donde "ventas 2024" usa escala 1-1000 y "ventas 2025" usa escala 0-1100, intercambiados. Visualmente parece que 2025 fue peor cuando en realidad creció.
+
+### 3. Cherry-picking (cereza)
+
+Elegir solo los datos que apoyan tu argumento, ignorando los que lo contradicen.
+
+**Ejemplo**: "Mi equipo ganó los últimos 3 partidos!" (cuando perdió los 7 anteriores). Los 3 datos son ciertos; el contexto es engañoso.
+
+### 4. Gráficos 3D innecesarios
+
+Agregar perspectiva 3D a un gráfico 2D distorsiona la percepción de tamaños. Las barras del fondo parecen más chicas que las del frente.
+
+### 5. Ejes invertidos
+
+Poner el eje vertical "al revés" (con cero arriba). Una caída visual parece subida y viceversa. Famoso ejemplo: Fox News mostró así un gráfico de muertes, haciéndolo parecer que bajaban cuando subían.
+
+### 6. Áreas vs longitudes (pictogramas trucados)
+
+Cuando se duplica un dato, dibujan UNA imagen el doble de alto Y el doble de ancho. Resultado visual: 4 veces más área, no el doble. El cerebro percibe área, no altura.
+
+## Hacer tu propio gráfico engañoso
+
+<ExperimentSteps steps={[
+  { title: 'Elegí 5 datos reales', body: 'Por ejemplo: notas tuyas en 5 materias. O gastos del mes en 5 categorías. O visitas a tu perfil en 5 días.' },
+  { title: 'Dibujá 2 versiones del MISMO gráfico', body: 'Hoja A: gráfico HONESTO con eje Y desde 0. Hoja B: gráfico ENGAÑOSO con eje Y truncado donde te conviene. Mostrá ambos a un familiar.' },
+  { title: 'Preguntá cuál cuenta mejor "la historia"', body: 'Casi siempre dirán que el engañoso es "más impactante". Es la prueba de cómo funciona la manipulación visual.' },
+  { title: 'Buscá un gráfico engañoso real', body: 'En noticias o redes sociales. Identificá qué truco usa de los 6. Compartilo con tu familia y explicá la trampa.' },
+]} />
+
+## Tabla comparativa: cuándo usar cada gráfico
+
+<Compare
+  caption="Cuándo cada gráfico es honesto."
+  headers={['Tipo gráfico', 'Honesto para', 'Cuidado con']}
+  rows={[
+    { feature: 'Barras', cells: ['Comparar categorías', { value: 'Eje Y NO truncado', emphasis: true }] },
+    { feature: 'Líneas', cells: ['Tendencia en tiempo', 'Escala temporal pareja'] },
+    { feature: 'Torta', cells: [{ value: 'Partes de un todo (max 5)', emphasis: true }, '3D distorsiona ángulos'] },
+    { feature: 'Dispersión', cells: ['Relación entre 2 variables', 'No implica causalidad'] },
+    { feature: 'Pictograma', cells: ['Datos para audiencia general', { value: 'Tamaño = altura, no área', emphasis: true }] },
+  ]}
+/>
+
+## Reto extra (8° básico)
+
+- Buscá en Twitter/X un gráfico publicado por un político o periodista. ¿Es honesto o engaña?
+- Diseñá un gráfico HONESTO de cómo dormís cada noche durante una semana (cuántas horas).
+- Pedíle a un compañero que adivine qué eras de tu día. Después le mostrás los datos crudos. ¿Coincide su percepción con la realidad?
+
+<Callout type="tip" title="Regla de oro">
+Cuando veas un gráfico, fijate primero en el <strong>eje Y</strong>: ¿empieza en 0? Si no, sospechá. Después chequeá el <strong>tamaño de la muestra</strong>: ¿100 personas? ¿10? ¿100.000? Por último, fijate en <strong>quién publica</strong> el gráfico — qué intereses tiene.
+</Callout>
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 16**: evaluación de presentación de datos y detección de manipulaciones gráficas.
+
+**Conexión actual**: en 2026, esta es la habilidad más subutilizada en alfabetización mediática. Tu hijo va a ver gráficos toda su vida — necesita poder distinguir información de manipulación.
+
+**Para extender** (chicos 13-14):
+- Mostrarles el libro "How to Lie with Statistics" (Darrell Huff, 1954) — clásico aún vigente.
+- Buscar el sitio "Information is Beautiful" para ejemplos de gráficos honestos y bien diseñados.
+- Discutir el concepto de "datos vs narrativa": los mismos datos pueden contar 5 historias distintas según cómo se presenten.
+
+**Tiempo real**: 25 min armar + 20 min buscar ejemplos reales = 45 min total.
+</ParentTip>

@@ -1,0 +1,103 @@
+---
+title: Pitágoras con cordel y nudos egipcios
+description: Construí un triángulo rectángulo perfecto sin transportador, usando una técnica que los egipcios usaban hace 4000 años. Pitágoras hands-on para 8° básico.
+publishedAt: 2026-04-29
+tags: [matematica, geometria, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 3
+durationMinutes: 35
+steamCategories: [M, E]
+materials:
+  - { name: 'Cordel o piolín', qty: '4 metros' }
+  - { name: 'Regla métrica', qty: '1 unidad' }
+  - { name: 'Marcador permanente', qty: '1 unidad' }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: '3 personas (o 2 + un objeto fijo)', qty: '—' }
+parentTip: |
+  Esta lección cubre OA12 del currículum chileno 8° básico: validez del Teorema de Pitágoras
+  y aplicaciones. La técnica del cordel de 12 nudos (3-4-5) la usaban los egipcios hace 4000
+  años para alinear pirámides perfectamente perpendiculares ANTES de que existiera Pitágoras.
+
+  El teorema dice: en un triángulo rectángulo, el cuadrado de la hipotenusa = suma de los
+  cuadrados de los catetos. 3² + 4² = 5² → 9 + 16 = 25. ✓
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Quote, Highlight,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['M', 'E']} />
+  <DifficultyStars level={3} />
+  <DurationBadge minutes={35} />
+</div>
+
+¿Sabías que los **egipcios** construían pirámides perfectamente perpendiculares usando solo un cordel con 12 nudos?
+Eso fue 1500 años ANTES de que Pitágoras naciera. Hoy reconstruimos esa herramienta y vemos por qué funciona.
+
+<Quote cite="Plutarco" source="Sobre Isis y Osiris">
+  Los egipcios usaban un triángulo de lados 3, 4 y 5 — el más perfecto de todos.
+</Quote>
+
+<MaterialsList items={[
+  { name: 'Cordel o piolín', qty: '4 metros' },
+  { name: 'Regla métrica', qty: '1 unidad' },
+  { name: 'Marcador permanente', qty: '1 unidad' },
+  { name: 'Tijera con punta redonda', qty: '1 unidad' },
+  { name: '3 personas (o 2 + objeto fijo)', qty: '—' },
+]} />
+
+## Construir el cordel egipcio
+
+<ExperimentSteps steps={[
+  { title: 'Cortar el cordel', body: 'Cortá un trozo de 3 metros de cordel. Vas a hacer 12 segmentos iguales (cada uno = 25 cm).' },
+  { title: 'Marcar 12 segmentos', body: 'Con regla, marcá con marcador cada 25 cm a lo largo del cordel. Tenés que tener 13 marcas (incluyendo los 2 extremos).' },
+  { title: 'Hacer nudos en cada marca', body: 'Hacé un nudo simple en cada marca. Total: 12 nudos visibles + extremos atados juntos formando un círculo cerrado.' },
+  { title: 'Formar el triángulo 3-4-5', body: 'Con 3 personas (o 2 + objeto fijo): persona A toma nudo 1. Persona B toma nudo 4 (3 segmentos después). Persona C toma nudo 8 (4 segmentos después). Tirá el cordel hasta tensarlo. Te queda un triángulo perfecto.' },
+  { title: 'Verificar el ángulo recto', body: 'El ángulo entre el lado de 3 segmentos y el lado de 4 segmentos es EXACTAMENTE 90° (recto). Comprobalo con la esquina de un libro o cuaderno.' },
+]} />
+
+## El teorema de Pitágoras
+
+Lo que armaste se llama **terna pitagórica** (3, 4, 5) — tres números que cumplen:
+
+<Highlight variant="cyan">**a² + b² = c²**</Highlight>
+
+donde **c** es la hipotenusa (lado más largo) y **a, b** son los catetos.
+
+Verificación con tu triángulo:
+- Cateto a = 3 segmentos → 3² = 9
+- Cateto b = 4 segmentos → 4² = 16
+- Hipotenusa c = 5 segmentos → 5² = 25
+- 9 + 16 = 25 ✓
+
+<Callout type="info" title="Por qué Pitágoras es genial">
+Esta relación funciona para CUALQUIER triángulo rectángulo. Si conocés dos lados, podés calcular el tercero. Es la base de:
+- **Topografía**: medir alturas sin trepar (mirar la sombra + ángulo).
+- **GPS**: calcular tu posición intersectando distancias a satélites.
+- **Construcción**: paredes perfectamente verticales y techos rectos.
+- **Videojuegos**: calcular distancia entre dos puntos en pantalla.
+</Callout>
+
+## Reto extra (8° básico)
+
+- Verificá la fórmula con OTRA terna pitagórica: 5-12-13. ¿Cumple a² + b² = c²?
+- Calculá la diagonal de tu cuaderno usando Pitágoras: medí ancho (a) y alto (b), calculá la diagonal (c). Verificá con regla.
+- Diseñá una rampa para skate de 30° con base de 2 metros — ¿cuánta madera necesitás? (Hipotenusa = base / cos(30°))
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 12**: validez del teorema de Pitágoras y aplicaciones.
+
+**Conexión histórica**: los egipcios usaban este truco para alinear pirámides 1500 años antes que Pitágoras. La fórmula la conocían babilonios, hindúes y chinos antes que él. Pitágoras (siglo VI a.C.) fue quien lo demostró formalmente.
+
+**Para extender** (chicos 13-14):
+- Mostrá la **demostración geométrica** (cuadrados sobre cada lado del triángulo). Buscá "Euclides Proposición I.47" en YouTube.
+- Conexión con **trigonometría** (próximo año): seno, coseno y tangente derivan directamente de Pitágoras.
+- Aplicación moderna: **GPS triangulación** funciona resolviendo Pitágoras en 3D con 4 satélites.
+
+**Tiempo real**: 35 min armar + 15 min experimentos = 50 min total.
+</ParentTip>
