@@ -2,20 +2,16 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import cloudflare from '@astrojs/cloudflare';
 import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
 
 const SITE = 'https://hidx.dev';
 
 // https://astro.build/config
+// SSG-only MVP. Switch to `output: 'server'` + Cloudflare adapter when paywall (Capa 4) lands.
 export default defineConfig({
   site: SITE,
   output: 'static',
-  adapter: cloudflare({
-    imageService: 'compile',
-    platformProxy: { enabled: true },
-  }),
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
