@@ -1,24 +1,29 @@
 ---
-title: "Fibonacci escondido en las piñas"
-description: "TODO: descripción 1-280 chars de \"Fibonacci escondido en las piñas\"."
+title: Fibonacci escondido en las piñas
+description: La naturaleza usa una secuencia matemática para diseñar piñas, girasoles y caracoles. Salí a buscarla y descubrí por qué.
 publishedAt: 2026-04-29
-tags: ["kids", "todo"]
+tags: [matematica, naturaleza, kids]
 ageMin: 9
 ageMax: 12
 difficulty: 3
 durationMinutes: 30
-steamCategories: ["M", "S"]
-draft: true
+steamCategories: [M, S]
 materials:
-  - { name: 'TODO material 1', qty: '1 unidad' }
-safetyNotes: []
+  - { name: 'Una piña de pino', qty: '1 unidad' }
+  - { name: 'Una flor con muchos pétalos (girasol, margarita)', qty: '1 unidad', optional: true }
+  - { name: 'Marcador y lápiz', qty: '1 unidad' }
+  - { name: 'Cuaderno', qty: '1 unidad' }
+safetyNotes:
+  - { type: 'supervision', text: 'Si vas a buscar piñas afuera, andá con un adulto. Algunas tienen puntas rugosas.' }
 parentTip: |
-  TODO: 2-3 párrafos pedagógicos para padres y maestros con conexión curricular,
-  preguntas guía y variantes para extender la actividad.
+  La secuencia Fibonacci aparece en piñas, girasoles, caracoles, helechos, galaxias.
+  No es coincidencia — la selección natural eligió diseños que cumplen Fibonacci porque
+  maximizan exposición al sol y empaquetado de semillas.
 ---
+
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
-  STEAMBadge, DifficultyStars, DurationBadge, Callout,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight, Quote,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -28,34 +33,52 @@ import {
   <DurationBadge minutes={30} />
 </div>
 
-TODO: párrafo introductorio. Hook que despierte curiosidad del chico.
+Una piña tiene **escamas en espiral**. Si las contás, encontrás un patrón que un señor de hace 800 años llamó "Fibonacci".
+La misma secuencia aparece en girasoles, caracoles y... <Highlight variant="cyan">tu propia mano</Highlight>.
+
+<Quote cite="Leonardo Fibonacci" source="Liber Abaci, 1202">
+  Cada número de la secuencia es la suma de los dos anteriores: 1, 1, 2, 3, 5, 8, 13, 21...
+</Quote>
 
 <MaterialsList items={[
-  { name: 'TODO material 1', qty: '1 unidad' },
+  { name: 'Una piña de pino', qty: '1 unidad' },
+  { name: 'Una flor con muchos pétalos', qty: '1 unidad', optional: true },
+  { name: 'Marcador y lápiz', qty: '1 unidad' },
+  { name: 'Cuaderno', qty: '1 unidad' },
 ]} />
 
 <SafetyNote type="supervision">
-TODO: nota de seguridad relevante.
+Si vas a buscar piñas en parque, andá con un adulto.
 </SafetyNote>
 
-## Cómo armarlo
+## Buscar el patrón
 
 <ExperimentSteps steps={[
-  { title: 'Paso 1', body: 'TODO: instrucción clara y concisa.' },
-  { title: 'Paso 2', body: 'TODO: continuación.' },
-  { title: 'Resultado', body: 'TODO: qué tiene que pasar.' },
+  { title: 'Conseguí una piña', body: 'Las mejores son las piñas de pino caídas en parques. Tienen que estar abiertas — escamas separadas.' },
+  { title: 'Mirá las espirales', body: 'Apoyá la piña con base hacia abajo. Mirala desde arriba. Vas a ver escamas formando espirales que giran a derecha y a izquierda.' },
+  { title: 'Marcá una espiral', body: 'Con marcador, pasá por encima de cada escama de UNA espiral, desde el centro hacia afuera. Contá cuántas hay.' },
+  { title: 'Marcá las que giran al revés', body: 'Con OTRO color, marcá las espirales que giran a la izquierda. Contá cuántas.' },
+  { title: 'Comparalo con la secuencia', body: 'Casi seguro contás 8, 13 o 21 espirales en cada dirección. Esos son Fibonacci. Volvé al cuaderno: 1, 1, 2, 3, 5, 8, 13, 21, 34. Encontraste matemáticas en la naturaleza.' },
 ]} />
 
-## Qué aprendiste
+## ¿Por qué pasa?
 
-TODO: 1-2 párrafos explicando el concepto STEAM detrás de la actividad,
-en lenguaje accesible para chicos.
+Cada planta tiene un dilema: hacer crecer escamas sin que se tapen entre ellas. La solución óptima es girar cada nueva escama un ángulo de **137.5°** ("ángulo áureo") respecto a la anterior. Eso produce espirales en cantidades Fibonacci. La planta no sabe matemáticas — la **selección natural** eligió este diseño porque funciona mejor.
 
-<Callout type="tip" title="Reto extra">
-TODO: variante que extiende la actividad para chicos más curiosos.
+<Callout type="info" title="Fibonacci está en todos lados">
+- Tu mano: hueso de cada dedo respecto al anterior ≈ 1.618 (proporción áurea)
+- Girasol: ~34 espirales en una dirección, 55 en la otra
+- Caracol: cada vuelta 1.618 veces más grande
+- Galaxias espirales y huracanes desde satélite
 </Callout>
 
+## Reto extra
+
+- Generá la secuencia: 1, 1, 2... ¿hasta dónde llegás de memoria?
+- Calculá ratio áureo: dividí dos Fibonacci consecutivos. 21/13 = 1.615, 34/21 = 1.619, se acerca a φ = 1.618033...
+- Buscá una margarita o girasol. Contá pétalos. ¿Es número Fibonacci?
+
 <ParentTip>
-TODO: contexto pedagógico para padres y maestros (2-3 párrafos).
-Mencionar conceptos curriculares conectados, preguntas guía, variantes por edad.
+**Conceptos**: sucesión recursiva F(n)=F(n-1)+F(n-2), filotaxis, proporción áurea (φ), selección natural aplicada.
+**Para extender** (11-12): mostrar fórmula explícita Binet, video Vi Hart "Doodling Math: Spirals", Donald Duck Mathmagic Land 1959.
 </ParentTip>

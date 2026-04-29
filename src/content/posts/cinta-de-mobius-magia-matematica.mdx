@@ -1,24 +1,29 @@
 ---
-title: "Cinta de Möbius — magia matemática"
-description: "TODO: descripción 1-280 chars de \"Cinta de Möbius — magia matemática\"."
+title: Cinta de Möbius — magia matemática
+description: Hacé una cinta que tiene una sola cara y un solo borde. Topología en 5 minutos con papel y cinta.
 publishedAt: 2026-04-29
-tags: ["kids", "todo"]
+tags: [matematica, topologia, kids]
 ageMin: 8
 ageMax: 12
 difficulty: 2
 durationMinutes: 20
-steamCategories: ["M", "E"]
-draft: true
+steamCategories: [M, E]
 materials:
-  - { name: 'TODO material 1', qty: '1 unidad' }
-safetyNotes: []
+  - { name: 'Tira de papel (15x3 cm aprox)', qty: '3 unidades' }
+  - { name: 'Cinta adhesiva o pegamento', qty: '1 rollo' }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: 'Marcador o lápiz', qty: '1 unidad' }
+safetyNotes:
+  - { type: 'cortante', text: 'Tijera con punta redonda + adulto cuando cortes la cinta por el medio.' }
 parentTip: |
-  TODO: 2-3 párrafos pedagógicos para padres y maestros con conexión curricular,
-  preguntas guía y variantes para extender la actividad.
+  La cinta de Möbius (Möbius+Listing 1858) tiene UNA cara y UN borde aunque parece anillo común.
+  Concepto: **topología** — propiedades de formas que NO cambian al deformar (sin cortar/pegar).
+  Pregunta provocadora: "Si una hormiga camina sin cruzar el borde, ¿vuelve al inicio?" Sí — pero del otro lado.
 ---
+
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
-  STEAMBadge, DifficultyStars, DurationBadge, Callout,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Spoiler,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -28,34 +33,56 @@ import {
   <DurationBadge minutes={20} />
 </div>
 
-TODO: párrafo introductorio. Hook que despierte curiosidad del chico.
+¿Te imaginás una cinta de papel **con una sola cara**? Suena imposible. Pero la armás vos con tres cosas que tenés.
+Bienvenido a la **topología**: matemática que rompe la cabeza con cosas simples.
 
 <MaterialsList items={[
-  { name: 'TODO material 1', qty: '1 unidad' },
+  { name: 'Tira de papel (15x3 cm aprox)', qty: '3 unidades' },
+  { name: 'Cinta adhesiva o pegamento', qty: '1 rollo' },
+  { name: 'Tijera con punta redonda', qty: '1 unidad' },
+  { name: 'Marcador o lápiz', qty: '1 unidad' },
 ]} />
 
-<SafetyNote type="supervision">
-TODO: nota de seguridad relevante.
+<SafetyNote type="cortante">
+Tijera con punta redonda. Pedile ayuda a un adulto cuando cortes la cinta por el medio.
 </SafetyNote>
 
-## Cómo armarlo
+## Armar la Möbius
 
 <ExperimentSteps steps={[
-  { title: 'Paso 1', body: 'TODO: instrucción clara y concisa.' },
-  { title: 'Paso 2', body: 'TODO: continuación.' },
-  { title: 'Resultado', body: 'TODO: qué tiene que pasar.' },
+  { title: 'Cortá una tira larga', body: '15 cm de largo por 3 cm de ancho. Bien recta.' },
+  { title: 'Dale media vuelta a un extremo', body: 'Con un extremo fijo, al otro dale UN giro de 180° (media vuelta).' },
+  { title: 'Pegá los extremos', body: 'Con cinta, pegá los dos extremos sin deshacer el giro. Te queda una cinta torcida — esa es la Möbius.' },
+  { title: 'Prueba del marcador', body: 'Apoyá marcador en cualquier lugar y dibujá una línea SIN levantar. Seguila por la cinta hasta volver al inicio.' },
+  { title: '¡Sorpresa!', body: 'Pintaste TODA la cinta — adelante y atrás — sin levantar el marcador. Demuestra que tiene UNA sola cara.' },
 ]} />
 
-## Qué aprendiste
+## Comparar con anillo común
 
-TODO: 1-2 párrafos explicando el concepto STEAM detrás de la actividad,
-en lenguaje accesible para chicos.
+Hacé otra tira pero sin el giro. Te queda anillo común. Pintala con el marcador siguiendo la regla. Vas a ver que solo pintaste la cara externa — la interna queda blanca.
 
-<Callout type="tip" title="Reto extra">
-TODO: variante que extiende la actividad para chicos más curiosos.
+<Callout type="info" title="Y el borde?">
+Seguí el borde con el dedo. La Möbius tiene UN solo borde. Anillo común = 2 caras + 2 bordes. Möbius = 1 cara + 1 borde.
 </Callout>
 
+## Truco final: cortar por el medio
+
+<ExperimentSteps steps={[
+  { title: 'Marcá línea por el centro', body: 'Con marcador, dibujá línea por el centro. La línea da DOS vueltas antes de cerrar.' },
+  { title: 'Cortá por esa línea', body: 'Con cuidado, cortá. ¿Qué creés que pasa?' },
+  { title: 'Mirá el resultado', body: 'En vez de obtener dos cintas, te queda UNA SOLA cinta más larga con DOS giros. Magia matemática.' },
+]} />
+
+<Spoiler summary="¿Qué pasa si cortás por un tercio?">
+Probá cortar otra Möbius a 1/3 del borde (no por el centro). Te quedan DOS cintas entrelazadas: una grande con dos giros + una chica que sigue siendo Möbius.
+</Spoiler>
+
+## Reto extra
+
+- Probá con DOS giros (360°): ¿es Möbius? ¿Cuántas caras?
+- Cintas Möbius se usan en cintas transportadoras industriales — se gastan uniforme. Buscá fotos.
+
 <ParentTip>
-TODO: contexto pedagógico para padres y maestros (2-3 párrafos).
-Mencionar conceptos curriculares conectados, preguntas guía, variantes por edad.
+**Conceptos**: topología, orientabilidad (Möbius es **no orientable**), característica de Euler χ=0.
+**Para extender** (10-12): mostrá la **botella de Klein** (3D análogo). Pac-Man es topológicamente un toro. M.C. Escher pintó hormigas en Möbius (Möbius Strip II 1963).
 </ParentTip>
