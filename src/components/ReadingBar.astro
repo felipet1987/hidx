@@ -1,0 +1,63 @@
+---
+---
+<reading-bar class="reading-bar" aria-hidden="true"></reading-bar>
+
+<script>
+  class ReadingBar extends HTMLElement {
+    private rafId = 0;
+
+    connectedCallback() {
+      this.update();
+      window.addEventListener('scroll', this.onScroll, { passive: true });
+      window.addEventListener('resize', this.onScroll, { passive: true });
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('scroll', this.onScroll);
+      window.removeEventListener('resize', this.onScroll);
+      cancelAnimationFrame(this.rafId);
+    }
+
+    private onScroll = () => {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = requestAnimationFrame(() => this.update());
+    };
+
+    private update() {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+      this.style.setProperty('--progress', `${pct}%`);
+    }
+  }
+  if (!customElements.get('reading-bar')) {
+    customElements.define('reading-bar', ReadingBar);
+  }
+</script>
+
+<style>
+  .reading-bar {
+    --progress: 0%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 30;
+    pointer-events: none;
+    background: transparent;
+  }
+  .reading-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: var(--progress);
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+    transition: width 0.05s linear;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reading-bar::after {
+      transition: none;
+    }
+  }
+</style>

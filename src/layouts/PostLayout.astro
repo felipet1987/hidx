@@ -1,6 +1,8 @@
 ---
-import BaseLayout from './BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import ReadingBar from '../components/ReadingBar.astro';
+import CopyButton from '../components/CopyButton.astro';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -31,49 +33,175 @@ const articleSchema = {
     slot="head"
   />
 
-  <article class="prose prose-invert max-w-none">
-    <header class="not-prose mb-8 space-y-3">
-      <h1 class="text-4xl font-bold tracking-tight">{title}</h1>
-      <p class="text-lg text-(--color-muted)">{description}</p>
-      <div class="text-sm text-(--color-muted) flex flex-wrap gap-3">
-        <time datetime={publishedAt.toISOString()}>
-          {publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
-        <span>·</span>
-        <span>{readingMinutes} min read</span>
-        {tags.length > 0 && (
-          <>
-            <span>·</span>
-            <ul class="flex gap-2">
-              {tags.map((t) => (
-                <li><a href={`/tags/${t}`} class="no-underline">#{t}</a></li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-    </header>
+  <ReadingBar />
 
-    {tocHeadings.length > 2 && (
-      <nav class="not-prose mb-10 p-4 border border-(--color-accent-soft) rounded text-sm">
-        <p class="font-semibold mb-2">On this page</p>
-        <ul class="space-y-1">
-          {tocHeadings.map((h) => (
-            <li class={h.depth === 3 ? 'pl-4' : ''}>
-              <a href={`#${h.slug}`}>{h.text}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+  <div class="post-grid">
+    <article class="post-article prose dark:prose-invert max-w-none">
+      <header class="post-header not-prose">
+        <h1>{title}</h1>
+        <p class="lede">{description}</p>
+        <div class="meta">
+          <time datetime={publishedAt.toISOString()}>
+            {publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span class="dot" aria-hidden="true">·</span>
+          <span>{readingMinutes} min read</span>
+          {tags.length > 0 && (
+            <>
+              <span class="dot" aria-hidden="true">·</span>
+              <ul class="tags">
+                {tags.map((t) => (
+                  <li><a href={`/tags/${t}`}>#{t}</a></li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </header>
+
+      <hr class="grad-rule" />
+
+      <slot />
+
+      <footer class="post-footer not-prose">
+        <p>
+          Some links may be affiliate links. If you click and buy, this site may earn a commission at no extra cost to you.
+          See <a href="/disclosure">disclosure</a>.
+        </p>
+      </footer>
+    </article>
+
+    {tocHeadings.length > 1 && (
+      <aside class="post-toc">
+        <nav aria-label="Table of contents">
+          <p class="toc-title">On this page</p>
+          <ul>
+            {tocHeadings.map((h) => (
+              <li class={h.depth === 3 ? 'l3' : ''}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
     )}
+  </div>
 
-    <slot />
-
-    <footer class="not-prose mt-16 pt-6 border-t border-(--color-accent-soft) text-sm text-(--color-muted)">
-      <p>
-        Some links may be affiliate links. If you click and buy, this site may earn a commission at no extra cost to you.
-        See <a href="/disclosure">disclosure</a>.
-      </p>
-    </footer>
-  </article>
+  <CopyButton />
 </BaseLayout>
+
+<style>
+  .post-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .post-grid {
+      grid-template-columns: minmax(0, 1fr) 14rem;
+    }
+  }
+  .post-article {
+    max-width: 70ch;
+    line-height: 1.75;
+  }
+  .post-article :global(p),
+  .post-article :global(li) {
+    line-height: 1.75;
+  }
+  .post-header h1 {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.5rem;
+    line-height: 1.1;
+  }
+  .post-header .lede {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+  }
+  .post-header .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+  .post-header .tags {
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .post-header .tags a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .post-header .tags a:hover {
+    color: var(--color-accent);
+  }
+  .grad-rule {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-accent),
+      var(--color-accent-2),
+      transparent
+    );
+    margin: 2rem 0;
+  }
+  .post-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .post-toc {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .post-toc {
+      display: block;
+    }
+    .post-toc nav {
+      position: sticky;
+      top: 5rem;
+      font-size: 0.85rem;
+      border-left: 1px solid var(--color-border);
+      padding-left: 1rem;
+    }
+    .post-toc .toc-title {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      color: var(--color-muted);
+      margin: 0 0 0.5rem;
+    }
+    .post-toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .post-toc li.l3 {
+      padding-left: 0.85rem;
+    }
+    .post-toc a {
+      color: var(--color-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .post-toc a:hover {
+      color: var(--color-accent);
+    }
+  }
+</style>

@@ -31,18 +31,18 @@
 
 ## Phase 4: Reading experience (S2.5c)
 
-- [ ] 4.1 Create `src/components/ReadingBar.astro` — Web Component `<reading-bar>` (sticky 2px top, gradient fill on scroll progress)
-- [ ] 4.2 Mount `<ReadingBar>` in `PostLayout`
-- [ ] 4.3 Create `src/components/CopyButton.astro` — Web Component `<copy-button>` attached on connected to nearest `<pre>`, vanilla clipboard API
-- [ ] 4.4 Inject `<CopyButton>` for every `<pre>` in `PostLayout` (post-render JS or rehype plugin)
-- [ ] 4.5 Refactor `PostLayout` TOC: inline ≤1023px, sticky sidebar ≥1024px (CSS grid)
-- [ ] 4.6 Tune prose: line-height 1.7, max-w 70ch, gradient `<hr>` between sections
+- [x] 4.1 Create `src/components/ReadingBar.astro` — Web Component `<reading-bar>` (sticky 2px top, gradient fill on scroll progress)
+- [x] 4.2 Mount `<ReadingBar>` in `PostLayout`
+- [x] 4.3 Create `src/components/CopyButton.astro` — Web Component enhances every `<pre>` on connected, vanilla clipboard API
+- [x] 4.4 Inject `<CopyButton>` for every `<pre>` in `PostLayout` (single mount, enhancer iterates)
+- [x] 4.5 Refactor `PostLayout` TOC: inline ≤1023px, sticky sidebar ≥1024px (CSS grid `1fr 14rem`)
+- [x] 4.6 Tune prose: line-height 1.75, max-w 70ch, gradient `<hr>` between sections
 
 ## Phase 5: Hero rebuild + landing polish (S2.5b)
 
-- [ ] 5.1 `LandingLayout`: replace plain hero with gradient mesh background (radial-gradient layers), fluid display type for "how i do x"
-- [ ] 5.2 Add pillar topic tag marquee below tagline (CSS `@scroll-timeline` if supported)
-- [ ] 5.3 Card polish: gradient border + inner glow on hover, larger touch targets
+- [x] 5.1 `LandingLayout`: hero gradient mesh background (3 radial-gradient layers via `--gradient-mesh`), fluid display type with text-gradient accent on "developers who care"
+- [x] 5.2 Pillar topic tag marquee below tagline (CSS keyframe animation, mask gradient fade, reduced-motion aware)
+- [x] 5.3 Card polish: gradient border on hover via mask-composite, lift transform, larger touch targets, mono date label
 
 ## Phase 6: Mobile pass (S2.5d)
 

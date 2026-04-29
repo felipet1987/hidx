@@ -1,0 +1,72 @@
+---
+---
+<script>
+  class CopyButton extends HTMLElement {
+    connectedCallback() {
+      const pres = document.querySelectorAll<HTMLPreElement>('pre');
+      pres.forEach((pre) => {
+        if (pre.dataset.copyEnhanced) return;
+        pre.dataset.copyEnhanced = 'true';
+        pre.classList.add('has-copy');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-btn';
+        btn.setAttribute('aria-label', 'Copy code to clipboard');
+        btn.textContent = 'copy';
+        btn.addEventListener('click', async () => {
+          const code = pre.querySelector('code')?.innerText ?? pre.innerText;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.textContent = 'copied';
+            btn.classList.add('done');
+            setTimeout(() => {
+              btn.textContent = 'copy';
+              btn.classList.remove('done');
+            }, 1500);
+          } catch {
+            btn.textContent = 'failed';
+          }
+        });
+        pre.appendChild(btn);
+      });
+    }
+  }
+  if (!customElements.get('copy-button-enhancer')) {
+    customElements.define('copy-button-enhancer', CopyButton);
+  }
+</script>
+
+<copy-button-enhancer></copy-button-enhancer>
+
+<style is:global>
+  pre.has-copy {
+    position: relative;
+  }
+  pre.has-copy .copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+    background: color-mix(in oklch, var(--color-bg-elev) 80%, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  pre.has-copy:hover .copy-btn,
+  pre.has-copy .copy-btn:focus-visible {
+    opacity: 1;
+  }
+  pre.has-copy .copy-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  pre.has-copy .copy-btn.done {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+</style>
