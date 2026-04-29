@@ -30,6 +30,7 @@ export { default as DifficultyStars } from './DifficultyStars.astro';
 export { default as DurationBadge } from './DurationBadge.astro';
 export { default as DragDrop } from './DragDrop.astro';
 export { default as ExperimentSteps } from './ExperimentSteps.astro';
+export { default as LessonFrames } from './LessonFrames.astro';
 export { default as MatchPairs } from './MatchPairs.astro';
 export { default as MaterialsList } from './MaterialsList.astro';
 export { default as MemoryCards } from './MemoryCards.astro';
@@ -74,6 +75,7 @@ export const MDX_COMPONENT_WHITELIST = [
   'DragDrop',
   'DurationBadge',
   'ExperimentSteps',
+  'LessonFrames',
   'MatchPairs',
   'MaterialsList',
   'MemoryCards',

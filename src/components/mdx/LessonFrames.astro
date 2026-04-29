@@ -1,0 +1,373 @@
+---
+/**
+ * Brilliant-style frame-based interactive lesson navigation.
+ * Each frame is one of: intro | question | visual | reveal | celebrate
+ *
+ * Usage:
+ * <LessonFrames frames={[
+ *   { type: 'intro', title: '...', text: '...' },
+ *   { type: 'question', q: '...', choices: [{ text, correct, explain }] },
+ *   { type: 'visual', html: '...', caption: '...' },
+ *   { type: 'reveal', text: '...' },
+ *   { type: 'celebrate', text: '...' },
+ * ]} />
+ */
+interface Choice {
+  text: string;
+  correct?: boolean;
+  explain?: string;
+}
+
+interface IntroFrame  { type: 'intro';     title: string; text: string }
+interface QFrame      { type: 'question';  q: string; choices: Choice[]; hint?: string }
+interface VisualFrame { type: 'visual';    html?: string; caption?: string }
+interface RevealFrame { type: 'reveal';    text: string }
+interface CelebrateFrame { type: 'celebrate'; text: string; xp?: number }
+
+type Frame = IntroFrame | QFrame | VisualFrame | RevealFrame | CelebrateFrame;
+
+interface Props {
+  frames: Frame[];
+  xpReward?: number;
+}
+
+const { frames, xpReward = 15 } = Astro.props;
+const id = `lf-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class="lf not-prose" data-lf={id} data-xp-reward={xpReward}>
+  <div class="lf-progress" aria-hidden="true">
+    <div class="lf-progress-bar" data-lf-progress-bar style="width: 0%"></div>
+  </div>
+  <p class="lf-counter" data-lf-counter>1 / {frames.length}</p>
+
+  <div class="lf-frames" data-lf-frames>
+    {frames.map((f, i) => (
+      <article class:list={['lf-frame', `lf-${f.type}`, { active: i === 0 }]} data-lf-frame={i}>
+        {f.type === 'intro' && (
+          <>
+            <p class="lf-frame-tag">📚 Concepto</p>
+            <h2 class="lf-title">{f.title}</h2>
+            <p class="lf-text">{f.text}</p>
+          </>
+        )}
+        {f.type === 'question' && (
+          <>
+            <p class="lf-frame-tag">❓ Pregunta</p>
+            <p class="lf-q">{f.q}</p>
+            <ul class="lf-choices" data-lf-choices>
+              {f.choices.map((c, ci) => (
+                <li>
+                  <button
+                    type="button"
+                    class="lf-choice"
+                    data-lf-choice
+                    data-correct={c.correct ? 'true' : 'false'}
+                    data-explain={c.explain ?? ''}
+                  >
+                    <span class="lf-letter">{String.fromCharCode(65 + ci)}</span>
+                    <span>{c.text}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p class="lf-feedback" data-lf-feedback hidden></p>
+            {f.hint && <details class="lf-hint"><summary>💡 Pista</summary><p>{f.hint}</p></details>}
+          </>
+        )}
+        {f.type === 'visual' && (
+          <>
+            <p class="lf-frame-tag">👀 Mirá</p>
+            {f.html && <div class="lf-visual" set:html={f.html} />}
+            {f.caption && <p class="lf-caption">{f.caption}</p>}
+          </>
+        )}
+        {f.type === 'reveal' && (
+          <>
+            <p class="lf-frame-tag">💡 Explicación</p>
+            <p class="lf-text">{f.text}</p>
+          </>
+        )}
+        {f.type === 'celebrate' && (
+          <>
+            <p class="lf-frame-tag">🎉 ¡Completaste!</p>
+            <h2 class="lf-title">{f.text}</h2>
+            <p class="lf-xp-badge">+{f.xp ?? xpReward} XP</p>
+          </>
+        )}
+      </article>
+    ))}
+  </div>
+
+  <div class="lf-nav">
+    <button type="button" class="lf-prev" data-lf-prev aria-label="Anterior" disabled>←</button>
+    <button type="button" class="lf-next" data-lf-next aria-label="Siguiente">Siguiente →</button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-lf]').forEach((root) => {
+    const id = root.dataset.lf ?? '';
+    const xpReward = Number(root.dataset.xpReward ?? '15');
+    const frames = root.querySelectorAll<HTMLElement>('[data-lf-frame]');
+    const total = frames.length;
+    const counter = root.querySelector<HTMLElement>('[data-lf-counter]');
+    const bar = root.querySelector<HTMLElement>('[data-lf-progress-bar]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-lf-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-lf-next]');
+    let cur = 0;
+    let questionAnswered = new Set<number>();
+    let celebrated = false;
+
+    function show(idx: number) {
+      cur = Math.max(0, Math.min(total - 1, idx));
+      frames.forEach((f, i) => f.classList.toggle('active', i === cur));
+      if (counter) counter.textContent = `${cur + 1} / ${total}`;
+      if (bar) bar.style.width = `${((cur + 1) / total) * 100}%`;
+      if (prev) prev.disabled = cur === 0;
+      if (next) next.textContent = cur === total - 1 ? '✓ Terminar' : 'Siguiente →';
+      // Auto-award celebration XP on landing on last frame (if it's celebrate)
+      const lastFrame = frames[cur];
+      if (lastFrame?.classList.contains('lf-celebrate') && !celebrated) {
+        celebrated = true;
+        import('../../lib/xp').then((m) => m.awardXP(xpReward, `lf:${id}:complete`));
+      }
+    }
+
+    prev?.addEventListener('click', () => show(cur - 1));
+    next?.addEventListener('click', () => show(cur + 1));
+
+    // Per-question wiring
+    frames.forEach((frame, frameIdx) => {
+      const choices = frame.querySelectorAll<HTMLButtonElement>('[data-lf-choice]');
+      const feedback = frame.querySelector<HTMLElement>('[data-lf-feedback]');
+      choices.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const correct = btn.dataset.correct === 'true';
+          const explain = btn.dataset.explain;
+          choices.forEach((b) => {
+            b.classList.remove('correct', 'incorrect');
+            if (b === btn) b.classList.add(correct ? 'correct' : 'incorrect');
+            if (b.dataset.correct === 'true') b.classList.add('correct');
+          });
+          if (feedback) {
+            feedback.hidden = false;
+            feedback.className = `lf-feedback ${correct ? 'fb-correct' : 'fb-incorrect'}`;
+            feedback.textContent = correct
+              ? `✓ ¡Correcto! ${explain ?? ''} (+5 XP)`
+              : `✗ Probá de nuevo. ${explain ?? ''}`;
+          }
+          if (correct && !questionAnswered.has(frameIdx)) {
+            questionAnswered.add(frameIdx);
+            import('../../lib/xp').then((m) => m.awardXP(5, `lf:${id}:q${frameIdx}`));
+          }
+        });
+      });
+    });
+
+    // Keyboard nav
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(cur - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1); }
+    });
+    root.tabIndex = 0;
+
+    // Touch swipe (basic)
+    let touchStart = 0;
+    root.addEventListener('touchstart', (e) => { touchStart = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStart;
+      if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    show(0);
+  });
+</script>
+
+<style>
+  .lf {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border: 2px solid var(--color-accent);
+    border-radius: 14px;
+    background: var(--color-bg-elev);
+    user-select: none;
+    outline: none;
+  }
+  .lf:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+  .lf-progress {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .lf-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+    transition: width 0.3s ease;
+  }
+  .lf-counter {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+    text-align: right;
+  }
+
+  .lf-frames {
+    min-height: 18rem;
+    position: relative;
+  }
+  .lf-frame {
+    display: none;
+    animation: lf-fade 0.3s ease;
+  }
+  .lf-frame.active { display: block; }
+  @keyframes lf-fade {
+    from { opacity: 0; transform: translateX(15px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lf-frame { animation: none; }
+    .lf-progress-bar { transition: none; }
+  }
+
+  .lf-frame-tag {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+  .lf-title {
+    margin: 0 0 0.75rem;
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-fg);
+    letter-spacing: -0.01em;
+  }
+  .lf-text {
+    margin: 0 0 1rem;
+    font-size: var(--text-lg);
+    color: var(--color-fg);
+    line-height: 1.55;
+  }
+
+  .lf-q {
+    margin: 0 0 1rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .lf-choices {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .lf-choice {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    color: var(--color-fg);
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .lf-choice:hover { border-color: var(--color-accent); transform: translateX(3px); }
+  .lf-choice.correct { border-color: oklch(0.55 0.18 145); background: color-mix(in oklch, oklch(0.55 0.18 145) 12%, var(--color-bg)); }
+  .lf-choice.incorrect { border-color: oklch(0.6 0.18 25); background: color-mix(in oklch, oklch(0.6 0.18 25) 12%, var(--color-bg)); }
+  .lf-letter {
+    width: 2rem; height: 2rem;
+    border-radius: 9999px;
+    background: var(--color-accent-soft); color: var(--color-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-family: var(--font-mono); flex-shrink: 0;
+  }
+  .lf-feedback {
+    margin: 0.5rem 0 0;
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .fb-correct { background: color-mix(in oklch, oklch(0.55 0.18 145) 18%, var(--color-bg)); color: oklch(0.45 0.18 145); }
+  .fb-incorrect { background: color-mix(in oklch, oklch(0.6 0.18 25) 18%, var(--color-bg)); color: oklch(0.5 0.18 25); }
+  .lf-hint { margin-top: 0.6rem; font-size: 0.9rem; }
+  .lf-hint summary { cursor: pointer; color: var(--color-muted); font-weight: 600; }
+
+  .lf-visual {
+    display: grid; place-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--color-bg);
+    margin-bottom: 0.85rem;
+  }
+  .lf-caption {
+    text-align: center;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .lf-celebrate {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .lf-celebrate .lf-title {
+    font-size: var(--text-3xl);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lf-xp-badge {
+    display: inline-block;
+    margin: 1rem auto 0;
+    padding: 0.6rem 1.25rem;
+    background: linear-gradient(135deg, var(--color-accent-yellow), var(--color-e));
+    color: var(--color-fg);
+    border-radius: 9999px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+  }
+
+  .lf-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 0.6rem;
+  }
+  .lf-prev, .lf-next {
+    padding: 0.7rem 1.4rem;
+    border-radius: 9999px;
+    border: 0;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .lf-prev {
+    background: var(--color-bg);
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+  }
+  .lf-prev:disabled { opacity: 0.4; cursor: not-allowed; }
+  .lf-next {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+  }
+  .lf-next:hover { transform: translateY(-1px); }
+</style>
