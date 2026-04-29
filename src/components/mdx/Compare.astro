@@ -1,0 +1,94 @@
+---
+interface Row {
+  feature: string;
+  cells: (string | { value: string; emphasis?: boolean })[];
+}
+
+interface Props {
+  headers: string[];
+  rows: Row[];
+  caption?: string;
+}
+
+const { headers, rows, caption } = Astro.props;
+---
+<figure class="compare-figure not-prose">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        {headers.map((h) => <th>{h}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <th scope="row">{row.feature}</th>
+          {row.cells.map((cell) => {
+            const value = typeof cell === 'string' ? cell : cell.value;
+            const emphasis = typeof cell === 'object' && cell.emphasis;
+            return <td class:list={[emphasis && 'cell-emphasis']}>{value}</td>;
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .compare-figure {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .compare-table thead {
+    background: color-mix(in oklch, var(--color-bg-elev) 75%, transparent);
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 0.6rem 0.85rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+  }
+  .compare-table th:last-child,
+  .compare-table td:last-child {
+    border-right: 0;
+  }
+  .compare-table tr:last-child td,
+  .compare-table tr:last-child th {
+    border-bottom: 0;
+  }
+  .compare-table thead th {
+    font-weight: 700;
+    color: var(--color-fg);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .compare-table tbody th[scope='row'] {
+    font-weight: 600;
+    background: color-mix(in oklch, var(--color-bg-elev) 75%, transparent);
+    color: var(--color-fg);
+  }
+  .cell-emphasis {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  figcaption {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+</style>

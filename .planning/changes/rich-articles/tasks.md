@@ -49,12 +49,12 @@
 
 ## Phase 5: Embeds + Compare (S4e)
 
-- [ ] 5.1 RED Vitest: `tests/unit/github-cache.test.ts` — fetch caches 24h, returns cached if within TTL, refetches after expiry
-- [ ] 5.2 GREEN: `src/lib/github-cache.ts` using `@octokit/request` + filesystem `.cache/github/{owner-name}.json`
-- [ ] 5.3 `src/components/mdx/RepoCard.astro` — build-time fetch via cache lib, render avatar + descr + stars + lang; fallback graceful on 403/404
-- [ ] 5.4 `src/components/mdx/TweetStatic.astro` — render JSON props as `<blockquote>` (author/handle/avatar/body/date/link)
-- [ ] 5.5 `src/components/mdx/Compare.astro` — comparison table component with header columns + cells slot
-- [ ] 5.6 Update `hello.mdx` with RepoCard `astrojs/astro` + TweetStatic sample + Compare 2-col
+- [x] 5.1 RED Vitest: 7 cases — cold fetch / TTL hit / TTL expiry / fetch error null / stale fallback after expiry / corrupt cache refetch / cache key path-traversal-safe
+- [x] 5.2 GREEN: `src/lib/github-cache.ts` — TTL 24h, JSON file cache `.cache/github/{slug}.json`, stale fallback on network fail
+- [x] 5.3 `RepoCard.astro` — `@octokit/request` build-time fetch via cache lib; renders avatar+name+desc+lang dot+stars; fallback link if data null; uses `GITHUB_TOKEN` env if set
+- [x] 5.4 `TweetStatic.astro` — JSON props (author/handle/avatar/body/date/link); avatar fallback to initials gradient; `<blockquote>` semantic; opens link new tab
+- [x] 5.5 `Compare.astro` — table with row headers (`<th scope="row">`), header columns, cell `emphasis` flag for accent color, scrollable on overflow
+- [x] 5.6 hello.mdx: RepoCard `withastro/astro`, TweetStatic sample, Compare table (3 ad networks comparison)
 
 ## Phase 6: Meta UX (S4f)
 

@@ -1,0 +1,110 @@
+---
+import { request } from '@octokit/request';
+import { type RepoData, fetchRepoCached } from '../../lib/github-cache';
+
+interface Props {
+  repo: string;
+}
+
+const { repo } = Astro.props;
+
+async function fetchFromGitHub(slug: string): Promise<RepoData> {
+  const [owner, name] = slug.split('/');
+  const headers: Record<string, string> = {
+    'user-agent': 'hidx-build',
+    accept: 'application/vnd.github+json',
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers.authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+  const res = await request('GET /repos/{owner}/{repo}', { owner, repo: name, headers });
+  return res.data as unknown as RepoData;
+}
+
+const data = await fetchRepoCached(repo, fetchFromGitHub);
+const fmtStars = (n: number): string => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`);
+---
+{data ? (
+  <a class="repo-card not-prose" href={data.html_url} target="_blank" rel="noopener noreferrer">
+    <img class="repo-avatar" src={data.owner.avatar_url} alt={`${repo} owner avatar`} loading="lazy" width="48" height="48" />
+    <div class="repo-body">
+      <p class="repo-name">{data.full_name}</p>
+      {data.description && <p class="repo-desc">{data.description}</p>}
+      <div class="repo-meta">
+        {data.language && <span class="repo-lang">{data.language}</span>}
+        <span class="repo-stars">★ {fmtStars(data.stargazers_count)}</span>
+      </div>
+    </div>
+  </a>
+) : (
+  <a class="repo-card repo-card-fallback not-prose" href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer">
+    <span class="repo-name">{repo}</span>
+    <span class="repo-fallback-note">github.com</span>
+  </a>
+)}
+
+<style>
+  .repo-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin: 1.25rem 0;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg-elev);
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .repo-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-1px);
+    color: var(--color-fg);
+  }
+  .repo-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: var(--color-bg);
+  }
+  .repo-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .repo-name {
+    margin: 0 0 0.2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .repo-desc {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+  .repo-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .repo-lang::before {
+    content: '●';
+    color: var(--color-accent);
+    margin-right: 0.3rem;
+  }
+  .repo-card-fallback {
+    align-items: center;
+    justify-content: space-between;
+  }
+  .repo-fallback-note {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+</style>

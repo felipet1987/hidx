@@ -5,7 +5,7 @@ publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
-import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, Mermaid, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure, Quote, Aside, FullBleed, Spoiler, KeyboardKey, Highlight } from '../../components/mdx';
+import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, Mermaid, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure, Quote, Aside, FullBleed, Spoiler, KeyboardKey, Highlight, RepoCard, TweetStatic, Compare } from '../../components/mdx';
 
 ## Por qué existe este artículo
 
@@ -212,6 +212,34 @@ y esta otra muestra <Highlight variant="cyan">un valor cyan</Highlight> distinto
     height={720}
   />
 </FullBleed>
+
+## Repo card
+
+<RepoCard repo="withastro/astro" />
+
+## Tweet estático (sin tracker)
+
+<TweetStatic
+  author="Felipe Talavera"
+  handle="felipet1987"
+  date="2026-04-29"
+  link="https://x.com/felipet1987"
+  body={`Construyendo hidx — long-form opinado sobre cómo resuelvo problemas reales con código.\nMagazine grade design + Supabase backend + Astro 6 SSG.`}
+/>
+
+## Tabla comparativa
+
+<Compare
+  caption="Approaches monetización para sitios dev."
+  headers={['EthicalAds', 'Carbon Ads', 'Google AdSense']}
+  rows={[
+    { feature: 'RPM dev audience', cells: ['$1-3', { value: '$3-10', emphasis: true }, '$0.50-2'] },
+    { feature: 'Cookies', cells: [{ value: 'Cero', emphasis: true }, { value: 'Cero', emphasis: true }, 'Sí (consent)'] },
+    { feature: 'Adblock rate dev', cells: [{ value: 'Bajo', emphasis: true }, { value: 'Bajo', emphasis: true }, '>70%'] },
+    { feature: 'Approval bar', cells: ['Bajo', 'Alto (10k/mo)', 'Medio'] },
+    { feature: 'UX impact', cells: [{ value: 'Mínimo', emphasis: true }, { value: 'Mínimo', emphasis: true }, 'Alto (interstitials)'] },
+  ]}
+/>
 
 ## Cierre
 

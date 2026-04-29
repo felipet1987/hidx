@@ -1,0 +1,99 @@
+---
+interface Props {
+  author: string;
+  handle: string;
+  body: string;
+  date: string;
+  link: string;
+  avatar?: string;
+}
+
+const { author, handle, body, date, link, avatar } = Astro.props;
+const dateLabel = new Date(date).toLocaleDateString('es', { year: 'numeric', month: 'short', day: 'numeric' });
+const initials = author
+  .split(/\s+/)
+  .map((p) => p[0]?.toUpperCase() ?? '')
+  .slice(0, 2)
+  .join('');
+---
+<blockquote class="tweet-static not-prose" cite={link}>
+  <header class="tw-head">
+    {avatar ? (
+      <img class="tw-avatar" src={avatar} alt={`${author} avatar`} loading="lazy" width="40" height="40" />
+    ) : (
+      <span class="tw-avatar tw-avatar-fallback" aria-hidden="true">{initials}</span>
+    )}
+    <div class="tw-id">
+      <p class="tw-author">{author}</p>
+      <p class="tw-handle">@{handle}</p>
+    </div>
+  </header>
+  <p class="tw-body" set:html={body.replace(/\n/g, '<br />')}></p>
+  <footer class="tw-foot">
+    <a href={link} target="_blank" rel="noopener noreferrer">{dateLabel} · ver original</a>
+  </footer>
+</blockquote>
+
+<style>
+  .tweet-static {
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-elev);
+    font-style: normal;
+  }
+  .tw-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .tw-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+  .tw-avatar-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .tw-id {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .tw-author {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .tw-handle {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+  .tw-body {
+    margin: 0.25rem 0 0.75rem;
+    color: var(--color-fg);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .tw-foot {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .tw-foot a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .tw-foot a:hover {
+    color: var(--color-accent);
+  }
+</style>
