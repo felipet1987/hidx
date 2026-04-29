@@ -1,25 +1,21 @@
 ---
-title: "Teselados en 6 frames"
-description: "TODO: descripción 1-280 chars de \"Teselados en 6 frames\"."
+title: Teselados en 6 frames
+description: Aprendé qué polígonos cubren el plano sin huecos. Versión Brilliant-style en 6 pantallas.
 publishedAt: 2026-04-29
-tags: ["kids", "todo"]
+tags: [matematica, geometria, frames, kids]
 ageMin: 8
 ageMax: 12
 difficulty: 2
 durationMinutes: 8
-steamCategories: ["M", "A"]
-draft: true
-materials:
-  - { name: 'TODO material 1', qty: '1 unidad' }
+steamCategories: [M, A]
+materials: []
 safetyNotes: []
 parentTip: |
-  TODO: 2-3 párrafos pedagógicos para padres y maestros con conexión curricular,
-  preguntas guía y variantes para extender la actividad.
+  Versión condensada Brilliant-style de la lección de mosaicos teselados.
+  Click-by-click para chicos que prefieren no leer texto largo.
 ---
-import {
-  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
-  STEAMBadge, DifficultyStars, DurationBadge, Callout,
-} from '../../components/mdx';
+
+import { LessonFrames, AgeBadge, STEAMBadge, DifficultyStars, DurationBadge } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
   <AgeBadge min={8} max={12} />
@@ -28,34 +24,48 @@ import {
   <DurationBadge minutes={8} />
 </div>
 
-TODO: párrafo introductorio. Hook que despierte curiosidad del chico.
-
-<MaterialsList items={[
-  { name: 'TODO material 1', qty: '1 unidad' },
-]} />
-
-<SafetyNote type="supervision">
-TODO: nota de seguridad relevante.
-</SafetyNote>
-
-## Cómo armarlo
-
-<ExperimentSteps steps={[
-  { title: 'Paso 1', body: 'TODO: instrucción clara y concisa.' },
-  { title: 'Paso 2', body: 'TODO: continuación.' },
-  { title: 'Resultado', body: 'TODO: qué tiene que pasar.' },
-]} />
-
-## Qué aprendiste
-
-TODO: 1-2 párrafos explicando el concepto STEAM detrás de la actividad,
-en lenguaje accesible para chicos.
-
-<Callout type="tip" title="Reto extra">
-TODO: variante que extiende la actividad para chicos más curiosos.
-</Callout>
-
-<ParentTip>
-TODO: contexto pedagógico para padres y maestros (2-3 párrafos).
-Mencionar conceptos curriculares conectados, preguntas guía, variantes por edad.
-</ParentTip>
+<LessonFrames
+  xpReward={15}
+  frames={[
+    {
+      type: 'intro',
+      title: '¿Qué es teselar?',
+      text: 'Cubrir una superficie con figuras que encajan SIN dejar huecos ni superponerse. Como los pisos de baño.',
+    },
+    {
+      type: 'visual',
+      html: '<svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="2"><rect x="20" y="20" width="40" height="40"/><rect x="60" y="20" width="40" height="40"/><rect x="100" y="20" width="40" height="40"/><rect x="140" y="20" width="40" height="40"/><rect x="20" y="60" width="40" height="40"/><rect x="60" y="60" width="40" height="40"/><rect x="100" y="60" width="40" height="40"/><rect x="140" y="60" width="40" height="40"/></g></svg>',
+      caption: 'Cuadrados teselando el plano: 4 × 90° = 360° en cada vértice.',
+    },
+    {
+      type: 'question',
+      q: '¿Qué deben sumar los ángulos en cada vértice para que un polígono regular tesele?',
+      choices: [
+        { text: '180°', explain: 'No: 180° dejaría una línea recta, no llenaría el plano.' },
+        { text: '270°', explain: 'No: dejaría huecos.' },
+        { text: '360°', correct: true, explain: '¡Exacto! Solo así se cubre todo el plano sin dejar huecos.' },
+        { text: '90°', explain: 'Eso es un solo cuarto, no completaría una vuelta.' },
+      ],
+      hint: 'Un círculo completo tiene 360°.',
+    },
+    {
+      type: 'question',
+      q: 'El pentágono regular tiene ángulos de 108°. ¿Tesela el plano por sí solo?',
+      choices: [
+        { text: 'Sí', explain: '108° × 3 = 324° (NO 360°). 108° × 4 = 432° (pasa de 360°). Imposible.' },
+        { text: 'No, porque 108° no divide exactamente 360°', correct: true, explain: '¡Bien! No hay número entero × 108 que sume 360.' },
+        { text: 'Solo si lo combinás con triángulos', explain: 'Eso sí, pero no por sí solo (la pregunta).' },
+      ],
+      hint: 'Probá multiplicar 108 × 1, 2, 3, 4... ¿alguno da 360 exacto?',
+    },
+    {
+      type: 'reveal',
+      text: 'Solo 3 polígonos regulares teselan solos: triángulo equilátero (60° × 6), cuadrado (90° × 4) y hexágono (120° × 3). El resto no encaja perfecto en 360°.',
+    },
+    {
+      type: 'celebrate',
+      text: '¡Sos un experto en geometría!',
+      xp: 15,
+    },
+  ]}
+/>

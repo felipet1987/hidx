@@ -1,25 +1,21 @@
 ---
-title: "Möbius en 8 frames"
-description: "TODO: descripción 1-280 chars de \"Möbius en 8 frames\"."
+title: Möbius en 8 frames
+description: Aprendé qué es una cinta de Möbius en 8 pantallas interactivas. Brilliant-style, sin scroll.
 publishedAt: 2026-04-29
-tags: ["kids", "todo"]
+tags: [matematica, topologia, frames, kids]
 ageMin: 8
 ageMax: 12
 difficulty: 2
 durationMinutes: 10
-steamCategories: ["M"]
-draft: true
-materials:
-  - { name: 'TODO material 1', qty: '1 unidad' }
+steamCategories: [M]
+materials: []
 safetyNotes: []
 parentTip: |
-  TODO: 2-3 párrafos pedagógicos para padres y maestros con conexión curricular,
-  preguntas guía y variantes para extender la actividad.
+  Versión condensada Brilliant-style de la lección Möbius. Cada frame = un concepto.
+  Ideal para chicos que prefieren aprender click-by-click vs scroll.
 ---
-import {
-  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
-  STEAMBadge, DifficultyStars, DurationBadge, Callout,
-} from '../../components/mdx';
+
+import { LessonFrames, AgeBadge, STEAMBadge, DifficultyStars, DurationBadge } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
   <AgeBadge min={8} max={12} />
@@ -28,34 +24,62 @@ import {
   <DurationBadge minutes={10} />
 </div>
 
-TODO: párrafo introductorio. Hook que despierte curiosidad del chico.
-
-<MaterialsList items={[
-  { name: 'TODO material 1', qty: '1 unidad' },
-]} />
-
-<SafetyNote type="supervision">
-TODO: nota de seguridad relevante.
-</SafetyNote>
-
-## Cómo armarlo
-
-<ExperimentSteps steps={[
-  { title: 'Paso 1', body: 'TODO: instrucción clara y concisa.' },
-  { title: 'Paso 2', body: 'TODO: continuación.' },
-  { title: 'Resultado', body: 'TODO: qué tiene que pasar.' },
-]} />
-
-## Qué aprendiste
-
-TODO: 1-2 párrafos explicando el concepto STEAM detrás de la actividad,
-en lenguaje accesible para chicos.
-
-<Callout type="tip" title="Reto extra">
-TODO: variante que extiende la actividad para chicos más curiosos.
-</Callout>
-
-<ParentTip>
-TODO: contexto pedagógico para padres y maestros (2-3 párrafos).
-Mencionar conceptos curriculares conectados, preguntas guía, variantes por edad.
-</ParentTip>
+<LessonFrames
+  xpReward={20}
+  frames={[
+    {
+      type: 'intro',
+      title: '¿Qué es una cinta de Möbius?',
+      text: 'Una cinta con UNA sola cara y UN solo borde. Suena imposible — pero la podés armar con papel y cinta.',
+    },
+    {
+      type: 'visual',
+      html: '<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"><path d="M30 90 Q 90 30, 150 90 T 30 90 Z" fill="none" stroke="oklch(0.55 0.18 145)" stroke-width="6" stroke-linecap="round"/><path d="M40 95 Q 90 60, 140 95" fill="none" stroke="oklch(0.72 0.18 50)" stroke-width="3" opacity="0.7"/></svg>',
+      caption: 'La cinta retorcida 180° antes de pegarse — Möbius.',
+    },
+    {
+      type: 'question',
+      q: '¿Cuánto giro le das antes de pegar?',
+      choices: [
+        { text: 'Ninguno (anillo común)', explain: 'Eso es un anillo común con 2 caras y 2 bordes.' },
+        { text: 'Medio giro (180°)', correct: true, explain: '¡Sí! 180° es la clave que crea la magia topológica.' },
+        { text: 'Giro completo (360°)', explain: 'Eso te da una cinta DOBLEMENTE retorcida — distinta a Möbius.' },
+        { text: 'Dos giros completos', explain: 'No, también distinta.' },
+      ],
+      hint: 'Medio = la mitad de un giro completo.',
+    },
+    {
+      type: 'reveal',
+      text: 'Con un giro de 180°, las dos "caras" de la cinta original se unen en una sola superficie continua. Eso hace que tenga 1 cara y 1 borde.',
+    },
+    {
+      type: 'question',
+      q: 'Si una hormiga camina por toda la superficie SIN cruzar el borde, ¿alguna vez vuelve al punto de partida?',
+      choices: [
+        { text: 'Sí, pero del otro lado', correct: true, explain: 'Exacto. Como tiene 1 sola cara, "el otro lado" es el mismo lado.' },
+        { text: 'No, nunca vuelve', explain: 'Sí vuelve — la superficie es continua y cerrada.' },
+        { text: 'Solo si retrocede', explain: 'No: avanzando siempre vuelve, eventualmente.' },
+      ],
+    },
+    {
+      type: 'visual',
+      html: '<svg width="240" height="100" viewBox="0 0 240 100" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="50" x2="220" y2="50" stroke="oklch(0.6 0.18 240)" stroke-width="4" stroke-dasharray="6,4"/><circle cx="20" cy="50" r="8" fill="oklch(0.7 0.18 50)"/><circle cx="220" cy="50" r="8" fill="oklch(0.7 0.18 50)"/></svg>',
+      caption: 'Si cortás la cinta por el medio (línea punteada)...',
+    },
+    {
+      type: 'question',
+      q: '¿Qué obtenés al cortar la Möbius por la mitad?',
+      choices: [
+        { text: 'Dos cintas separadas', explain: 'Eso pasaría con un anillo común. La Möbius hace algo distinto.' },
+        { text: 'Una sola cinta más larga, con 2 giros', correct: true, explain: '¡Magia matemática! Una sola cinta más larga.' },
+        { text: 'Una cinta del mismo tamaño', explain: 'No: queda más larga.' },
+        { text: 'Tres cintas chicas', explain: 'Tampoco.' },
+      ],
+    },
+    {
+      type: 'celebrate',
+      text: '¡Aprendiste topología!',
+      xp: 20,
+    },
+  ]}
+/>
