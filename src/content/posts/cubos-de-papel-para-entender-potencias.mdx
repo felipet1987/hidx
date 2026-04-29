@@ -1,0 +1,107 @@
+---
+title: Cubos de papel para entender potencias
+description: Construí cubos de papel para visualizar 2³, 3³, 4³. Vas a ENTENDER por qué se llaman "potencias" y por qué crecen tan rápido.
+publishedAt: 2026-04-29
+tags: [matematica, potencias, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 2
+durationMinutes: 30
+steamCategories: [M]
+materials:
+  - { name: 'Cartulina o cartón fino', qty: '3 hojas A4' }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: 'Regla', qty: '1 unidad' }
+  - { name: 'Pegamento o cinta', qty: '1 rollo' }
+  - { name: 'Cubitos chicos (azúcar, dados)', qty: '64 unidades aprox', optional: true }
+safetyNotes:
+  - { type: 'cortante', text: 'Tijera punta redonda + adulto cerca cuando recortes el cartón.' }
+parentTip: |
+  Mapea OA3 del currículum chileno 8° básico: explicar multiplicación, división y potencias de
+  base natural y exponente natural ≤ 3. La conexión visual potencia ↔ volumen cubo es la mejor
+  intuición pedagógica posible. n³ literalmente "cabe en un cubo de lado n".
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['M']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={30} />
+</div>
+
+¿Por qué **2³ no es 6**? La mayoría calcula mal porque no SABE qué significa una potencia.
+Hoy lo vas a ver con tus manos: vas a construir 2³, 3³ y 4³ literalmente.
+
+<MaterialsList items={[
+  { name: 'Cartulina o cartón fino', qty: '3 hojas A4' },
+  { name: 'Tijera con punta redonda', qty: '1 unidad' },
+  { name: 'Regla', qty: '1 unidad' },
+  { name: 'Pegamento o cinta', qty: '1 rollo' },
+  { name: 'Cubitos chicos (azúcar, dados)', qty: '64 unidades aprox', optional: true },
+]} />
+
+<SafetyNote type="cortante">
+Tijera punta redonda. Pedile ayuda a un adulto cuando cortes el cartón.
+</SafetyNote>
+
+## Construir el cubo 2³
+
+<ExperimentSteps steps={[
+  { title: 'Recortar 8 cuadrados de 2x2 cm', body: 'Marcá con regla 8 cuadraditos de 2 cm de lado. Recortalos.' },
+  { title: 'Armar 8 cubos chicos', body: 'Plegá cada cuadrado en un cubo (necesitás recortar plantillas tipo cruz). O simplemente apilá 8 cubitos de azúcar / 8 dados.' },
+  { title: 'Apilar como cubo grande', body: 'Acomodá los 8 cubos en un patrón de 2×2×2 (2 abajo derecha, 2 abajo izquierda, 2 arriba derecha, 2 arriba izquierda). Te queda un cubo 2 de lado.' },
+  { title: 'Contar', body: 'Total cubitos: 8. Eso es <Highlight variant="cyan">2³ = 8</Highlight>. NO 2×3 = 6. Es 2 × 2 × 2 = 8.' },
+]} />
+
+## Repetir con 3³
+
+Necesitás **27 cubitos** (3 capas × 3 filas × 3 columnas). Es <Highlight variant="cyan">3³ = 27</Highlight>.
+
+## Repetir con 4³
+
+**64 cubitos** (4 capas × 4 × 4). Es <Highlight variant="cyan">4³ = 64</Highlight>.
+
+<Callout type="info" title="¿Ves la magia?">
+Cada vez que aumentás el lado en 1, los cubitos NO crecen lineal — crecen al cubo:
+- 1³ = 1
+- 2³ = 8 (8× más)
+- 3³ = 27 (3.4× más)
+- 4³ = 64 (2.4× más)
+- 10³ = 1000
+
+Por eso las potencias crecen "rápido". El término técnico es **crecimiento exponencial**.
+</Callout>
+
+## Comparar con áreas (al cuadrado)
+
+Hacé lo mismo en 2D recortando cuadrados de 2×2 cm:
+- 2² = 4 cuadraditos
+- 3² = 9 cuadraditos
+- 4² = 16 cuadraditos
+
+**Patrón**: el exponente te dice "en cuántas dimensiones está creciendo". Cuadrado = 2 dim (área). Cubo = 3 dim (volumen).
+
+## Reto extra (8° básico)
+
+- ¿Cuánto es 5³? Sin contar — calculálo. (Pista: 5 × 5 × 5)
+- Si tu pieza mide 3 metros de largo × 3 ancho × 3 alto, ¿cuántos metros cúbicos de aire tiene?
+- ¿Qué crece más rápido: 10² o 5³? Calculá ambos. ¿Y 2¹⁰?
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 03**: explicar multiplicación, división y potencias de base natural y exponente natural ≤ 3.
+
+**Conexión real**:
+- **Volumen** de cualquier cubo = lado³.
+- **Bytes**: 1 KB = 2¹⁰ ≈ 1024 (potencia binaria).
+- **Población**: bacterias se duplican cada hora → 2ⁿ después de n horas.
+
+**Para extender** (chicos 13-14):
+- Mostrales **2¹⁰ = 1024**, **2²⁰ = 1.048.576**, **2³⁰ ≈ mil millones**. Cada 10 multiplica por mil. Esto es por qué Moore's Law parece "milagrosa".
+- Conexión a **raíz cúbica**: ³√27 = 3 (la operación inversa de elevar al cubo).
+</ParentTip>

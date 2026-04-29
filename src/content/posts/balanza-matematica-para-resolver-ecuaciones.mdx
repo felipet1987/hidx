@@ -1,0 +1,100 @@
+---
+title: Balanza matemática para resolver ecuaciones
+description: Construí una balanza física para "ver" qué significa una ecuación. Resolver 2x + 3 = 11 deja de ser magia y se vuelve obvio.
+publishedAt: 2026-04-29
+tags: [matematica, ecuaciones, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 3
+durationMinutes: 35
+steamCategories: [M, E]
+materials:
+  - { name: 'Percha de plástico o palo de escoba (50cm)', qty: '1 unidad' }
+  - { name: 'Cordel o piolín', qty: '1 metro' }
+  - { name: 'Vasos plásticos descartables', qty: '4 unidades' }
+  - { name: 'Monedas o bolitas iguales', qty: '20 unidades' }
+  - { name: 'Marcador permanente', qty: '1 unidad' }
+safetyNotes:
+  - { type: 'supervision', text: 'Si usás palo de escoba, asegurate que esté bien colgado y no caiga sobre alguien.' }
+parentTip: |
+  Mapea OA8 del currículum chileno 8° básico: modelar situaciones usando ecuaciones lineales
+  de diversas formas. La balanza física hace VISIBLE el principio fundamental: lo que hacés a
+  un lado, lo hacés al otro (axioma de igualdad). Sin esta intuición, los chicos memorizan
+  reglas sin entender por qué funcionan.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['M', 'E']} />
+  <DifficultyStars level={3} />
+  <DurationBadge minutes={35} />
+</div>
+
+¿Por qué cuando movés un número de un lado al otro de la ecuación cambia de signo?
+Hoy construís una **balanza física** y vas a entender que NO es magia: es la ley más simple del universo.
+
+<MaterialsList items={[
+  { name: 'Percha de plástico o palo de escoba (50cm)', qty: '1 unidad' },
+  { name: 'Cordel o piolín', qty: '1 metro' },
+  { name: 'Vasos plásticos descartables', qty: '4 unidades' },
+  { name: 'Monedas o bolitas iguales', qty: '20 unidades' },
+  { name: 'Marcador permanente', qty: '1 unidad' },
+]} />
+
+<SafetyNote type="supervision">
+Asegurate que la percha o palo esté bien colgado de algún lado y no caiga.
+</SafetyNote>
+
+## Construir la balanza
+
+<ExperimentSteps steps={[
+  { title: 'Colgar la percha', body: 'Colgá la percha de la manija de un mueble alto o del marco de una puerta. Tiene que quedar suspendida y horizontal.' },
+  { title: 'Atar 2 vasos en cada extremo', body: 'En cada extremo de la percha, colgá un vaso con cordel. Los 2 vasos deben quedar a la misma altura cuando la percha está vacía (balanza equilibrada).' },
+  { title: 'Marcar "x" en algunos vasos', body: 'Con marcador, marcá uno de los vasos con una "x". Eso representa "cantidad desconocida".' },
+  { title: 'Verificar equilibrio inicial', body: 'Con vasos vacíos, la percha debe estar HORIZONTAL. Eso es el "0 = 0" inicial.' },
+]} />
+
+## Resolver 2x + 3 = 11
+
+Vamos a representar esta ecuación físicamente y resolverla manipulando la balanza:
+
+<ExperimentSteps steps={[
+  { title: 'Lado izquierdo: 2x + 3', body: 'Poné 2 vasos marcados con "x" + 3 monedas en el lado izquierdo. Los vasos x los rellenás con cantidad desconocida (no mires adentro — pediste que lo prepare otra persona).' },
+  { title: 'Lado derecho: 11', body: 'Poné 11 monedas en el lado derecho. La balanza debe quedar EQUILIBRADA (igualdad cumplida).' },
+  { title: 'Restar 3 de cada lado', body: 'Sacá 3 monedas del lado izquierdo. Para mantener el equilibrio, sacá 3 monedas del lado derecho TAMBIÉN. Te queda: 2x = 8 (visualizable: 2 vasos x = 8 monedas).' },
+  { title: 'Dividir entre 2 cada lado', body: 'Tirá 1 vaso x al piso y agarralo (sacá 1 vaso x = quitar la mitad). Sacá la mitad de las monedas (4) del lado derecho. Te queda: 1x = 4 (1 vaso x = 4 monedas).' },
+  { title: 'Resolver', body: 'x vale 4. Mirá adentro del vaso "x" — ¡debería tener 4 monedas! Lo descubriste sin "trampa", solo manipulando la balanza.' },
+]} />
+
+## La regla mágica (que no es magia)
+
+<Callout type="info" title="Por qué movés números cambiando de signo">
+Lo que aprendés en clase como "<strong>pasá el +3 restando al otro lado</strong>" es exactamente lo que hicimos físicamente: <Highlight variant="cyan">restar 3 de AMBOS lados</Highlight> mantiene el equilibrio. La igualdad solo se mantiene si lo que hacés a un lado, lo hacés al otro.
+
+Lo mismo con multiplicar y dividir: <Highlight variant="cyan">si dividís un lado por 2, dividís el otro por 2</Highlight>.
+</Callout>
+
+## Reto extra (8° básico)
+
+- Resolvé con la balanza: **3x + 2 = 14**. (Sacá 2 monedas, divididí entre 3.)
+- ¿Qué pasa si tenés monedas en AMBOS lados con vasos x? Por ejemplo: **2x + 5 = x + 9**. (Pista: sacá 1 vaso "x" del lado derecho y otro del izquierdo simultaneamente.)
+- Diseñá una ecuación que tu hermano/a tenga que resolver con tu balanza.
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 08**: modelar situaciones de cambio constante usando ecuaciones lineales.
+
+**Conexión real**:
+- **Cocina**: si una receta para 4 personas pide 200g de harina, ¿cuánta harina para 6 personas? Es x ecuación.
+- **Edad**: "tengo 3 veces la edad que tenías hace 5 años". Modelar y resolver.
+- **Compras**: "compré 3 manzanas y una banana por $1500. La banana cuesta $300. ¿Cuánto cada manzana?"
+
+**Para extender** (chicos 13-14):
+- Inecuaciones (OA9): si la balanza queda DESEQUILIBRADA hacia un lado, eso representa una desigualdad. Se manejan igual EXCEPTO al multiplicar por negativos (cambia el sentido).
+- Sistemas de 2 ecuaciones: 2 balanzas conectadas.
+</ParentTip>

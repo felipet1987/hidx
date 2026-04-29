@@ -1,0 +1,22 @@
+{
+  "title": "Roadmap Matemática 8° Básico Chile (MINEDUC)",
+  "description": "Roadmap completo de matemática 8° básico alineado a las 4 unidades del programa MINEDUC: Números, Álgebra y Funciones, Geometría, Probabilidad y Estadística. Cubre OAs MA08 con lecciones hands-on.",
+  "order": 5,
+  "level": "intermediate",
+  "steamCategories": ["M", "E", "A", "T"],
+  "ageMin": 11,
+  "ageMax": 14,
+  "lessons": [
+    "fracciones-con-pizza-de-carton",
+    "cubos-de-papel-para-entender-potencias",
+    "fibonacci-escondido-en-las-pinas",
+    "balanza-matematica-para-resolver-ecuaciones",
+    "piramide-vs-prisma-que-entra-mas",
+    "pitagoras-con-cordel-y-nudos-egipcios",
+    "mosaicos-teselados-con-triangulos",
+    "cinta-de-mobius-magia-matematica",
+    "encuesta-familiar-descubri-los-cuartiles",
+    "graficos-enganosos-como-detectar-trampas",
+    "codigo-secreto-cesar-con-disco"
+  ]
+}

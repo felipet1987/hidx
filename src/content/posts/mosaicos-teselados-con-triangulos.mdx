@@ -1,0 +1,114 @@
+---
+title: Mosaicos teselados con triángulos
+description: Descubrí qué formas pueden cubrir el plano sin huecos. Aprende rotación, reflexión y traslación recortando triángulos como Escher.
+publishedAt: 2026-04-29
+tags: [matematica, geometria, transformaciones, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 2
+durationMinutes: 25
+steamCategories: [M, A]
+materials:
+  - { name: 'Cartulinas de 2 colores', qty: '2 hojas A4' }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: 'Regla', qty: '1 unidad' }
+  - { name: 'Marcador o lápiz', qty: '1 unidad' }
+  - { name: 'Hoja blanca grande', qty: '1 unidad' }
+  - { name: 'Cinta adhesiva', qty: '1 rollo' }
+safetyNotes:
+  - { type: 'cortante', text: 'Tijeras punta redonda + adulto cuando recortes cartulina.' }
+parentTip: |
+  Mapea OA13 + OA14 del currículum chileno 8° básico: posición y movimiento de figuras 2D
+  (traslación, rotación, reflexión) y composición de transformaciones para crear simetrías.
+
+  Las teselaciones son **belleza matemática hands-on**: arte islámico (Alhambra), Escher,
+  pisos de baño, alas de mariposas. Solo 3 polígonos regulares teselan solos: triángulos
+  equiláteros, cuadrados y hexágonos. Lo demás necesita combinaciones.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['M', 'A']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={25} />
+</div>
+
+¿Por qué los pisos de baño tienen formas hexagonales o cuadradas pero NO pentagonales?
+Y ¿cómo M.C. Escher hizo esos cuadros donde los pájaros se transforman en peces sin huecos?
+Hoy descubrís el truco: **teselaciones**.
+
+<MaterialsList items={[
+  { name: 'Cartulinas de 2 colores', qty: '2 hojas A4' },
+  { name: 'Tijera con punta redonda', qty: '1 unidad' },
+  { name: 'Regla', qty: '1 unidad' },
+  { name: 'Marcador o lápiz', qty: '1 unidad' },
+  { name: 'Hoja blanca grande', qty: '1 unidad' },
+  { name: 'Cinta adhesiva', qty: '1 rollo' },
+]} />
+
+<SafetyNote type="cortante">
+Tijeras con punta redonda. Pedile ayuda a un adulto.
+</SafetyNote>
+
+## El experimento: ¿qué triángulos teselan?
+
+<ExperimentSteps steps={[
+  { title: 'Recortar 12 triángulos equiláteros', body: 'Recortá 12 triángulos del MISMO tamaño (lados iguales) en cartulina. Hacé 6 de cada color.' },
+  { title: 'Cubrir hoja sin huecos', body: 'Acomodá los triángulos en la hoja blanca. Probá: ¿podés cubrir un área grande SIN dejar huecos ni superponer? Sí — alternando colores hacés un patrón hexagonal.' },
+  { title: 'Probar con OTROS polígonos', body: 'Recortá pentágonos (5 lados) iguales. Intentá cubrir sin huecos. NO se puede — los pentágonos regulares dejan espacios.' },
+  { title: 'Triángulo escaleno', body: 'Probá con triángulos escalenos (lados desiguales). ¿Funcionan? SÍ — porque podés rotarlos y reflejarlos hasta que encajen.' },
+]} />
+
+## Las 3 transformaciones
+
+Cuando movés una figura sin deformarla, podés hacer tres cosas:
+
+1. **Traslación**: deslizar sin girar (como mover una pieza de ajedrez).
+2. **Rotación**: girar alrededor de un punto fijo (60°, 90°, 180°...).
+3. **Reflexión**: voltear como en un espejo.
+
+<Callout type="info" title="Por qué solo 3 polígonos regulares teselan">
+Para que polígonos regulares cubran el plano sin huecos, los ángulos en cada vértice deben sumar exactamente 360°.
+
+- **Triángulo equilátero** (60°): 6 triángulos × 60° = 360° ✓
+- **Cuadrado** (90°): 4 cuadrados × 90° = 360° ✓
+- **Hexágono** (120°): 3 hexágonos × 120° = 360° ✓
+- **Pentágono** (108°): 360 / 108 = 3.33 — NO entero, NO funciona ✗
+- **Heptágono** (≈128.5°): NO entero ✗
+</Callout>
+
+## Crear tu propio mosaico Escher-style
+
+<ExperimentSteps steps={[
+  { title: 'Recortar un cuadrado base', body: 'Tomá un cuadrado de 5×5 cm en cartulina.' },
+  { title: 'Cortar y trasladar', body: 'Cortá una forma irregular del lado IZQUIERDO. Pegala con cinta al lado DERECHO en la misma posición. Cortá del lado SUPERIOR y pegala al INFERIOR. Te queda una forma rara.' },
+  { title: 'Traslación pura crea teselación', body: 'Esa forma rara TODAVÍA tesela el plano (porque solo trasladaste pedazos, no cambiaste área). Recortá 6 copias y comprobá.' },
+  { title: 'Inspiración Escher', body: 'Buscá "Escher Day and Night" en Google. Vas a ver pájaros teselados con esta misma técnica.' },
+]} />
+
+## Reto extra (8° básico)
+
+- Probá con un **triángulo isósceles** (2 lados iguales). ¿Tesela? ¿Cuántas configuraciones distintas encontrás?
+- Combiná **cuadrados + triángulos** equiláteros. Cuántos de cada uno necesitás en cada vértice para que sumen 360°? (Pista: 3 triángulos + 2 cuadrados = 60+60+60+90+90 = 360)
+- Diseñá un mosaico para tu cuarto: dibujá en papel cuadriculado un patrón teselado original.
+
+<ParentTip>
+**OAs del currículum nacional chileno cubiertos**:
+- **MA08 OA 13**: posición y movimiento de figuras 2D (traslación, rotación, reflexión).
+- **MA08 OA 14**: composición de transformaciones geométricas y aplicaciones a simetrías.
+
+**Conexión cultural**:
+- **Arte islámico** (Alhambra, Granada): los musulmanes tienen prohibido representar figuras humanas, así que desarrollaron geometría hasta niveles increíbles.
+- **M.C. Escher** (1898-1972): visitó Alhambra en 1922 y se obsesionó con teselaciones. Sus cuadros son matemática pura.
+- **Pisos de baño**: hexágonos son super eficientes (mínimo material, máximo área).
+
+**Para extender** (chicos 13-14):
+- Mostrá los **17 grupos de simetría del plano** (todas las maneras posibles de teselar).
+- Conexión con cristalografía (átomos en redes cristalinas teselan en 3D).
+- Roger Penrose descubrió teselaciones APERIÓDICAS (no se repiten nunca pero cubren el plano). Conexión con cuasicristales (Premio Nobel Química 2011).
+</ParentTip>

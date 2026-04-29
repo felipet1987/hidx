@@ -1,0 +1,113 @@
+---
+title: Encuesta familiar — descubrí los cuartiles
+description: Hacé una encuesta a familia/amigos y aprendé a calcular cuartiles y percentiles. Estadística viva sin libro de matemática.
+publishedAt: 2026-04-29
+tags: [matematica, estadistica, octavo-basico, kids]
+ageMin: 12
+ageMax: 14
+difficulty: 2
+durationMinutes: 25
+steamCategories: [M, T]
+materials:
+  - { name: 'Cuaderno o hojas', qty: '5 hojas A4' }
+  - { name: 'Lápiz o lapicera', qty: '1 unidad' }
+  - { name: 'Regla', qty: '1 unidad' }
+  - { name: 'Calculadora', qty: '1 unidad' }
+  - { name: 'Acceso a smartphone (medir altura, etc)', qty: '—', optional: true }
+parentTip: |
+  Mapea OA15 del currículum chileno 8° básico: comprensión de medidas de posición —
+  percentiles y cuartiles. Esta lección hace tangible un concepto abstracto: "cuartiles
+  dividen el dataset en 4 partes iguales" se vuelve obvio cuando ordenás 12 personas
+  por altura y dibujás líneas en las posiciones 3, 6, 9.
+
+  El cuartil es la base de:
+  - Boxplots (gráficos de caja, eligen Q1 + mediana + Q3)
+  - Tablas de crecimiento de pediatría (percentil 50 = mediana)
+  - Análisis salarial (mediana vs promedio para detectar outliers)
+---
+
+import {
+  MaterialsList, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight, Compare,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={12} max={14} />
+  <STEAMBadge categories={['M', 'T']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={25} />
+</div>
+
+Cuando el doctor dice "tu hijo está en el percentil 75 de altura", ¿qué significa?
+Hoy hacés tu propia encuesta familiar y descubrís cuartiles, percentiles y por qué la **mediana** es a veces más importante que el **promedio**.
+
+<MaterialsList items={[
+  { name: 'Cuaderno o hojas', qty: '5 hojas A4' },
+  { name: 'Lápiz o lapicera', qty: '1 unidad' },
+  { name: 'Regla', qty: '1 unidad' },
+  { name: 'Calculadora', qty: '1 unidad' },
+]} />
+
+## La encuesta
+
+<ExperimentSteps steps={[
+  { title: 'Elegí una pregunta numérica', body: 'Por ejemplo: "¿cuántas horas dormiste anoche?" o "¿qué edad tenés?" o "¿cuántos hermanos tenés?" Tiene que ser número.' },
+  { title: 'Encuestá a 11 personas', body: 'Familia, vecinos, amigos. Anotá cada respuesta. (11 es bueno porque permite cuartiles claros.)' },
+  { title: 'Ordenar de menor a mayor', body: 'Acomodá los 11 números de chico a grande. Por ejemplo edades: 8, 11, 12, 14, 25, 32, 35, 40, 45, 56, 78.' },
+  { title: 'Encontrar la MEDIANA (Q2)', body: 'Es el valor del medio. Con 11 números → posición 6 → 32. La mitad de las personas es mayor, la mitad es menor.' },
+  { title: 'Encontrar Q1 (cuartil 1)', body: 'Es el valor en posición 3 (mitad de la primera mitad) → 12. Significa: 25% de las personas tienen 12 años o menos.' },
+  { title: 'Encontrar Q3 (cuartil 3)', body: 'Es el valor en posición 9 (mitad de la segunda mitad) → 45. Significa: 75% de las personas tienen 45 años o menos.' },
+]} />
+
+## Lo que descubriste
+
+<Callout type="info" title="Cuartiles">
+<Highlight variant="cyan">**Q1**</Highlight>: el 25% inferior de los datos están aquí o debajo.
+<Highlight variant="cyan">**Q2**</Highlight> (mediana): el 50% — la mitad arriba, la mitad abajo.
+<Highlight variant="cyan">**Q3**</Highlight>: el 75% — solo el 25% superior está más arriba.
+
+Los cuartiles dividen tus datos en 4 partes iguales. Los **percentiles** son lo mismo pero en 100 partes (P50 = mediana, P25 = Q1, P75 = Q3, P90 = "top 10%").
+</Callout>
+
+## Mediana vs promedio — cuál usar
+
+<Compare
+  caption="Cuándo usar promedio vs mediana."
+  headers={['Promedio (media)', 'Mediana']}
+  rows={[
+    { feature: 'Sensible a extremos (outliers)', cells: [{ value: 'Sí, mucho', emphasis: true }, 'No'] },
+    { feature: 'Mejor para sueldos', cells: ['Engañoso (Bezos infla)', { value: 'Sí (mejor)', emphasis: true }] },
+    { feature: 'Mejor para notas escolares', cells: [{ value: 'Sí (estándar)', emphasis: true }, 'Pierde info'] },
+    { feature: 'Mejor para tiempos en deporte', cells: ['Bueno', { value: 'Mejor (descarta caídas)', emphasis: true }] },
+  ]}
+/>
+
+**Ejemplo práctico**: si en una empresa de 11 personas hay 10 que ganan $500.000 y 1 (el dueño) que gana $50.000.000:
+- **Promedio**: $5.000.000 (parece que todos cobran un montón!)
+- **Mediana**: $500.000 (la realidad)
+
+Los medios usan promedios cuando quieren INFLAR cifras. Cuando hay desigualdad, **mediana es honesta**.
+
+## Reto extra (8° básico)
+
+- Hacé otra encuesta — esta vez sobre altura. Anotá altura de 11 familiares. Calculá Q1, Q2, Q3.
+- Calculá el **rango intercuartílico** = Q3 - Q1. Te dice qué tan "concentrados" están los datos.
+- Buscá una **tabla pediátrica de altura por edad**. Vas a ver percentiles 5, 25, 50, 75, 95. ¿Sabés tu percentil?
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 15**: comprensión de medidas de posición — percentiles y cuartiles.
+
+**Conexión real**:
+- **Salud**: tablas de crecimiento usan percentiles 5/25/50/75/95.
+- **Educación**: SIMCE/PAES dan percentil del estudiante respecto a su cohorte nacional.
+- **Sueldos**: cuando lees "salario promedio Chile $1.000.000" — es engañoso. Mediana real ≈ $600.000. La diferencia revela desigualdad.
+- **Tiempos deportivos**: corredor pro descarta su mejor y peor tiempo — usa mediana para evaluar consistencia.
+
+**Para extender** (chicos 13-14):
+- **Boxplot** (gráfico de caja): visualiza Q1, Q2, Q3 + outliers en una sola figura. Buscá ejemplos en Wikipedia.
+- **Histograma** vs **boxplot**: cuando usar cada uno.
+- **Outliers**: cómo detectarlos con la regla 1.5×RIC. Por qué a veces hay que excluirlos.
+
+**Conexión histórica**: Francis Galton (1822-1911) inventó los percentiles para estudiar la distribución de altura humana. Es el padre de la estadística aplicada moderna.
+</ParentTip>

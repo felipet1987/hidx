@@ -1,0 +1,118 @@
+---
+title: Pirámide vs prisma — qué entra más
+description: Construí una pirámide y un prisma con la misma base. ¿Cuál tiene más volumen? La respuesta tiene una fórmula que vas a descubrir solo, con arroz.
+publishedAt: 2026-04-29
+tags: [matematica, geometria, octavo-basico, kids]
+ageMin: 11
+ageMax: 14
+difficulty: 3
+durationMinutes: 30
+steamCategories: [M, E]
+materials:
+  - { name: 'Cartulina o cartón fino', qty: '4 hojas A4' }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: 'Regla', qty: '1 unidad' }
+  - { name: 'Cinta adhesiva o pegamento', qty: '1 rollo' }
+  - { name: 'Compás', qty: '1 unidad' }
+  - { name: 'Arroz, arena o lentejas', qty: '500 g' }
+  - { name: 'Bandeja para no manchar', qty: '1 unidad' }
+safetyNotes:
+  - { type: 'cortante', text: 'Tijeras punta redonda + adulto cuando recortes cartón.' }
+  - { type: 'supervision', text: 'No tragar arroz/arena. Mantener lejos de bebés.' }
+parentTip: |
+  Mapea OA11 del currículum chileno 8° básico: fórmulas para área de superficies y volumen
+  de prismas rectos y cilindros. Esta lección descubre experimentalmente la relación
+  V_pirámide = (1/3) × V_prisma (misma base + misma altura). Es un descubrimiento histórico
+  conocido por Demócrito y formalizado por Eudoxo. Mucho más memorable construir + verter
+  arroz que memorizar fórmula.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight, Quote,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={11} max={14} />
+  <STEAMBadge categories={['M', 'E']} />
+  <DifficultyStars level={3} />
+  <DurationBadge minutes={30} />
+</div>
+
+Si construís una pirámide y un prisma con la **misma base** y **misma altura**, ¿cuál tiene más volumen?
+La intuición dice "depende". La realidad: el prisma tiene **exactamente 3 veces más** que la pirámide.
+Hoy lo descubrís con arroz.
+
+<Quote cite="Demócrito" source="Siglo V a.C.">
+  Si una pirámide y un prisma tienen igual base e igual altura, la pirámide es la tercera parte del prisma.
+</Quote>
+
+<MaterialsList items={[
+  { name: 'Cartulina o cartón fino', qty: '4 hojas A4' },
+  { name: 'Tijera con punta redonda', qty: '1 unidad' },
+  { name: 'Regla', qty: '1 unidad' },
+  { name: 'Cinta adhesiva o pegamento', qty: '1 rollo' },
+  { name: 'Compás', qty: '1 unidad' },
+  { name: 'Arroz, arena o lentejas', qty: '500 g' },
+  { name: 'Bandeja', qty: '1 unidad' },
+]} />
+
+<SafetyNote type="cortante">
+Tijeras punta redonda + adulto cuando recortes el cartón.
+</SafetyNote>
+
+## Construir el prisma cuadrangular
+
+<ExperimentSteps steps={[
+  { title: 'Recortar la base cuadrada', body: 'Marcá un cuadrado de 8×8 cm en la cartulina. Recortalo.' },
+  { title: 'Recortar 4 paredes', body: 'Cortá 4 rectángulos de 8 cm de ancho × 12 cm de alto (la altura del prisma).' },
+  { title: 'Armar el prisma', body: 'Pegá las 4 paredes a los lados de la base con cinta. Te queda una caja sin tapa de 8×8×12 cm. Volumen = base × altura = 64 × 12 = 768 cm³.' },
+]} />
+
+## Construir la pirámide cuadrangular
+
+<ExperimentSteps steps={[
+  { title: 'Recortar la misma base', body: 'Marcá otro cuadrado de 8×8 cm. Recortalo.' },
+  { title: 'Recortar 4 triángulos isóceles', body: 'Cada triángulo: base 8 cm, altura 12 cm (la altura "lateral" — no exactamente la altura de la pirámide, pero suficiente aproximación).' },
+  { title: 'Armar la pirámide', body: 'Pegá los 4 triángulos a los lados de la base, juntando las puntas arriba. Te queda una pirámide sin tapa.' },
+]} />
+
+## El experimento: medir volumen con arroz
+
+<ExperimentSteps steps={[
+  { title: 'Llená la pirámide', body: 'Apoyá la pirámide invertida (con la punta hacia abajo, sobre un vaso o soporte). Llenala hasta el borde con arroz.' },
+  { title: 'Verté en el prisma', body: 'Trasladá TODO el arroz de la pirámide al prisma. Mirá hasta qué altura llega.' },
+  { title: 'Repetir', body: 'Volvé a llenar la pirámide con arroz nuevo, vertelo en el prisma. Mirá nivel.' },
+  { title: '¡La sorpresa!', body: 'Necesitás llenar la pirámide EXACTAMENTE 3 VECES para llenar el prisma completo. ¡Vol_prisma = 3 × Vol_pirámide!' },
+]} />
+
+## La fórmula descubierta
+
+<Callout type="info" title="Volumen pirámide">
+<Highlight variant="cyan">V_pirámide = (1/3) × área_base × altura</Highlight>
+
+V_prisma = área_base × altura
+
+Por eso el prisma cabe 3 veces más que la pirámide con misma base + misma altura.
+La misma fórmula vale para CONOS vs CILINDROS: V_cono = (1/3) × V_cilindro.
+</Callout>
+
+## Reto extra (8° básico)
+
+- ¿Cuánto vale el volumen de tu pirámide en cm³? (V = 1/3 × 64 × 12 = 256 cm³)
+- ¿Por qué los egipcios construyeron pirámides en vez de cubos? (Pista: estabilidad estructural + economía material — usás 3× menos roca para misma altura).
+- Construí un cono y un cilindro con misma base circular + altura. Repetí el experimento. ¿Funciona la misma proporción 3:1?
+
+<ParentTip>
+**OA del currículum nacional chileno cubierto**:
+- **MA08 OA 11**: aplicación de fórmulas para áreas de superficies y volúmenes de prismas rectos y cilindros.
+
+**Conexión histórica**: Demócrito (siglo V a.C.) intuyó esta relación pero no la pudo probar formalmente. Eudoxo (siglo IV a.C.) usó el "método de exhaución" — ancestro del cálculo integral. Newton/Leibniz (siglo XVII) lo formalizaron con cálculo (∫ integral).
+
+**Para extender** (chicos 13-14):
+- **Cilindros vs conos**: misma proporción 1:3.
+- **Esferas**: V = (4/3)πr³. La esfera "rellena" 2/3 del cilindro con mismo radio + altura = diámetro. Demostrado por Arquímedes hace 2300 años.
+- Conexión con **integrales** del cálculo: el volumen es la integral de las áreas de las "lonjas" infinitesimales (lonjas grandes en la base, lonjas chicas arriba para la pirámide).
+
+**Tiempo real**: 30 min construir + 15 min experimentar = 45 min total.
+</ParentTip>
