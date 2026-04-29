@@ -5,7 +5,7 @@ publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
-import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
+import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, Mermaid, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
 
 ## Por qué existe este artículo
 
@@ -93,6 +93,20 @@ const title = 'hidx';
    document.documentElement.dataset.theme = theme;
 +  localStorage.setItem('theme', theme);
  }`}
+/>
+
+## Diagrama Mermaid
+
+<Mermaid
+  caption="Pipeline de build hidx con cache."
+  code={`flowchart LR
+    A[MDX Source] --> B{Tiene Mermaid?}
+    B -- Sí --> C[Render lazy on view]
+    B -- No --> D[HTML estático]
+    C --> E[SVG inline]
+    D --> F[CF Pages edge]
+    E --> F
+    F --> G((Reader))`}
 />
 
 ## Sesión de terminal

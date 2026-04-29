@@ -21,15 +21,20 @@
 - [x] 2.3 `src/components/mdx/Terminal.astro` — prompt `$`, line types: cmd/out/err/comment with semantic classes
 - [x] 2.4 Update `hello.mdx` exercise CodeTabs (3 files: package.json + astro.config + index.astro) + CodeDiff + Terminal session
 
-## Phase 3: Mermaid build-time (S4c)
+## Phase 3: Mermaid (S4c)
 
-- [ ] 3.1 `pnpm add -D @mermaid-js/mermaid-cli`
-- [ ] 3.2 RED Vitest: `tests/unit/mermaid-cache.test.ts` — same source SHA → cache hit; diff source → recompute; corrupt cache → recompute
-- [ ] 3.3 GREEN: `src/lib/mermaid-cache.ts` — read/write `.cache/mermaid/{sha256}.svg`
-- [ ] 3.4 `src/integrations/mermaid.ts` — Astro integration hooks `astro:build:start`; remark plugin walks ` ```mermaid` code blocks; calls `mmdc` headless with theme variables matching hidx; injects SVG inline; cache-aware
-- [ ] 3.5 `src/components/mdx/Mermaid.astro` — placeholder consumed by remark plugin (or zero-render if remark replaces)
-- [ ] 3.6 Configure GH Actions cache `.cache/mermaid/` between runs
-- [ ] 3.7 Update `hello.mdx` with one flowchart Mermaid block; verify build SVG in HTML
+> **DEVIATION from ADR-302**: client-side lazy render adopted instead of build-time SVG.
+> Reason: `@mermaid-js/mermaid-cli` requires chromium ~300MB, fragile in CI/Docker; ROI does not justify.
+> Trade-off: ~200KB JS on demand (only when post contains mermaid block, IntersectionObserver lazy).
+> Future: revisit build-time SVG when CI/asset pipeline is more mature.
+
+- [x] 3.1 ~~`@mermaid-js/mermaid-cli`~~ → installed `mermaid` (client lib) instead
+- [ ] 3.2 ~~RED cache test~~ DEFERRED (no cache lib needed; mermaid lib renders on view)
+- [ ] 3.3 ~~GREEN cache lib~~ DEFERRED
+- [x] 3.4 Mermaid via `<mermaid-block>` Web Component instead of Astro integration; IntersectionObserver loads `mermaid` ESM on first view (200px rootMargin); applies hidx theme variables (light/dark aware)
+- [x] 3.5 `src/components/mdx/Mermaid.astro` — Web Component renders SVG client-side, skeleton fallback while loading, error fallback if syntax bad
+- [ ] 3.6 GH Actions cache `.cache/mermaid/` DEFERRED (no build-time render)
+- [x] 3.7 `hello.mdx` flowchart Mermaid block (build pipeline diagram)
 
 ## Phase 4: Layout + typography (S4d)
 

@@ -8,6 +8,7 @@ export { default as CodeTabs } from './CodeTabs.astro';
 export { default as Figure } from './Figure.astro';
 export { default as Gallery } from './Gallery.astro';
 export { default as Image } from './Image.astro';
+export { default as Mermaid } from './Mermaid.astro';
 export { default as Steps } from './Steps.astro';
 export { default as Terminal } from './Terminal.astro';
 export { default as TipJar } from './TipJar.astro';
@@ -27,6 +28,7 @@ export const MDX_COMPONENT_WHITELIST = [
   'Figure',
   'Gallery',
   'Image',
+  'Mermaid',
   'Steps',
   'Terminal',
   'TipJar',
