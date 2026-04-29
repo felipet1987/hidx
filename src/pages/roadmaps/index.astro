@@ -1,0 +1,143 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { STEAMCategory } from '../../content/schemas';
+
+const lessons = await getCollection('posts', ({ data }) => !data.draft);
+
+const categories: { key: STEAMCategory; name: string; icon: string; color: string; tagline: string }[] = [
+  { key: 'S', name: 'Ciencia',     icon: '🔬', color: 'var(--color-s)', tagline: 'Descubrí cómo funciona el mundo natural.' },
+  { key: 'T', name: 'Tecnología',  icon: '💻', color: 'var(--color-t)', tagline: 'Algoritmos, criptografía y máquinas.' },
+  { key: 'E', name: 'Ingeniería',  icon: '🛠️', color: 'var(--color-e)', tagline: 'Construí cosas que funcionan.' },
+  { key: 'A', name: 'Arte',        icon: '🎨', color: 'var(--color-a)', tagline: 'Creatividad con técnica + ciencia.' },
+  { key: 'M', name: 'Matemática',  icon: '🔢', color: 'var(--color-m)', tagline: 'Patrones, lógica, números reales.' },
+];
+
+const countsByCategory = Object.fromEntries(
+  categories.map((c) => [c.key, lessons.filter((l) => l.data.steamCategories?.includes(c.key)).length]),
+);
+---
+<BaseLayout
+  title="Roadmaps STEAM — YachayTree"
+  description="Mapas visuales de aprendizaje STEAM por área: Ciencia, Tecnología, Ingeniería, Arte, Matemática."
+>
+  <header class="rm-head">
+    <h1>Roadmaps STEAM</h1>
+    <p>Cada área tiene su propio camino. Elegí la letra que más te llame y empezá a explorar.</p>
+  </header>
+
+  <ul class="rm-grid">
+    {categories.map((c) => (
+      <li>
+        <a href={`/roadmaps/${c.key.toLowerCase()}`} class="rm-card" style={`--rm-color: ${c.color}`}>
+          <div class="rm-letter" aria-hidden="true">{c.key}</div>
+          <div class="rm-emoji" aria-hidden="true">{c.icon}</div>
+          <h2>{c.name}</h2>
+          <p>{c.tagline}</p>
+          <p class="rm-count">
+            <strong>{countsByCategory[c.key]}</strong> {countsByCategory[c.key] === 1 ? 'lección' : 'lecciones'}
+          </p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .rm-head {
+    margin: 1.5rem 0 2.5rem;
+    text-align: center;
+  }
+  .rm-head h1 {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    background: linear-gradient(135deg, var(--color-s), var(--color-t), var(--color-e), var(--color-a), var(--color-m));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .rm-head p {
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .rm-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .rm-card {
+    display: grid;
+    grid-template-areas:
+      'letter emoji'
+      'name name'
+      'tag tag'
+      'count count';
+    grid-template-columns: 1fr auto;
+    gap: 0.4rem 0.85rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+    background: color-mix(in oklch, var(--rm-color) 8%, var(--color-bg-elev));
+    border: 2px solid color-mix(in oklch, var(--rm-color) 30%, var(--color-border));
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+    overflow: hidden;
+    position: relative;
+  }
+  .rm-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: var(--rm-color);
+    color: var(--color-fg);
+  }
+  .rm-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 100% 0%, color-mix(in oklch, var(--rm-color) 20%, transparent), transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .rm-card:hover::before { opacity: 1; }
+
+  .rm-letter {
+    grid-area: letter;
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--rm-color);
+    font-family: var(--font-mono);
+  }
+  .rm-emoji {
+    grid-area: emoji;
+    font-size: 2rem;
+    align-self: start;
+  }
+  .rm-card h2 {
+    grid-area: name;
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--rm-color);
+  }
+  .rm-card p {
+    grid-area: tag;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+  .rm-count {
+    grid-area: count !important;
+    margin-top: 0.5rem !important;
+    font-size: 0.85rem !important;
+    color: var(--rm-color) !important;
+    font-weight: 600 !important;
+  }
+</style>

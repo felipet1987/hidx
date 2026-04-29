@@ -1,0 +1,252 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AgeBadge from '../../components/mdx/AgeBadge.astro';
+import DifficultyStars from '../../components/mdx/DifficultyStars.astro';
+import DurationBadge from '../../components/mdx/DurationBadge.astro';
+import type { STEAMCategory } from '../../content/schemas';
+
+export async function getStaticPaths() {
+  const META = {
+    s: { letra: 'S' as STEAMCategory, name: 'Ciencia',     icon: '🔬', color: 'var(--color-s)', intro: 'Descubrí cómo funciona el mundo natural a través de experimentos hands-on.' },
+    t: { letra: 'T' as STEAMCategory, name: 'Tecnología',  icon: '💻', color: 'var(--color-t)', intro: 'Algoritmos, criptografía y la lógica que mueve las máquinas.' },
+    e: { letra: 'E' as STEAMCategory, name: 'Ingeniería',  icon: '🛠️', color: 'var(--color-e)', intro: 'Diseñá y construí cosas que funcionan con materiales económicos.' },
+    a: { letra: 'A' as STEAMCategory, name: 'Arte',        icon: '🎨', color: 'var(--color-a)', intro: 'Creatividad con técnica, observación y ciencia detrás.' },
+    m: { letra: 'M' as STEAMCategory, name: 'Matemática',  icon: '🔢', color: 'var(--color-m)', intro: 'Patrones, lógica, fracciones, geometría — vivibles con las manos.' },
+  };
+  return Object.entries(META).map(([letra, meta]) => ({ params: { letra }, props: { meta } }));
+}
+
+const { meta } = Astro.props;
+
+const allLessons = await getCollection('posts', ({ data }) => !data.draft);
+const lessons = allLessons
+  .filter((l) => l.data.steamCategories?.includes(meta.letra))
+  .sort((a, b) => (a.data.difficulty ?? 2) - (b.data.difficulty ?? 2));
+
+// Find tracks that contain at least one of these lessons
+const allTracks = await getCollection('series');
+const relatedTracks = allTracks.filter((t) =>
+  t.data.lessons.some((slug) => lessons.find((l) => l.id === slug)),
+);
+---
+<BaseLayout
+  title={`Roadmap ${meta.name} — YachayTree`}
+  description={meta.intro}
+>
+  <article class="rm-page" style={`--rm-color: ${meta.color}`}>
+    <header class="rm-hero">
+      <p class="breadcrumb"><a href="/roadmaps">Roadmaps</a> · <span>{meta.name}</span></p>
+      <div class="rm-letter-big" aria-hidden="true">{meta.letra}</div>
+      <h1>{meta.icon} {meta.name}</h1>
+      <p class="lede">{meta.intro}</p>
+      <p class="rm-count">{lessons.length} {lessons.length === 1 ? 'lección disponible' : 'lecciones disponibles'}</p>
+    </header>
+
+    <hr class="grad-rule" />
+
+    {lessons.length === 0 ? (
+      <p class="empty">Estamos preparando lecciones para esta área. Volvé pronto.</p>
+    ) : (
+      <ol class="lesson-flow">
+        {lessons.map((l, i) => (
+          <li class="flow-node">
+            <div class="flow-num" aria-hidden="true">{i + 1}</div>
+            <a href={`/rutas/inventos-caseros/${l.id}`} class="flow-card">
+              <h3>{l.title}</h3>
+              <p>{l.data.description}</p>
+              <div class="flow-meta">
+                <AgeBadge min={l.data.ageMin ?? 8} max={l.data.ageMax ?? 12} />
+                <DifficultyStars level={(l.data.difficulty ?? 2) as 1 | 2 | 3 | 4 | 5} label={false} />
+                <DurationBadge minutes={l.data.durationMinutes ?? 30} />
+              </div>
+            </a>
+            {i < lessons.length - 1 && <div class="flow-connector" aria-hidden="true" />}
+          </li>
+        ))}
+      </ol>
+    )}
+
+    {relatedTracks.length > 0 && (
+      <section class="rm-tracks">
+        <h2>Rutas que incluyen {meta.name}</h2>
+        <ul>
+          {relatedTracks.map((t) => (
+            <li><a href={`/rutas/${t.id}`}>{t.data.title}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .rm-page {
+    max-width: 50rem;
+  }
+  .breadcrumb {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+  }
+  .breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover { color: var(--rm-color); }
+
+  .rm-hero {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    position: relative;
+  }
+  .rm-letter-big {
+    font-size: clamp(6rem, 14vw, 10rem);
+    font-weight: 900;
+    line-height: 0.85;
+    color: var(--rm-color);
+    opacity: 0.18;
+    font-family: var(--font-mono);
+    margin: 0;
+  }
+  .rm-hero h1 {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    margin: -0.5em 0 0.5rem;
+    position: relative;
+    z-index: 1;
+    color: var(--rm-color);
+  }
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-fg);
+    max-width: 38ch;
+    margin: 0 auto 0.5rem;
+    line-height: 1.5;
+  }
+  .rm-count {
+    color: var(--color-muted);
+    font-weight: 600;
+    margin: 0;
+  }
+  .grad-rule {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--rm-color), transparent);
+    margin: 2rem 0;
+  }
+  .empty {
+    text-align: center;
+    color: var(--color-muted);
+    padding: 2rem;
+  }
+
+  .lesson-flow {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+  }
+  .flow-node {
+    display: grid;
+    grid-template-columns: auto;
+    place-items: center;
+    width: 100%;
+    max-width: 36rem;
+    position: relative;
+  }
+  .flow-num {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 9999px;
+    background: var(--rm-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.1rem;
+    z-index: 2;
+    position: relative;
+  }
+  .flow-card {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    background: var(--color-bg-elev);
+    border: 2px solid color-mix(in oklch, var(--rm-color) 30%, var(--color-border));
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+    display: block;
+  }
+  .flow-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--rm-color);
+    color: var(--color-fg);
+  }
+  .flow-card h3 {
+    margin: 0 0 0.4rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--rm-color);
+  }
+  .flow-card p {
+    margin: 0 0 0.75rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+  .flow-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .flow-connector {
+    width: 3px;
+    height: 1.5rem;
+    background: var(--rm-color);
+    opacity: 0.5;
+    margin: 0.5rem 0;
+  }
+
+  .rm-tracks {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .rm-tracks h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin: 0 0 0.75rem;
+  }
+  .rm-tracks ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .rm-tracks li a {
+    display: inline-block;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--color-bg-elev);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: var(--color-fg);
+    font-size: 0.9rem;
+  }
+  .rm-tracks li a:hover {
+    border-color: var(--rm-color);
+    color: var(--rm-color);
+  }
+</style>

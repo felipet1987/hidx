@@ -1,0 +1,16 @@
+{
+  "title": "Explorá STEAM completo",
+  "description": "Una lección por cada letra de STEAM (Ciencia, Tecnología, Ingeniería, Arte, Matemática) con materiales caseros. Empezá por la que más te llame.",
+  "order": 3,
+  "level": "beginner",
+  "steamCategories": ["S", "T", "E", "A", "M"],
+  "ageMin": 8,
+  "ageMax": 12,
+  "lessons": [
+    "volcan-de-bicarbonato-y-vinagre",
+    "codigo-secreto-cesar-con-disco",
+    "catapulta-carton",
+    "estampar-con-vegetales",
+    "fracciones-con-pizza-de-carton"
+  ]
+}
