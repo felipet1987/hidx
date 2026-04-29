@@ -16,7 +16,7 @@ export const authors: Record<string, Author> = {
   felipe: {
     id: 'felipe',
     name: 'Felipe Talavera',
-    bio: 'Arquitecto senior. Escribo sobre cómo resuelvo problemas reales con código, infra y herramientas. Clean / Hexagonal / Screaming Architecture.',
+    bio: 'Arquitecto de software + papá curioso. Diseño experimentos STEAM hands-on para chicos LatAm con materiales caseros. Misión: complementar Khan Academy donde flaquea — voz local + manos sucias.',
     avatarSvg: monogram,
     github: 'felipet1987',
     url: 'https://hidx.dev/about',

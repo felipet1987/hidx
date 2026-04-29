@@ -1,9 +1,152 @@
 ---
-import { getCollection } from 'astro:content';
-import LandingLayout from '../layouts/LandingLayout.astro';
-
-const featured = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
-  .slice(0, 5);
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<LandingLayout featured={featured} />
+<BaseLayout
+  title="YachayTree — STEAM hands-on para chicos LatAm"
+  description="Plataforma STEAM con experimentos hands-on para chicos LatAm 8-12 años. Materiales caseros, guías para padres, español rioplatense neutro."
+>
+  <section class="hero-yt">
+    <p class="eyebrow">YachayTree · STEAM hands-on</p>
+    <h1>
+      Experimentos STEAM<br />
+      <span class="text-gradient">para chicos LatAm</span>
+    </h1>
+    <p class="lede">
+      10 actividades hands-on con materiales que ya tenés en casa — para chicos de 8 a 12 años.
+      Engineering, Arte y Ciencia, en español rioplatense neutro. Pronto más rutas.
+    </p>
+    <div class="cta-row">
+      <a href="/explorar" class="cta primary">Explorar lecciones →</a>
+      <a href="/padres" class="cta secondary">Soy padre / maestro</a>
+    </div>
+  </section>
+
+  <section class="info-grid">
+    <article>
+      <h2>🔬 Hands-on</h2>
+      <p>Cada lección es una actividad para hacer, no solo para leer. Materiales &lt;$5 USD por proyecto.</p>
+    </article>
+    <article>
+      <h2>🌎 LatAm-first</h2>
+      <p>Voz local, materiales que conseguís en tu barrio, ejemplos de tu cultura.</p>
+    </article>
+    <article>
+      <h2>👨‍👩‍👧 Para familias</h2>
+      <p>Guías para padres con tip pedagógico en cada actividad. Sin login, sin tracking de chicos.</p>
+    </article>
+    <article>
+      <h2>📖 Gratis</h2>
+      <p>Acceso libre a todo el contenido. Sin paywall, sin ads, sin signup. CC BY-NC 4.0.</p>
+    </article>
+  </section>
+
+  <section class="newsletter-yt">
+    <h2>Próximamente</h2>
+    <p>Las primeras 10 lecciones llegan en mayo 2026. Volvé pronto o seguinos en GitHub para updates.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-yt {
+    text-align: center;
+    padding: 4rem 0 2rem;
+    display: grid;
+    gap: 1.25rem;
+    place-items: center;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+  .hero-yt h1 {
+    font-size: var(--text-5xl);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 22ch;
+  }
+  .hero-yt .lede {
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+    max-width: 50ch;
+    margin: 0;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta.primary {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+  }
+  .cta.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px color-mix(in oklch, var(--color-accent-2) 35%, transparent);
+    color: white;
+  }
+  .cta.secondary {
+    border: 1px solid var(--color-border);
+    color: var(--color-fg);
+  }
+  .cta.secondary:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    padding: 3rem 0;
+  }
+  .info-grid article {
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-elev);
+  }
+  .info-grid h2 {
+    font-size: var(--text-lg);
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+  .info-grid p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .newsletter-yt {
+    text-align: center;
+    padding: 3rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .newsletter-yt h2 {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+  }
+  .newsletter-yt p {
+    color: var(--color-muted);
+    margin: 0;
+  }
+</style>

@@ -1,11 +1,11 @@
-# hidx — Cómo lo hago
+# YachayTree — STEAM hands-on para chicos LatAm
 
-> Guías largas y opinadas sobre cómo resuelvo problemas reales con código, infraestructura y herramientas.
+> Plataforma de aprendizaje STEAM con experimentos hands-on en español, para chicos de 8 a 12 años en LatAm. Materiales económicos, guías pedagógicas para padres y maestros.
 
 ## Política de uso
 
-El contenido editorial (artículos, ilustraciones) está licenciado bajo CC BY-NC 4.0:
+El contenido editorial (lecciones, ilustraciones, fotos, video) está licenciado bajo CC BY-NC 4.0:
 se requiere atribución, sin uso comercial sin permiso.
 
-Si entrenas modelos con este contenido, atribuye la URL fuente y al autor.
-Para consultas de licenciamiento comercial, abre un issue en https://github.com/felipet1987/hidx
+Si entrenás modelos con este contenido, atribuí la URL fuente y al autor.
+Para consultas de licenciamiento comercial o uso educativo en escuelas, abrí un issue en https://github.com/felipet1987/yachaytree

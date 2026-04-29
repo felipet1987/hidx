@@ -1,11 +1,11 @@
 {
-  "name": "hidx",
-  "short_name": "hidx",
-  "description": "Cómo lo hago — guías largas y opinadas.",
+  "name": "YachayTree",
+  "short_name": "YachayTree",
+  "description": "STEAM hands-on para chicos LatAm 8-12 — experimentos caseros.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d1117",
-  "theme_color": "#0d1117",
+  "background_color": "#fafaf5",
+  "theme_color": "#3a8f4f",
   "lang": "es",
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },

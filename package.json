@@ -1,9 +1,9 @@
 {
-  "name": "hidx",
+  "name": "yachaytree",
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Monetizable how-to-X platform — Astro + MDX on Cloudflare Pages",
+  "description": "YachayTree — STEAM hands-on para chicos LatAm 8-12. Experimentos con materiales caseros.",
   "license": "MIT",
   "engines": {
     "node": ">=22.12.0"

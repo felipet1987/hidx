@@ -1,33 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Privacidad — hidx" description="Política de privacidad de hidx.">
+<BaseLayout title="Privacidad — YachayTree" description="Política de privacidad COPPA-aware.">
   <h1 class="text-3xl font-bold mb-6">Privacidad</h1>
   <div class="prose dark:prose-invert max-w-none">
-    <h2>Qué recolectamos</h2>
+    <h2>Compromiso COPPA</h2>
     <p>
-      <strong>Analítica</strong>: Cloudflare Web Analytics. Sin cookies, sin fingerprinting,
-      sin seguimiento entre sitios. Solo estadísticas agregadas y anónimas.
+      YachayTree está diseñado para chicos de 8 a 12 años. <strong>NO recolectamos datos personales</strong>
+      de menores de 13 años (cumplimiento COPPA estricto). No requerimos signup, login, ni newsletter para usar el sitio.
     </p>
-    <p>
-      <strong>Newsletter</strong>: si te suscribes, tu correo es almacenado por Beehiiv (nuestro proveedor de newsletter).
-      Puedes darte de baja en cualquier momento usando el enlace incluido en cada correo.
-    </p>
-    <h2>Qué no recolectamos</h2>
+    <h2>Qué NO recolectamos</h2>
     <ul>
+      <li>Sin cookies de seguimiento.</li>
+      <li>Sin fingerprinting del navegador.</li>
       <li>Sin cookies publicitarias de terceros.</li>
-      <li>Sin herramientas de session replay.</li>
-      <li>Sin identificadores personales más allá de lo que envías voluntariamente.</li>
+      <li>Sin session replay tools.</li>
+      <li>Sin email ni nombre ni edad.</li>
     </ul>
+    <h2>Qué sí guardamos (en tu dispositivo)</h2>
+    <p>
+      <strong>localStorage</strong>: cuando marcás una lección como "completada", se guarda
+      un flag en tu navegador (no se envía al servidor). Si limpiás cookies, se pierde — y está bien,
+      no hay cuenta que recuperar.
+    </p>
+    <h2>Analítica</h2>
+    <p>
+      <strong>Cloudflare Web Analytics</strong>: estadísticas agregadas anónimas (cuántas vistas, qué páginas).
+      Sin cookies. Sin identificación. Sin perfiles.
+    </p>
     <h2>Hosting</h2>
     <p>
-      El contenido estático es servido por Cloudflare Pages. Los logs del servidor pueden retenerse brevemente
+      Contenido estático servido por Cloudflare Pages. Logs del servidor pueden retenerse brevemente
       por Cloudflare por motivos de seguridad y prevención de abuso.
     </p>
     <h2>Contacto</h2>
     <p>
-      ¿Preguntas? Abre un issue en
-      <a href="https://github.com/felipet1987/hidx/issues" target="_blank" rel="noopener noreferrer">github.com/felipet1987/hidx</a>.
+      ¿Preguntas? Abrí un issue en
+      <a href="https://github.com/felipet1987/yachaytree/issues" target="_blank" rel="noopener noreferrer">github.com/felipet1987/yachaytree</a>.
     </p>
   </div>
 </BaseLayout>

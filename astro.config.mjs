@@ -6,7 +6,7 @@ import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
 import remarkGfm from 'remark-gfm';
 
-const SITE = 'https://hidx.dev';
+const SITE = 'https://hidx.pages.dev';
 
 // https://astro.build/config
 // SSG-only MVP. Switch to `output: 'server'` + Cloudflare adapter when paywall (Capa 4) lands.
