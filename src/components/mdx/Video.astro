@@ -1,0 +1,67 @@
+---
+interface Source {
+  src: string;
+  type: string;
+}
+
+interface Props {
+  sources: Source[] | string;
+  poster?: string;
+  caption?: string;
+  controls?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  autoplay?: boolean;
+  preload?: 'none' | 'metadata' | 'auto';
+}
+
+const {
+  sources,
+  poster,
+  caption,
+  controls = true,
+  loop = false,
+  muted = false,
+  autoplay = false,
+  preload = 'metadata',
+} = Astro.props;
+
+const sourcesList: Source[] = typeof sources === 'string'
+  ? [{ src: sources, type: 'video/mp4' }]
+  : sources;
+---
+<figure class="media-video">
+  <video
+    poster={poster}
+    controls={controls}
+    loop={loop}
+    muted={muted}
+    autoplay={autoplay}
+    preload={preload}
+    playsinline
+  >
+    {sourcesList.map((s) => <source src={s.src} type={s.type} />)}
+    <slot />
+    Tu navegador no soporta video.
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .media-video {
+    margin: 1.5rem 0;
+  }
+  .media-video video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background: var(--color-bg-elev);
+  }
+  figcaption {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+</style>

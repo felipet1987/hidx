@@ -1,0 +1,124 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  start?: number;
+}
+
+const { id, title, start } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const startParam = start ? `&start=${start}` : '';
+const embedUrl = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0${startParam}`;
+const watchUrl = `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}` : ''}`;
+---
+<figure class="yt-embed">
+  <button
+    type="button"
+    class="yt-placeholder"
+    data-yt-embed
+    data-yt-src={embedUrl}
+    data-yt-title={title}
+    aria-label={`Reproducir video: ${title}`}
+  >
+    <img src={thumb} alt={`Miniatura: ${title}`} loading="lazy" decoding="async" />
+    <span class="yt-play" aria-hidden="true">▶</span>
+    <span class="yt-cookie-warn">click para cargar youtube (cookies)</span>
+  </button>
+  <noscript>
+    <a href={watchUrl} target="_blank" rel="noopener noreferrer">Ver "{title}" en YouTube</a>
+  </noscript>
+  <figcaption>{title}</figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-yt-embed]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const src = btn.dataset.ytSrc;
+      const title = btn.dataset.ytTitle;
+      if (!src || !title) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = title;
+      iframe.loading = 'eager';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.referrerPolicy = 'no-referrer';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.classList.add('yt-iframe');
+      btn.replaceWith(iframe);
+    });
+  });
+</script>
+
+<style>
+  .yt-embed {
+    margin: 1.5rem 0;
+    aspect-ratio: 16 / 9;
+    position: relative;
+  }
+  .yt-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    background: black;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+  }
+  .yt-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .yt-placeholder:hover img {
+    opacity: 1;
+  }
+  .yt-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+  }
+  .yt-cookie-warn {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    pointer-events: none;
+  }
+  :global(.yt-iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 8px;
+  }
+  figcaption {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+</style>

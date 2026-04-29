@@ -5,7 +5,7 @@ publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
-import { Callout, Steps, CodeDemo, AffiliateLink, TipJar } from '../../components/mdx';
+import { Callout, Steps, CodeDemo, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
 
 ## Por qué existe este artículo
 
@@ -44,6 +44,42 @@ que los componentes están conectados y que el layout del artículo funciona de 
   return \`hola, \${nombre}\`;
 }`}
 />
+
+## Una imagen optimizada
+
+<Image
+  src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1280&q=80"
+  alt="Placa de circuito impreso vista de cerca"
+  caption="Image — wrapper de Astro Image con AVIF/WebP, lazy y caption."
+  width={1280}
+  height={720}
+/>
+
+## Un YouTube embed con privacidad
+
+<YouTubeEmbed
+  id="aircAruvnKk"
+  title="But what is a neural network? — 3Blue1Brown"
+/>
+
+## Una galería con lightbox
+
+<Gallery
+  cols={3}
+  items={[
+    { src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80', alt: 'Circuito 1', caption: 'Detalle macro' },
+    { src: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80', alt: 'Pantalla con código', caption: 'Editor a oscuras' },
+    { src: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80', alt: 'Más código', caption: 'Más código' },
+  ]}
+/>
+
+## Una figure semántica
+
+<Figure caption="Figure — wrapper semántico para cualquier media + caption + source." source="hidx" sourceUrl="https://hidx.dev">
+  <pre style="padding:1rem;background:var(--color-bg-elev);border-radius:8px;">
+    {`<Figure /> envuelve cualquier contenido y agrega <figcaption> + atribución opcional.`}
+  </pre>
+</Figure>
 
 ## Un enlace de afiliado
 

@@ -55,7 +55,7 @@ async function main() {
     tags: ['x'],
   });
   if (!anonInsErr) fail('anon SHOULD NOT be able to INSERT');
-  ok(`anon INSERT blocked (${anonInsErr.code ?? 'no code'})`);
+  ok(`anon INSERT blocked (${anonInsErr?.code ?? 'no code'})`);
 
   // --- Service: publish the row ---
   const { error: pubErr } = await service
