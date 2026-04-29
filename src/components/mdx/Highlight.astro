@@ -1,0 +1,33 @@
+---
+interface Props {
+  variant?: 'yellow' | 'cyan' | 'violet' | 'green' | 'red';
+}
+
+const { variant = 'yellow' } = Astro.props;
+---
+<mark class={`hl hl-${variant}`}>
+  <slot />
+</mark>
+
+<style is:global>
+  mark.hl {
+    padding: 0 0.25em;
+    border-radius: 3px;
+    color: inherit;
+  }
+  mark.hl-yellow {
+    background: color-mix(in oklch, oklch(0.85 0.16 95) 50%, transparent);
+  }
+  mark.hl-cyan {
+    background: color-mix(in oklch, var(--color-accent-soft) 70%, transparent);
+  }
+  mark.hl-violet {
+    background: color-mix(in oklch, var(--color-accent-2-soft) 70%, transparent);
+  }
+  mark.hl-green {
+    background: color-mix(in oklch, oklch(0.8 0.16 145) 45%, transparent);
+  }
+  mark.hl-red {
+    background: color-mix(in oklch, oklch(0.78 0.18 25) 40%, transparent);
+  }
+</style>

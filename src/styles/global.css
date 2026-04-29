@@ -119,6 +119,27 @@ samp {
   }
 }
 
+/* Drop cap on first paragraph of article body (only Latin scripts) */
+.prose > p:first-of-type:where(:lang(es), :lang(en))::first-letter,
+article :where(.prose) > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-sans);
+  font-size: 3.5em;
+  line-height: 0.85;
+  font-weight: 800;
+  padding: 0.1em 0.18em 0 0;
+  margin-top: 0.05em;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Parent guard for FullBleed components */
+body {
+  overflow-x: clip;
+}
+
 /* Steps component counter (already used in Steps.astro) */
 .steps-step {
   counter-increment: step;

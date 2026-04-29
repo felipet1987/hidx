@@ -1,0 +1,55 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+<aside class="margin-aside not-prose">
+  {title && <p class="aside-title">{title}</p>}
+  <div class="aside-body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  /* Mobile / default: inline blockquote-like */
+  .margin-aside {
+    margin: 1.25rem 0;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--color-accent-2);
+    background: color-mix(in oklch, var(--color-accent-2-soft) 30%, transparent);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+  .aside-title {
+    margin: 0 0 0.35rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.7rem;
+    color: var(--color-accent-2);
+  }
+  .aside-body {
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+  .aside-body :global(p) {
+    margin: 0;
+  }
+
+  /* Desktop ≥1024px: float to right margin */
+  @media (min-width: 1024px) {
+    .margin-aside {
+      float: right;
+      clear: right;
+      width: 16rem;
+      margin: 0.25rem -10rem 1rem 1.5rem;
+      background: transparent;
+      border-left: 0;
+      border-top: 1px solid var(--color-accent-2);
+      padding: 0.75rem 0;
+      border-radius: 0;
+    }
+  }
+</style>

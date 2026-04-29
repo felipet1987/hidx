@@ -5,7 +5,7 @@ publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
-import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, Mermaid, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure } from '../../components/mdx';
+import { Callout, Steps, CodeDemo, CodeDiff, CodeTabs, Terminal, Mermaid, AffiliateLink, TipJar, Image, Video, YouTubeEmbed, Gallery, Figure, Quote, Aside, FullBleed, Spoiler, KeyboardKey, Highlight } from '../../components/mdx';
 
 ## Por qué existe este artículo
 
@@ -167,6 +167,51 @@ Si necesitas un proveedor de hosting, yo uso <AffiliateLink href="https://www.cl
 ## Una caja de propinas
 
 <TipJar provider="ko-fi" handle="felipet1987" />
+
+## Una pull-quote
+
+<Quote cite="Edsger Dijkstra" source="The Humble Programmer" sourceUrl="https://www.cs.utexas.edu/users/EWD/transcriptions/EWD03xx/EWD340.html">
+  Simplicity is prerequisite for reliability.
+</Quote>
+
+## Una nota al margen
+
+<Aside title="Tip de craft">
+  En desktop ≥1024px, este bloque flota a la derecha del párrafo. En mobile vuelve inline. Es una técnica clásica de revistas impresas.
+</Aside>
+
+Esto demuestra cómo la nota lateral convive con el párrafo principal sin romper el flow del lector.
+La nota aparece a la derecha porque la viewport es ancha; en celular se acomoda inline.
+
+## Atajos de teclado
+
+Para abrir tabs nuevas, usá <KeyboardKey combo="Cmd + T" />.
+Para mover entre archivos, <KeyboardKey combo="Ctrl + P" /> o <KeyboardKey combo="Cmd + Shift + O" />.
+También funciona la tecla individual: <KeyboardKey>Enter</KeyboardKey>.
+
+## Texto resaltado
+
+Esta línea contiene <Highlight variant="yellow">una palabra crítica</Highlight> destacada,
+y esta otra muestra <Highlight variant="cyan">un valor cyan</Highlight> distinto.
+
+## Spoiler colapsable
+
+<Spoiler summary="¿Por qué Astro 6 cambió el content layer?">
+  Para soportar loaders custom (DB, API, file system), Astro 6 movió el config a `src/content.config.ts`
+  y exige un `loader` por collection. La API anterior (`src/content/config.ts` con `glob`) sigue funcionando
+  vía adapter pero está marcada como legacy.
+</Spoiler>
+
+## Una imagen full-bleed
+
+<FullBleed>
+  <Image
+    src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1920&q=80"
+    alt="Paisaje montañoso al amanecer"
+    width={1920}
+    height={720}
+  />
+</FullBleed>
 
 ## Cierre
 

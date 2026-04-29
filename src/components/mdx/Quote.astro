@@ -1,0 +1,62 @@
+---
+interface Props {
+  cite?: string;
+  source?: string;
+  sourceUrl?: string;
+}
+
+const { cite, source, sourceUrl } = Astro.props;
+---
+<figure class="pull-quote not-prose">
+  <blockquote>
+    <slot />
+  </blockquote>
+  {(cite || source) && (
+    <figcaption>
+      {cite && <span class="cite">{cite}</span>}
+      {source && (
+        <span class="source">
+          {cite && ', '}
+          {sourceUrl ? <a href={sourceUrl} rel="noopener noreferrer">{source}</a> : source}
+        </span>
+      )}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .pull-quote {
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem;
+    border-left: 4px solid;
+    border-image: linear-gradient(to bottom, var(--color-accent), var(--color-accent-2)) 1;
+    background: color-mix(in oklch, var(--color-accent-soft) 35%, transparent);
+    border-radius: 0 8px 8px 0;
+  }
+  .pull-quote blockquote {
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--color-fg);
+    font-style: italic;
+  }
+  .pull-quote blockquote::before {
+    content: '“';
+    font-size: 2rem;
+    color: var(--color-accent);
+    margin-right: 0.25rem;
+    vertical-align: -0.25em;
+  }
+  .pull-quote figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-style: normal;
+  }
+  .pull-quote .cite {
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+</style>

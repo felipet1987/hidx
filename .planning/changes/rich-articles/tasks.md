@@ -38,14 +38,14 @@
 
 ## Phase 4: Layout + typography (S4d)
 
-- [ ] 4.1 `src/components/mdx/Quote.astro` — pull-quote with `<cite>` attribution, gradient border-left
-- [ ] 4.2 `src/components/mdx/Aside.astro` — margin note CSS grid: ≥1024px sticky right col / <1024px inline blockquote
-- [ ] 4.3 `src/components/mdx/FullBleed.astro` — `viewport-width` wrapper with `overflow-x: clip` parent guard
-- [ ] 4.4 `src/components/mdx/Spoiler.astro` — `<details>` + `<summary>` styled
-- [ ] 4.5 `src/components/mdx/Footnotes.astro` — render auto-collected refs from remark-gfm output (placement at end of post)
-- [ ] 4.6 `src/components/mdx/KeyboardKey.astro` — styled `<kbd>` (border + bg + mono + shadow)
-- [ ] 4.7 `src/components/mdx/Highlight.astro` — colored span variants (yellow/cyan/violet)
-- [ ] 4.8 `global.css` — drop cap rule `:where(.prose > p:first-of-type:lang(es), .prose > p:first-of-type:lang(en))::first-letter` + kbd + highlight + footnote markers
+- [x] 4.1 `Quote.astro` — pull-quote, gradient border-left, italic body, optional cite + source + sourceUrl
+- [x] 4.2 `Aside.astro` — float right ≥1024px (margin-right -10rem to break gutter) / inline blockquote-like <1024px
+- [x] 4.3 `FullBleed.astro` — `100vw` wrapper with `overflow-x: clip` parent guard in body
+- [x] 4.4 `Spoiler.astro` — `<details>` styled with rotating chevron, focus-visible outline
+- [x] 4.5 `Footnotes.astro` — manual override component + global styles cover remark-gfm auto-rendered `section[data-footnotes]`
+- [x] 4.6 `KeyboardKey.astro` — single `<kbd>` or combo (`Cmd + T` splits on `+`); border-bottom-width 2px shadow
+- [x] 4.7 `Highlight.astro` — 5 variants (yellow/cyan/violet/green/red) using `color-mix(oklch)`
+- [x] 4.8 `global.css` — drop cap on first `<p>` first-letter (gradient text via `background-clip`); body `overflow-x: clip` parent guard
 
 ## Phase 5: Embeds + Compare (S4e)
 

@@ -1,0 +1,46 @@
+---
+interface Props {
+  combo?: string;
+}
+
+const { combo } = Astro.props;
+const keys = combo ? combo.split('+').map((k) => k.trim()) : null;
+---
+{keys ? (
+  <span class="kbd-combo">
+    {keys.map((k, i) => (
+      <>
+        {i > 0 && <span class="kbd-plus" aria-hidden="true">+</span>}
+        <kbd>{k}</kbd>
+      </>
+    ))}
+  </span>
+) : (
+  <kbd><slot /></kbd>
+)}
+
+<style is:global>
+  kbd {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.78em;
+    line-height: 1.4;
+    color: var(--color-fg);
+    background: var(--color-bg-elev);
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 color-mix(in oklch, var(--color-border) 50%, transparent);
+    vertical-align: 0.1em;
+  }
+  .kbd-combo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .kbd-plus {
+    color: var(--color-muted);
+    font-size: 0.78em;
+  }
+</style>

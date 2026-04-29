@@ -1,0 +1,92 @@
+---
+/**
+ * Note: remark-gfm renders <section data-footnotes> automatically at end of MDX
+ * when source uses the `[^1]: ...` syntax. This component is a manual override
+ * for posts that prefer to control placement. If author uses gfm syntax, this
+ * component is unnecessary.
+ *
+ * Usage:
+ *   <Footnotes
+ *     items={[
+ *       { id: 1, body: 'First note', backref: 'fnref-1' },
+ *       { id: 2, body: 'Second note', backref: 'fnref-2' },
+ *     ]}
+ *   />
+ */
+interface Item {
+  id: number;
+  body: string;
+  backref?: string;
+}
+
+interface Props {
+  items: Item[];
+  title?: string;
+}
+
+const { items, title = 'Notas' } = Astro.props;
+---
+<section class="footnotes not-prose" aria-label="Footnotes">
+  <h2>{title}</h2>
+  <ol>
+    {items.map((it) => (
+      <li id={`fn-${it.id}`}>
+        <span set:html={it.body} />
+        {it.backref && <a href={`#${it.backref}`} class="fn-back" aria-label="Volver al texto">↩</a>}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style is:global>
+  /* Style both this component and remark-gfm's auto-rendered footnotes section */
+  .footnotes,
+  section[data-footnotes] {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .footnotes h2,
+  section[data-footnotes] h2 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+  .footnotes ol,
+  section[data-footnotes] ol {
+    margin: 0;
+    padding-left: 1.5rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .footnotes li,
+  section[data-footnotes] li {
+    line-height: 1.5;
+  }
+  .fn-back,
+  .data-footnote-backref {
+    margin-left: 0.4rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  .fn-back:hover,
+  .data-footnote-backref:hover {
+    text-decoration: underline;
+  }
+  /* Inline footnote refs (sup links) */
+  sup a[data-footnote-ref] {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0 0.15rem;
+  }
+  sup a[data-footnote-ref]:hover {
+    text-decoration: underline;
+  }
+</style>
