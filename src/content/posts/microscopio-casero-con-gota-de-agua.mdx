@@ -31,6 +31,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Quote, Highlight,
+  MultipleChoiceQuiz, OrderList, MatchPairs,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -94,6 +95,40 @@ Las células que viste pueden ser:
 - Identificá si lo que viste es procarionte o eucarionte. (Pista: si tiene un punto oscuro central = núcleo = eucarionte)
 - Probá con muestras de **mejilla** (raspá suave con palillo, transferí a la gota). Vas a ver TUS PROPIAS células epiteliales.
 - Mirá hojas de Elodea (planta acuática común en peceras). Vas a ver cloroplastos VERDES moviéndose adentro de la célula — fotosíntesis en vivo.
+
+## 🎮 Ejercicios para jugar acá
+
+<MultipleChoiceQuiz
+  question="¿Qué hace que la gota de agua funcione como microscopio?"
+  choices={[
+    { text: 'El agua amplifica los colores', explain: 'No, no es por color.' },
+    { text: 'Su forma curva actúa como lente convexa que magnifica', correct: true, explain: 'La curvatura de la gota hace de lente convexa, igual que una lupa.' },
+    { text: 'El agua tiene propiedades mágicas', explain: 'No: pura física óptica.' },
+    { text: 'Por la luz que refleja', explain: 'No es reflexión, es refracción a través de la gota.' },
+  ]}
+  hint="¿Qué tipo de lente magnifica? ¿Cómo es la forma de una gota?"
+/>
+
+<OrderList
+  prompt="Ordená cronológicamente los descubrimientos sobre células:"
+  items={[
+    { id: 'h1', text: 'Hooke ve "celdillas" en el corcho (1665)', pos: 0 },
+    { id: 'h2', text: 'Leeuwenhoek descubre microorganismos (1676)', pos: 1 },
+    { id: 'h3', text: 'Schleiden propone que las plantas están hechas de células (1838)', pos: 2 },
+    { id: 'h4', text: 'Schwann extiende a animales (1839)', pos: 3 },
+    { id: 'h5', text: 'Virchow: "toda célula nace de otra célula" (1855)', pos: 4 },
+  ]}
+/>
+
+<MatchPairs
+  prompt="¿Qué tipo de célula es cada una?"
+  pairs={[
+    { left: 'Bacteria E. coli', right: 'Procarionte (sin núcleo definido)' },
+    { left: 'Célula de cebolla', right: 'Eucarionte vegetal (con núcleo + pared celular)' },
+    { left: 'Paramecio', right: 'Eucarionte protista (con organelos)' },
+    { left: 'Célula epitelial humana', right: 'Eucarionte animal (sin pared celular)' },
+  ]}
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubiertos**:

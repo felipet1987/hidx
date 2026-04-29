@@ -1,0 +1,108 @@
+---
+interface Pair {
+  left: string;
+  right: string;
+}
+
+interface Props {
+  prompt: string;
+  pairs: Pair[];
+}
+
+const { prompt, pairs } = Astro.props;
+const id = `mp-${Math.random().toString(36).slice(2, 9)}`;
+const shuffledRight = [...pairs.map((p, i) => ({ text: p.right, pairIdx: i }))].sort(() => Math.random() - 0.5);
+---
+<div class="mp not-prose" data-mp={id}>
+  <p class="mp-prompt"><span aria-hidden="true">🔗</span> {prompt}</p>
+  <div class="mp-grid">
+    <div class="mp-col">
+      {pairs.map((p, i) => (
+        <button type="button" class="mp-card mp-left" data-mp-left={i}>
+          {p.left}
+        </button>
+      ))}
+    </div>
+    <div class="mp-col">
+      {shuffledRight.map((r) => (
+        <button type="button" class="mp-card mp-right" data-mp-right={r.pairIdx}>
+          {r.text}
+        </button>
+      ))}
+    </div>
+  </div>
+  <p class="mp-feedback" data-mp-feedback>Click un item de la izquierda y después su par a la derecha.</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-mp]').forEach((root) => {
+    const lefts = root.querySelectorAll<HTMLButtonElement>('[data-mp-left]');
+    const rights = root.querySelectorAll<HTMLButtonElement>('[data-mp-right]');
+    const feedback = root.querySelector<HTMLElement>('[data-mp-feedback]');
+
+    let selectedLeft: HTMLButtonElement | null = null;
+    let matched = 0;
+    const total = lefts.length;
+
+    const colors = ['oklch(0.7 0.18 145)', 'oklch(0.65 0.18 240)', 'oklch(0.7 0.18 50)', 'oklch(0.7 0.18 350)', 'oklch(0.65 0.18 295)', 'oklch(0.85 0.16 95)'];
+
+    lefts.forEach((btn) => btn.addEventListener('click', () => {
+      if (btn.classList.contains('matched')) return;
+      lefts.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedLeft = btn;
+    }));
+
+    rights.forEach((btn) => btn.addEventListener('click', () => {
+      if (!selectedLeft || btn.classList.contains('matched')) return;
+      const expected = selectedLeft.dataset.mpLeft;
+      const actual = btn.dataset.mpRight;
+      if (expected === actual) {
+        const color = colors[matched % colors.length];
+        selectedLeft.style.borderColor = color;
+        selectedLeft.style.background = `color-mix(in oklch, ${color} 15%, var(--color-bg))`;
+        btn.style.borderColor = color;
+        btn.style.background = `color-mix(in oklch, ${color} 15%, var(--color-bg))`;
+        selectedLeft.classList.add('matched');
+        btn.classList.add('matched');
+        selectedLeft.classList.remove('selected');
+        selectedLeft = null;
+        matched++;
+        if (feedback) feedback.textContent = `${matched}/${total} pares ${matched === total ? '— ¡Completaste todos! 🎉' : ''}`;
+      } else {
+        btn.classList.add('shake');
+        setTimeout(() => btn.classList.remove('shake'), 400);
+      }
+    }));
+  });
+</script>
+
+<style>
+  .mp {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-t);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-t-soft) 25%, var(--color-bg));
+  }
+  .mp-prompt { margin: 0 0 0.85rem; font-weight: 700; font-size: var(--text-lg); }
+  .mp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .mp-col { display: flex; flex-direction: column; gap: 0.4rem; }
+  .mp-card {
+    padding: 0.7rem 0.85rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .mp-card:hover:not(.matched) { transform: translateX(2px); border-color: var(--color-t); }
+  .mp-card.selected { border-color: var(--color-t); box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-t) 25%, transparent); }
+  .mp-card.matched { cursor: default; opacity: 0.85; }
+  .mp-card.shake { animation: shake 0.4s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+  .mp-feedback { margin: 0.85rem 0 0; color: var(--color-muted); font-weight: 600; font-size: 0.95rem; }
+</style>

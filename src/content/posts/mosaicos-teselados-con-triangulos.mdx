@@ -29,6 +29,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+  MultipleChoiceQuiz, NumericInput, DragDrop,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -96,6 +97,42 @@ Para que polígonos regulares cubran el plano sin huecos, los ángulos en cada v
 - Probá con un **triángulo isósceles** (2 lados iguales). ¿Tesela? ¿Cuántas configuraciones distintas encontrás?
 - Combiná **cuadrados + triángulos** equiláteros. Cuántos de cada uno necesitás en cada vértice para que sumen 360°? (Pista: 3 triángulos + 2 cuadrados = 60+60+60+90+90 = 360)
 - Diseñá un mosaico para tu cuarto: dibujá en papel cuadriculado un patrón teselado original.
+
+## 🎮 Ejercicios para jugar acá
+
+<MultipleChoiceQuiz
+  question="¿Cuál de estos polígonos regulares NO tesela el plano por sí solo?"
+  choices={[
+    { text: 'Triángulo equilátero', explain: '60° × 6 = 360° ✓ Sí tesela.' },
+    { text: 'Cuadrado', explain: '90° × 4 = 360° ✓ Sí tesela.' },
+    { text: 'Pentágono regular', correct: true, explain: '108° × 3 = 324° ≠ 360°. NO tesela solo.' },
+    { text: 'Hexágono', explain: '120° × 3 = 360° ✓ Sí tesela.' },
+  ]}
+  hint="Para teselar, los ángulos en cada vértice tienen que sumar exactamente 360°."
+/>
+
+<NumericInput
+  question="¿Cuántos hexágonos regulares se necesitan en cada vértice para sumar 360°?"
+  answer={3}
+  hint="Cada hexágono regular tiene ángulo interno de 120°. 360 / 120 = ?"
+  explain="3 hexágonos × 120° = 360°. Por eso los panales de abeja son hexagonales."
+/>
+
+<DragDrop
+  prompt="¿Tesela o no tesela el plano por sí solo? Arrastrá cada figura."
+  items={[
+    { id: 't1', text: 'Triángulo equilátero', bin: 'tesela' },
+    { id: 't2', text: 'Cuadrado', bin: 'tesela' },
+    { id: 't3', text: 'Pentágono regular', bin: 'no-tesela' },
+    { id: 't4', text: 'Hexágono regular', bin: 'tesela' },
+    { id: 't5', text: 'Heptágono regular', bin: 'no-tesela' },
+    { id: 't6', text: 'Octágono regular', bin: 'no-tesela' },
+  ]}
+  bins={[
+    { id: 'tesela', label: '✅ Tesela' },
+    { id: 'no-tesela', label: '❌ No tesela solo' },
+  ]}
+/>
 
 <ParentTip>
 **OAs del currículum nacional chileno cubiertos**:

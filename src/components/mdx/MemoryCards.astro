@@ -1,0 +1,123 @@
+---
+interface Pair {
+  a: string;
+  b: string;
+}
+
+interface Props {
+  prompt: string;
+  pairs: Pair[];
+}
+
+const { prompt, pairs } = Astro.props;
+const id = `mc-${Math.random().toString(36).slice(2, 9)}`;
+const cards = pairs.flatMap((p, i) => [
+  { text: p.a, pairId: i },
+  { text: p.b, pairId: i },
+]).sort(() => Math.random() - 0.5);
+---
+<div class="mc not-prose" data-mc={id}>
+  <p class="mc-prompt"><span aria-hidden="true">🃏</span> {prompt}</p>
+  <div class="mc-grid">
+    {cards.map((c, i) => (
+      <button type="button" class="mc-card" data-mc-card={i} data-pair-id={c.pairId}>
+        <span class="mc-back">?</span>
+        <span class="mc-front">{c.text}</span>
+      </button>
+    ))}
+  </div>
+  <p class="mc-status" data-mc-status>Movimientos: 0 · Pares: 0/{pairs.length}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-mc]').forEach((root) => {
+    const cards = root.querySelectorAll<HTMLButtonElement>('[data-mc-card]');
+    const status = root.querySelector<HTMLElement>('[data-mc-status]');
+    const totalPairs = cards.length / 2;
+    let flipped: HTMLButtonElement[] = [];
+    let moves = 0;
+    let matched = 0;
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        if (card.classList.contains('matched') || card.classList.contains('flipped') || flipped.length === 2) return;
+        card.classList.add('flipped');
+        flipped.push(card);
+        if (flipped.length === 2) {
+          moves++;
+          const [a, b] = flipped;
+          if (a.dataset.pairId === b.dataset.pairId) {
+            a.classList.add('matched');
+            b.classList.add('matched');
+            matched++;
+            flipped = [];
+          } else {
+            setTimeout(() => {
+              a.classList.remove('flipped');
+              b.classList.remove('flipped');
+              flipped = [];
+              if (status) status.textContent = `Movimientos: ${moves} · Pares: ${matched}/${totalPairs}`;
+            }, 900);
+          }
+          if (status) status.textContent = `Movimientos: ${moves} · Pares: ${matched}/${totalPairs}${matched === totalPairs ? ' — 🎉' : ''}`;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .mc {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-m);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-m-soft) 25%, var(--color-bg));
+  }
+  .mc-prompt { margin: 0 0 0.85rem; font-weight: 700; font-size: var(--text-lg); }
+  .mc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.5rem;
+  }
+  .mc-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    perspective: 800px;
+    font: inherit;
+  }
+  .mc-back, .mc-front {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    padding: 0.5rem;
+    text-align: center;
+    transition: transform 0.4s ease;
+    font-weight: 600;
+  }
+  .mc-back {
+    background: linear-gradient(135deg, var(--color-m), var(--color-accent-2));
+    color: white;
+    font-size: 2.5rem;
+  }
+  .mc-front {
+    background: var(--color-bg);
+    border: 2px solid var(--color-m);
+    color: var(--color-fg);
+    transform: rotateY(180deg);
+    font-size: 0.85rem;
+  }
+  .mc-card.flipped .mc-back { transform: rotateY(180deg); }
+  .mc-card.flipped .mc-front { transform: rotateY(0deg); }
+  .mc-card.matched .mc-front {
+    border-color: oklch(0.55 0.18 145);
+    background: color-mix(in oklch, oklch(0.55 0.18 145) 12%, var(--color-bg));
+  }
+  .mc-status { margin: 0.85rem 0 0; color: var(--color-muted); font-weight: 600; font-family: var(--font-mono); font-size: 0.9rem; }
+</style>

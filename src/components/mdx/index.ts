@@ -28,11 +28,15 @@ export { default as YouTubeEmbed } from './YouTubeEmbed.astro';
 export { default as AgeBadge } from './AgeBadge.astro';
 export { default as DifficultyStars } from './DifficultyStars.astro';
 export { default as DurationBadge } from './DurationBadge.astro';
+export { default as DragDrop } from './DragDrop.astro';
 export { default as ExperimentSteps } from './ExperimentSteps.astro';
+export { default as MatchPairs } from './MatchPairs.astro';
 export { default as MaterialsList } from './MaterialsList.astro';
+export { default as MemoryCards } from './MemoryCards.astro';
 export { default as MercadoLibreProduct } from './MercadoLibreProduct.astro';
 export { default as MultipleChoiceQuiz } from './MultipleChoiceQuiz.astro';
 export { default as NumericInput } from './NumericInput.astro';
+export { default as OrderList } from './OrderList.astro';
 export { default as ParentTip } from './ParentTip.astro';
 export { default as PrintablePDFButton } from './PrintablePDFButton.astro';
 export { default as SafetyNote } from './SafetyNote.astro';
@@ -67,12 +71,16 @@ export const MDX_COMPONENT_WHITELIST = [
   // STEAM new
   'AgeBadge',
   'DifficultyStars',
+  'DragDrop',
   'DurationBadge',
   'ExperimentSteps',
+  'MatchPairs',
   'MaterialsList',
+  'MemoryCards',
   'MercadoLibreProduct',
   'MultipleChoiceQuiz',
   'NumericInput',
+  'OrderList',
   'ParentTip',
   'PrintablePDFButton',
   'SafetyNote',

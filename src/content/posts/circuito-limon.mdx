@@ -29,6 +29,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout,
+  MultipleChoiceQuiz, MatchPairs, MemoryCards,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -78,6 +79,40 @@ Las pilas comunes que usás en juguetes funcionan **exactamente igual** — solo
 - Probá con **papas** o **vinagre** en vez de limones — ¿qué da más voltaje?
 - Conectá un **multímetro** (si tenés en casa) entre los dos extremos para medir cuántos volts genera tu pila de limón.
 - Armá un **circuito en paralelo** con 4 limones para más corriente.
+
+## 🎮 Ejercicios para jugar acá
+
+<MultipleChoiceQuiz
+  question="¿Por qué el limón funciona como pila?"
+  choices={[
+    { text: 'Por el azúcar que tiene', explain: 'No, el azúcar no conduce corriente.' },
+    { text: 'Porque su jugo es ácido (electrolito) y permite el flujo de electrones entre dos metales', correct: true, explain: 'Exacto. El ácido cítrico es electrolito, cobre y zinc son metales con distinto potencial.' },
+    { text: 'Porque tiene electricidad adentro', explain: 'No, los limones no tienen electricidad guardada.' },
+    { text: 'Por la cáscara amarilla', explain: 'El color no afecta. Lo que importa es la química.' },
+  ]}
+  hint="Pensá en los 3 ingredientes: 2 metales + algo que conduzca."
+/>
+
+<MatchPairs
+  prompt="Hacé match entre cada concepto y su definición:"
+  pairs={[
+    { left: 'Electrolito', right: 'Líquido que conduce corriente (ej: jugo de limón)' },
+    { left: 'Cátodo', right: 'Electrodo donde llegan los electrones (cobre)' },
+    { left: 'Ánodo', right: 'Electrodo que cede electrones (clavo galvanizado)' },
+    { left: 'Voltaje', right: 'Diferencia de potencial entre los dos electrodos' },
+  ]}
+/>
+
+<MemoryCards
+  prompt="Encontrá los pares químicos. ¡Cuántos movimientos necesitás?"
+  pairs={[
+    { a: 'Cobre', b: 'Cu' },
+    { a: 'Zinc', b: 'Zn' },
+    { a: 'Hidrógeno', b: 'H' },
+    { a: 'Oxígeno', b: 'O' },
+    { a: 'Carbono', b: 'C' },
+  ]}
+/>
 
 <ParentTip>
 **Conceptos clave que tu hijo/a explora**:

@@ -25,6 +25,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, MercadoLibreProduct, Callout,
+  MultipleChoiceQuiz, OrderList, DragDrop,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -71,6 +72,45 @@ Probá poner la tapita más cerca o más lejos del pivote y medí cuánto vuela 
 
 Una catapulta más grande (con palitos largos) puede mandar bolitas de papel a 5+ metros.
 Si conseguís unos motores chicos en <MercadoLibreProduct href="https://articulo.mercadolibre.com.ar/MLA-motor" region="AR">Mercado Libre</MercadoLibreProduct>, podés hacer una catapulta automática en otra lección.
+
+## 🎮 Ejercicios para jugar acá
+
+<MultipleChoiceQuiz
+  question="¿Qué tipo de palanca es la catapulta?"
+  choices={[
+    { text: 'Palanca de primera clase', explain: 'Esa tiene el pivote entre fuerza y resistencia (subibaja).' },
+    { text: 'Palanca de segunda clase', explain: 'Carretilla. No es esta.' },
+    { text: 'Palanca de tercera clase', correct: true, explain: 'Sí: pivote en un extremo, fuerza en el medio, resistencia en el otro.' },
+    { text: 'No es una palanca', explain: 'Sí lo es — palanca de tercera clase.' },
+  ]}
+  hint="¿Dónde está el pivote? ¿Dónde aplicás fuerza? ¿Dónde está el proyectil?"
+/>
+
+<OrderList
+  prompt="Ordená los pasos para construir la catapulta:"
+  items={[
+    { id: 's1', text: 'Apilar 5 palitos y atar los extremos con gomitas', pos: 0 },
+    { id: 's2', text: 'Hacer el brazo con 2 palitos atados en una punta', pos: 1 },
+    { id: 's3', text: 'Insertar la base entre los 2 palitos del brazo', pos: 2 },
+    { id: 's4', text: 'Pegar la tapita de gaseosa al brazo', pos: 3 },
+    { id: 's5', text: '¡Lanzar bolitas de papel!', pos: 4 },
+  ]}
+/>
+
+<DragDrop
+  prompt="Arrastrá cada material al concepto físico que representa:"
+  items={[
+    { id: 'i1', text: 'Gomitas estiradas', bin: 'energia' },
+    { id: 'i2', text: 'Palitos rígidos', bin: 'estructura' },
+    { id: 'i3', text: 'Tapita con bolita', bin: 'proyectil' },
+    { id: 'i4', text: 'Gomas atadas (pivote)', bin: 'estructura' },
+  ]}
+  bins={[
+    { id: 'energia', label: '⚡ Energía elástica' },
+    { id: 'estructura', label: '🏗️ Estructura' },
+    { id: 'proyectil', label: '🎯 Proyectil' },
+  ]}
+/>
 
 <ParentTip>
 **Conexión curricular**:

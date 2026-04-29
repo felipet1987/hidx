@@ -1,0 +1,164 @@
+---
+interface Item {
+  id: string;
+  text: string;
+  bin: string;
+}
+
+interface Bin {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  prompt: string;
+  items: Item[];
+  bins: Bin[];
+}
+
+const { prompt, items, bins } = Astro.props;
+const id = `dd-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class="dd not-prose" data-dd={id}>
+  <p class="dd-prompt"><span aria-hidden="true">🎯</span> {prompt}</p>
+  <div class="dd-pool" data-dd-pool>
+    {items.map((it) => (
+      <button type="button" class="dd-item" draggable="true" data-dd-item={it.id} data-dd-bin={it.bin}>
+        {it.text}
+      </button>
+    ))}
+  </div>
+  <div class="dd-bins">
+    {bins.map((b) => (
+      <div class="dd-bin" data-dd-bin-id={b.id}>
+        <p class="dd-bin-label">{b.label}</p>
+        <div class="dd-bin-drop" data-dd-drop></div>
+      </div>
+    ))}
+  </div>
+  <div class="dd-actions">
+    <button type="button" class="dd-check" data-dd-check>Verificar</button>
+    <button type="button" class="dd-reset" data-dd-reset>Reiniciar</button>
+    <p class="dd-feedback" data-dd-feedback hidden></p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-dd]').forEach((root) => {
+    const pool = root.querySelector<HTMLElement>('[data-dd-pool]');
+    const drops = root.querySelectorAll<HTMLElement>('[data-dd-drop]');
+    const items = root.querySelectorAll<HTMLButtonElement>('[data-dd-item]');
+    const feedback = root.querySelector<HTMLElement>('[data-dd-feedback]');
+    const check = root.querySelector<HTMLButtonElement>('[data-dd-check]');
+    const reset = root.querySelector<HTMLButtonElement>('[data-dd-reset]');
+
+    let dragging: HTMLElement | null = null;
+
+    items.forEach((item) => {
+      item.addEventListener('dragstart', () => { dragging = item; item.classList.add('dragging'); });
+      item.addEventListener('dragend', () => { item.classList.remove('dragging'); dragging = null; });
+      // Click-tap fallback for mobile: cycle through bins
+      item.addEventListener('click', () => {
+        const bins = Array.from(drops);
+        const current = item.parentElement;
+        const currentIdx = bins.indexOf(current as HTMLElement);
+        const nextBin = bins[(currentIdx + 1) % (bins.length + 1)];
+        if (nextBin && nextBin !== current) nextBin.appendChild(item);
+        else pool?.appendChild(item);
+      });
+    });
+
+    drops.forEach((drop) => {
+      drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('drop-over'); });
+      drop.addEventListener('dragleave', () => drop.classList.remove('drop-over'));
+      drop.addEventListener('drop', (e) => {
+        e.preventDefault();
+        drop.classList.remove('drop-over');
+        if (dragging) drop.appendChild(dragging);
+      });
+    });
+
+    pool?.addEventListener('dragover', (e) => { e.preventDefault(); });
+    pool?.addEventListener('drop', (e) => { e.preventDefault(); if (dragging) pool.appendChild(dragging); });
+
+    check?.addEventListener('click', () => {
+      let correct = 0;
+      let total = 0;
+      items.forEach((item) => {
+        total++;
+        const expected = item.dataset.ddBin;
+        const parent = item.parentElement;
+        const actualBin = parent?.parentElement?.dataset.ddBinId;
+        const ok = expected === actualBin;
+        item.classList.toggle('correct', ok && actualBin !== undefined);
+        item.classList.toggle('incorrect', !ok && actualBin !== undefined);
+        if (ok) correct++;
+      });
+      if (feedback) {
+        feedback.hidden = false;
+        feedback.className = `dd-feedback ${correct === total ? 'fb-correct' : 'fb-incorrect'}`;
+        feedback.textContent = correct === total
+          ? `✓ ¡Perfecto! ${correct}/${total}`
+          : `${correct}/${total} correctos. ${total - correct} están en el lugar equivocado.`;
+      }
+    });
+
+    reset?.addEventListener('click', () => {
+      items.forEach((item) => {
+        item.classList.remove('correct', 'incorrect');
+        pool?.appendChild(item);
+      });
+      if (feedback) feedback.hidden = true;
+    });
+  });
+</script>
+
+<style>
+  .dd {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-e);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-e-soft) 25%, var(--color-bg));
+  }
+  .dd-prompt { margin: 0 0 0.85rem; font-weight: 700; font-size: var(--text-lg); }
+  .dd-pool {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    padding: 0.85rem;
+    min-height: 3rem;
+    background: var(--color-bg);
+    border: 2px dashed var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 0.85rem;
+  }
+  .dd-item {
+    padding: 0.5rem 0.85rem;
+    border: 1.5px solid var(--color-e);
+    border-radius: 6px;
+    background: var(--color-bg-elev);
+    color: var(--color-fg);
+    font: inherit;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.1s ease;
+  }
+  .dd-item:active { cursor: grabbing; }
+  .dd-item.dragging { opacity: 0.4; }
+  .dd-item.correct { border-color: oklch(0.55 0.18 145); background: color-mix(in oklch, oklch(0.55 0.18 145) 12%, var(--color-bg)); }
+  .dd-item.incorrect { border-color: oklch(0.6 0.18 25); background: color-mix(in oklch, oklch(0.6 0.18 25) 12%, var(--color-bg)); }
+  .dd-bins { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; }
+  .dd-bin { background: var(--color-bg-elev); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.6rem; }
+  .dd-bin-label { margin: 0 0 0.5rem; font-weight: 700; color: var(--color-e); font-size: 0.9rem; text-align: center; }
+  .dd-bin-drop {
+    min-height: 4rem; padding: 0.5rem;
+    border: 2px dashed var(--color-border); border-radius: 6px;
+    display: flex; flex-wrap: wrap; gap: 0.4rem; align-content: flex-start;
+  }
+  .dd-bin-drop.drop-over { border-color: var(--color-e); background: color-mix(in oklch, var(--color-e-soft) 30%, transparent); }
+  .dd-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.85rem; flex-wrap: wrap; }
+  .dd-check { padding: 0.55rem 1rem; background: var(--color-e); color: white; border: 0; border-radius: 6px; font: inherit; font-weight: 700; cursor: pointer; }
+  .dd-reset { padding: 0.55rem 1rem; background: transparent; color: var(--color-muted); border: 1px solid var(--color-border); border-radius: 6px; font: inherit; cursor: pointer; }
+  .dd-feedback { margin: 0; padding: 0.5rem 0.85rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; }
+  .fb-correct { background: color-mix(in oklch, oklch(0.55 0.18 145) 18%, var(--color-bg)); color: oklch(0.45 0.18 145); }
+  .fb-incorrect { background: color-mix(in oklch, oklch(0.6 0.18 25) 18%, var(--color-bg)); color: oklch(0.5 0.18 25); }
+</style>

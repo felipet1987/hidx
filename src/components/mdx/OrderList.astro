@@ -1,0 +1,119 @@
+---
+interface Item {
+  id: string;
+  text: string;
+  /** Position in correct order (0-indexed). */
+  pos: number;
+}
+
+interface Props {
+  prompt: string;
+  items: Item[];
+}
+
+const { prompt, items } = Astro.props;
+const id = `ol-${Math.random().toString(36).slice(2, 9)}`;
+// Shuffle for initial display
+const shuffled = [...items].sort(() => Math.random() - 0.5);
+---
+<div class="ol not-prose" data-ol={id}>
+  <p class="ol-prompt"><span aria-hidden="true">📋</span> {prompt}</p>
+  <ol class="ol-list" data-ol-list>
+    {shuffled.map((it) => (
+      <li class="ol-item" data-ol-item data-pos={it.pos}>
+        <span class="ol-text">{it.text}</span>
+        <span class="ol-actions">
+          <button type="button" class="ol-up" data-ol-up aria-label="Subir">↑</button>
+          <button type="button" class="ol-down" data-ol-down aria-label="Bajar">↓</button>
+        </span>
+      </li>
+    ))}
+  </ol>
+  <div class="ol-actions-bar">
+    <button type="button" class="ol-check" data-ol-check>Verificar orden</button>
+    <p class="ol-feedback" data-ol-feedback hidden></p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ol]').forEach((root) => {
+    const list = root.querySelector<HTMLElement>('[data-ol-list]');
+    const feedback = root.querySelector<HTMLElement>('[data-ol-feedback]');
+    const check = root.querySelector<HTMLButtonElement>('[data-ol-check]');
+
+    list?.querySelectorAll<HTMLElement>('[data-ol-item]').forEach((item) => {
+      item.querySelector<HTMLButtonElement>('[data-ol-up]')?.addEventListener('click', () => {
+        const prev = item.previousElementSibling;
+        if (prev) list.insertBefore(item, prev);
+      });
+      item.querySelector<HTMLButtonElement>('[data-ol-down]')?.addEventListener('click', () => {
+        const next = item.nextElementSibling;
+        if (next) list.insertBefore(next, item);
+      });
+    });
+
+    check?.addEventListener('click', () => {
+      const items = list?.querySelectorAll<HTMLElement>('[data-ol-item]');
+      let correct = 0;
+      items?.forEach((it, idx) => {
+        const expected = Number(it.dataset.pos);
+        const ok = expected === idx;
+        it.classList.toggle('correct', ok);
+        it.classList.toggle('incorrect', !ok);
+        if (ok) correct++;
+      });
+      const total = items?.length ?? 0;
+      if (feedback) {
+        feedback.hidden = false;
+        feedback.className = `ol-feedback ${correct === total ? 'fb-correct' : 'fb-incorrect'}`;
+        feedback.textContent = correct === total
+          ? `✓ ¡Perfecto orden!`
+          : `${correct}/${total} en su lugar. Reorganizá los rojos.`;
+      }
+    });
+  });
+</script>
+
+<style>
+  .ol {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-a);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-a-soft) 25%, var(--color-bg));
+  }
+  .ol-prompt { margin: 0 0 0.85rem; font-weight: 700; font-size: var(--text-lg); }
+  .ol-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; counter-reset: order; }
+  .ol-item {
+    counter-increment: order;
+    display: flex; align-items: center; gap: 0.85rem;
+    padding: 0.6rem 0.85rem;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: 8px;
+  }
+  .ol-item::before {
+    content: counter(order);
+    width: 1.85rem; height: 1.85rem;
+    border-radius: 9999px;
+    background: var(--color-a-soft); color: var(--color-a);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-family: var(--font-mono); flex-shrink: 0;
+  }
+  .ol-text { flex: 1; }
+  .ol-actions { display: flex; gap: 0.25rem; }
+  .ol-up, .ol-down {
+    width: 2rem; height: 2rem;
+    border: 1px solid var(--color-border); border-radius: 6px;
+    background: var(--color-bg-elev); color: var(--color-fg);
+    cursor: pointer; font: inherit; font-size: 1rem;
+  }
+  .ol-up:hover, .ol-down:hover { border-color: var(--color-a); color: var(--color-a); }
+  .ol-item.correct { border-color: oklch(0.55 0.18 145); background: color-mix(in oklch, oklch(0.55 0.18 145) 12%, var(--color-bg)); }
+  .ol-item.incorrect { border-color: oklch(0.6 0.18 25); background: color-mix(in oklch, oklch(0.6 0.18 25) 12%, var(--color-bg)); }
+  .ol-actions-bar { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.85rem; flex-wrap: wrap; }
+  .ol-check { padding: 0.55rem 1rem; background: var(--color-a); color: white; border: 0; border-radius: 6px; font: inherit; font-weight: 700; cursor: pointer; }
+  .ol-feedback { margin: 0; padding: 0.5rem 0.85rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; }
+  .fb-correct { background: color-mix(in oklch, oklch(0.55 0.18 145) 18%, var(--color-bg)); color: oklch(0.45 0.18 145); }
+  .fb-incorrect { background: color-mix(in oklch, oklch(0.6 0.18 25) 18%, var(--color-bg)); color: oklch(0.5 0.18 25); }
+</style>
