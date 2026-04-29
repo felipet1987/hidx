@@ -1,0 +1,41 @@
+---
+interface Props {
+  href: string;
+  filename?: string;
+  label?: string;
+}
+
+const { href, filename, label = 'Descargar PDF' } = Astro.props;
+---
+<a
+  class="pdf-button not-prose"
+  href={href}
+  download={filename}
+  rel="noopener"
+>
+  <span class="pdf-icon" aria-hidden="true">📄</span>
+  <span>{label}</span>
+</a>
+
+<style>
+  .pdf-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin: 1rem 0;
+    background: var(--color-bg-elev);
+    color: var(--color-fg);
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pdf-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px color-mix(in oklch, var(--color-accent) 30%, transparent);
+    color: var(--color-fg);
+  }
+  .pdf-icon { font-size: 1.2rem; }
+</style>

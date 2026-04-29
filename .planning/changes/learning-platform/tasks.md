@@ -34,17 +34,17 @@
 
 ## Phase 3: Components (D6-D7)
 
-- [ ] 3.1 Create `src/components/mdx/MaterialsList.astro` — checklist visual qty + opcional + sourceUrl
-- [ ] 3.2 Create `src/components/mdx/SafetyNote.astro` — callout per type icono (cortante/calor/químico/electrico/supervisión)
-- [ ] 3.3 Create `src/components/mdx/AgeBadge.astro` — pill 8-12 / 13-17 / 18+ colored
-- [ ] 3.4 Create `src/components/mdx/STEAMBadge.astro` — 5 iconos cuadrados S/T/E/A/M
-- [ ] 3.5 Create `src/components/mdx/DifficultyStars.astro` — 1-5 estrellas
-- [ ] 3.6 Create `src/components/mdx/DurationBadge.astro` — clock + minutes
-- [ ] 3.7 Create `src/components/mdx/ParentTip.astro` — collapsible callout audiencia padres
-- [ ] 3.8 Create `src/components/mdx/ExperimentSteps.astro` — Steps con foto/video por paso
-- [ ] 3.9 Create `src/components/mdx/PrintablePDFButton.astro` — button descarga PDF
-- [ ] 3.10 Create `src/components/mdx/MercadoLibreProduct.astro` — affiliate link + disclosure
-- [ ] 3.11 Modify `src/components/mdx/index.ts` → +10 exports + WHITELIST extended; mover dev components (CodeTabs/CodeDiff/Terminal/Mermaid/RepoCard/TweetStatic/AffiliateLink/CodeDemo) a array `_DEPRECATED` separate (no remove archivos)
+- [x] 3.1 `MaterialsList.astro` — checklist visual con checkbox interactivo, qty, opcional tag, sourceUrl con [afil] badge, border accent naranja (E)
+- [x] 3.2 `SafetyNote.astro` — 5 types (cortante/calor/quimico/electrico/supervision), emoji + color per type, accessible role="note"
+- [x] 3.3 `AgeBadge.astro` — pill colorada con palette por rango (kids verde / teens azul / adults púrpura)
+- [x] 3.4 `STEAMBadge.astro` — emoji + letra mono per category, 5 colores (S verde/T azul/E naranja/A rosa/M púrpura), tooltip aria
+- [x] 3.5 `DifficultyStars.astro` — 1-5 estrellas amarillas + label español (Muy fácil → Experto)
+- [x] 3.6 `DurationBadge.astro` — clock emoji + min/h auto-format (45 min / 1h 30m)
+- [x] 3.7 `ParentTip.astro` — `<details>` collapsible púrpura accent, emoji familia, animated chevron
+- [x] 3.8 `ExperimentSteps.astro` — numbered ordered list con avatar gradient + foto opcional + video link opcional
+- [x] 3.9 `PrintablePDFButton.astro` — botón descarga con hover lift + shadow accent
+- [x] 3.10 `MercadoLibreProduct.astro` — affiliate link naranja + region badge + [afil] disclosure auto
+- [x] 3.11 `index.ts` reescrito — 25 active exports + WHITELIST + 9 deprecated array (CodeTabs/CodeDiff/Terminal/Mermaid/RepoCard/TweetStatic/AffiliateLink/CodeDemo/Compare) — files preserved on disk
 
 ## Phase 4: Routes (D8)
 

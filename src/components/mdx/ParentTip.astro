@@ -1,0 +1,53 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'Tip para padres y maestros' } = Astro.props;
+---
+<details class="parent-tip not-prose">
+  <summary>
+    <span class="tip-icon" aria-hidden="true">👨‍👩‍👧</span>
+    <span class="tip-title">{title}</span>
+  </summary>
+  <div class="tip-body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .parent-tip {
+    margin: 1.25rem 0;
+    border: 2px solid var(--color-m);
+    border-radius: 10px;
+    background: color-mix(in oklch, var(--color-m-soft) 35%, var(--color-bg));
+    overflow: hidden;
+  }
+  .parent-tip > summary {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-m);
+    font-weight: 800;
+  }
+  .parent-tip > summary::-webkit-details-marker { display: none; }
+  .parent-tip > summary::after {
+    content: '▼';
+    margin-left: auto;
+    font-size: 0.75rem;
+    transition: transform 0.18s ease;
+  }
+  .parent-tip[open] > summary::after { transform: rotate(180deg); }
+  .tip-icon { font-size: 1.2rem; }
+  .tip-body {
+    padding: 0 1rem 1rem;
+    color: var(--color-fg);
+    line-height: 1.55;
+  }
+  .tip-body :global(p) { margin: 0.5rem 0; }
+  .tip-body :global(p:first-child) { margin-top: 0; }
+  .tip-body :global(p:last-child) { margin-bottom: 0; }
+</style>

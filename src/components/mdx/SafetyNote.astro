@@ -1,0 +1,60 @@
+---
+import type { SafetyNoteType } from '../../content/schemas';
+
+interface Props {
+  type: SafetyNoteType;
+}
+
+const { type } = Astro.props;
+
+const meta: Record<SafetyNoteType, { icon: string; label: string; color: string }> = {
+  cortante:    { icon: '✂️', label: 'Cortante',     color: 'oklch(0.65 0.18 25)' },
+  calor:       { icon: '🔥', label: 'Calor',        color: 'oklch(0.65 0.18 50)' },
+  quimico:     { icon: '🧪', label: 'Químico',      color: 'oklch(0.65 0.18 145)' },
+  electrico:   { icon: '⚡', label: 'Eléctrico',    color: 'oklch(0.70 0.18 95)' },
+  supervision: { icon: '👨‍👩‍👧', label: 'Adulto', color: 'oklch(0.55 0.18 240)' },
+};
+
+const m = meta[type];
+---
+<aside class="safety-note not-prose" role="note" style={`--safety-color: ${m.color}`}>
+  <span class="safety-icon" aria-hidden="true">{m.icon}</span>
+  <div class="safety-body">
+    <p class="safety-label">{m.label}</p>
+    <div class="safety-text"><slot /></div>
+  </div>
+</aside>
+
+<style>
+  .safety-note {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    margin: 1rem 0;
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--safety-color);
+    border-radius: 10px;
+    background: color-mix(in oklch, var(--safety-color) 10%, var(--color-bg));
+  }
+  .safety-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .safety-label {
+    margin: 0 0 0.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    color: var(--safety-color);
+  }
+  .safety-text {
+    color: var(--color-fg);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .safety-text :global(p) {
+    margin: 0;
+  }
+</style>

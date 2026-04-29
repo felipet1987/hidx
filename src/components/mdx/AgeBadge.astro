@@ -1,0 +1,36 @@
+---
+interface Props {
+  min: number;
+  max?: number;
+}
+
+const { min, max } = Astro.props;
+const label = max && max !== min ? `${min}–${max} años` : `${min}+`;
+
+let palette = 'kids';
+if (min >= 13 && min < 18) palette = 'teens';
+else if (min >= 18) palette = 'adults';
+---
+<span class:list={['age-badge', `age-${palette}`]} aria-label={`Edad: ${label}`}>
+  <span class="age-icon" aria-hidden="true">👶</span>
+  <span class="age-label">{label}</span>
+</span>
+
+<style>
+  .age-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border: 1.5px solid currentColor;
+    background: color-mix(in oklch, currentColor 12%, transparent);
+  }
+  .age-kids   { color: var(--color-s); }
+  .age-teens  { color: var(--color-t); }
+  .age-adults { color: var(--color-m); }
+  .age-icon { font-size: 0.9rem; }
+  .age-label { color: var(--color-fg); }
+</style>

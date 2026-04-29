@@ -1,0 +1,108 @@
+---
+interface Step {
+  title: string;
+  body: string;
+  image?: string;
+  imageAlt?: string;
+  videoUrl?: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+<ol class="experiment-steps not-prose" aria-label="Pasos del experimento">
+  {steps.map((s, i) => (
+    <li class="exp-step">
+      <div class="step-num" aria-hidden="true">{i + 1}</div>
+      <div class="step-content">
+        <h3 class="step-title">{s.title}</h3>
+        <p class="step-body">{s.body}</p>
+        {s.image && (
+          <figure class="step-figure">
+            <img src={s.image} alt={s.imageAlt ?? s.title} loading="lazy" decoding="async" />
+          </figure>
+        )}
+        {s.videoUrl && (
+          <a href={s.videoUrl} target="_blank" rel="noopener noreferrer" class="step-video">
+            🎥 Ver video del paso
+          </a>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .experiment-steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .exp-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 10px;
+    background: var(--color-bg-elev);
+  }
+  .step-num {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .step-content {
+    min-width: 0;
+  }
+  .step-title {
+    margin: 0 0 0.4rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .step-body {
+    margin: 0 0 0.6rem;
+    color: var(--color-fg);
+    line-height: 1.55;
+  }
+  .step-figure {
+    margin: 0.5rem 0;
+  }
+  .step-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .step-video {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .step-video:hover {
+    border-color: var(--color-accent);
+  }
+</style>

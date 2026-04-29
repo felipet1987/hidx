@@ -1,0 +1,103 @@
+---
+import type { Material } from '../../content/schemas';
+
+interface Props {
+  items: Material[];
+  title?: string;
+}
+
+const { items, title = 'Materiales' } = Astro.props;
+---
+<section class="materials not-prose" aria-label="Lista de materiales">
+  <h2 class="materials-title">📋 {title}</h2>
+  <ul class="materials-list">
+    {items.map((m) => (
+      <li class:list={['material-item', { optional: m.optional }]}>
+        <input type="checkbox" aria-label={`Tengo ${m.name}`} />
+        <span class="material-name">{m.name}</span>
+        <span class="material-qty">{m.qty}</span>
+        {m.optional && <span class="material-tag">opcional</span>}
+        {m.sourceUrl && (
+          <a href={m.sourceUrl} target="_blank" rel="sponsored noopener noreferrer" class="material-link">
+            🛒
+            <small>[afil]</small>
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .materials {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-e-soft);
+    border-left: 6px solid var(--color-e);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-e-soft) 30%, transparent);
+  }
+  .materials-title {
+    margin: 0 0 0.75rem;
+    font-size: var(--text-lg);
+    font-weight: 800;
+    color: var(--color-e);
+  }
+  .materials-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .material-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  .material-item input[type='checkbox'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--color-e);
+    cursor: pointer;
+  }
+  .material-name {
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+  .material-item.optional .material-name {
+    color: var(--color-muted);
+    text-decoration: line-through wavy var(--color-muted) 0.05em;
+  }
+  .material-qty {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .material-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-e);
+    background: var(--color-e-soft);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+  }
+  .material-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    text-decoration: none;
+    color: var(--color-accent);
+  }
+  .material-link small {
+    font-size: 0.65rem;
+    color: var(--color-muted);
+  }
+</style>

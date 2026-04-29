@@ -1,0 +1,29 @@
+---
+interface Props {
+  minutes: number;
+}
+
+const { minutes } = Astro.props;
+const label = minutes < 60
+  ? `${minutes} min`
+  : `${Math.floor(minutes / 60)}h${minutes % 60 ? ` ${minutes % 60}m` : ''}`;
+---
+<span class="duration-badge" aria-label={`Duración: ${label}`}>
+  <span aria-hidden="true">⏱️</span>
+  <span>{label}</span>
+</span>
+
+<style>
+  .duration-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    background: var(--color-bg-elev);
+    border: 1px solid var(--color-border);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+</style>

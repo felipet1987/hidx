@@ -1,0 +1,63 @@
+---
+import type { STEAMCategory } from '../../content/schemas';
+
+interface Props {
+  categories: STEAMCategory[];
+  size?: 'sm' | 'md';
+}
+
+const { categories, size = 'md' } = Astro.props;
+
+const meta: Record<STEAMCategory, { label: string; color: string; emoji: string }> = {
+  S: { label: 'Ciencia',     color: 'var(--color-s)', emoji: '🔬' },
+  T: { label: 'Tecnología',  color: 'var(--color-t)', emoji: '💻' },
+  E: { label: 'Ingeniería',  color: 'var(--color-e)', emoji: '🛠️' },
+  A: { label: 'Arte',        color: 'var(--color-a)', emoji: '🎨' },
+  M: { label: 'Matemática',  color: 'var(--color-m)', emoji: '🔢' },
+};
+---
+<ul class:list={['steam-badges', `size-${size}`]} aria-label="Áreas STEAM">
+  {categories.map((c) => (
+    <li class="steam-pill" style={`--pill-color: ${meta[c].color}`} title={meta[c].label}>
+      <span aria-hidden="true">{meta[c].emoji}</span>
+      <span class="steam-letter">{c}</span>
+      <span class="visually-hidden">{meta[c].label}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .steam-badges {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .steam-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    background: color-mix(in oklch, var(--pill-color) 14%, var(--color-bg));
+    color: var(--pill-color);
+    font-weight: 800;
+    font-size: 0.78rem;
+    border: 1.5px solid var(--pill-color);
+  }
+  .size-sm .steam-pill { padding: 0.1rem 0.35rem; font-size: 0.7rem; }
+  .steam-letter { font-family: var(--font-mono); }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

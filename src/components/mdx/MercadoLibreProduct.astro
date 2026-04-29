@@ -1,0 +1,43 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  region?: 'AR' | 'MX' | 'CL' | 'CO' | 'PE' | 'UY';
+}
+
+const { href, label, region } = Astro.props;
+---
+<span class="ml-product inline-flex items-baseline">
+  <a href={href} target="_blank" rel="sponsored noopener noreferrer" class="ml-link">
+    <span aria-hidden="true">🛒</span>
+    <slot>{label ?? 'Ver en Mercado Libre'}</slot>
+    {region && <span class="ml-region">.{region.toLowerCase()}</span>}
+  </a>
+  <small class="ml-disclosure" aria-label="Enlace de afiliado">[afil]</small>
+</span>
+
+<style>
+  .ml-product {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+  .ml-link {
+    color: oklch(0.55 0.18 50);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+  }
+  .ml-link:hover {
+    color: oklch(0.45 0.18 50);
+  }
+  .ml-region {
+    font-family: var(--font-mono);
+    font-size: 0.78em;
+    color: var(--color-muted);
+  }
+  .ml-disclosure {
+    font-size: 0.65em;
+    color: var(--color-muted);
+  }
+</style>
