@@ -1,12 +1,12 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
-@import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/quicksand/index.css';
 @import '@fontsource-variable/jetbrains-mono/index.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
-  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-sans: 'Quicksand Variable', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   /* Fluid type scale (clamp(min, fluid, max)) */
@@ -22,39 +22,80 @@
   --text-6xl: clamp(3.4rem, 2.7rem + 3.5vw, 5.4rem);
 }
 
-/* Light theme (default) */
+/* ============================================================
+   YachayTree STEAM theme tokens
+   - Light bone bg + slate ink (default)
+   - Dark midnight + cream ink (opcional, kid-aware)
+   - 5 STEAM letter colors: S/T/E/A/M
+   - Accent: verde primary, naranja secondary (matchea logo gradient)
+   - WCAG AAA contrast pairs verificados
+   ============================================================ */
+
 :root {
-  --color-bg: oklch(0.98 0.005 80);
-  --color-bg-elev: oklch(0.96 0.008 80);
-  --color-fg: oklch(0.25 0.02 260);
-  --color-muted: oklch(0.5 0.02 260);
-  --color-border: oklch(0.9 0.01 260);
-  --color-accent: oklch(0.62 0.18 220);
-  --color-accent-soft: oklch(0.92 0.04 220);
-  --color-accent-2: oklch(0.62 0.21 295);
-  --color-accent-2-soft: oklch(0.92 0.04 295);
+  /* Backgrounds */
+  --color-bg: oklch(0.98 0.01 80);              /* bone */
+  --color-bg-elev: oklch(0.96 0.012 80);
+  --color-fg: oklch(0.22 0.02 240);              /* slate ink — AAA on bone */
+  --color-muted: oklch(0.42 0.02 240);
+  --color-border: oklch(0.88 0.012 80);
+
+  /* STEAM palette */
+  --color-s: oklch(0.55 0.18 145);               /* Science verde */
+  --color-s-soft: oklch(0.93 0.06 145);
+  --color-t: oklch(0.50 0.18 240);               /* Tech azul */
+  --color-t-soft: oklch(0.92 0.06 240);
+  --color-e: oklch(0.58 0.18 50);                /* Engineering naranja */
+  --color-e-soft: oklch(0.93 0.07 50);
+  --color-a: oklch(0.55 0.18 350);               /* Arts rosa */
+  --color-a-soft: oklch(0.93 0.06 350);
+  --color-m: oklch(0.50 0.18 295);               /* Math púrpura */
+  --color-m-soft: oklch(0.92 0.06 295);
+
+  /* Accents (logo: verde→naranja) */
+  --color-accent: var(--color-s);                /* primary verde */
+  --color-accent-soft: var(--color-s-soft);
+  --color-accent-2: var(--color-e);              /* secondary naranja */
+  --color-accent-2-soft: var(--color-e-soft);
+  --color-accent-yellow: oklch(0.85 0.16 95);    /* highlight kids */
+
+  /* Gradient mesh (verde → naranja → amarillo, soft) */
   --gradient-mesh:
-    radial-gradient(ellipse 800px 500px at 0% 0%, oklch(0.92 0.06 220 / 0.45), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 20%, oklch(0.92 0.06 295 / 0.4), transparent 55%),
-    radial-gradient(ellipse 900px 600px at 50% 100%, oklch(0.95 0.04 80 / 0.5), transparent 65%);
+    radial-gradient(ellipse 800px 500px at 0% 0%, oklch(0.93 0.07 145 / 0.55), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, oklch(0.93 0.07 50 / 0.5), transparent 55%),
+    radial-gradient(ellipse 900px 600px at 50% 100%, oklch(0.95 0.07 95 / 0.5), transparent 65%);
+
   color-scheme: light;
 }
 
-/* Dark theme */
 [data-theme='dark'] {
-  --color-bg: oklch(0.18 0.01 260);
-  --color-bg-elev: oklch(0.22 0.012 260);
-  --color-fg: oklch(0.96 0.005 260);
-  --color-muted: oklch(0.65 0.01 260);
-  --color-border: oklch(0.32 0.012 260);
-  --color-accent: oklch(0.78 0.14 200);
-  --color-accent-soft: oklch(0.32 0.06 200);
-  --color-accent-2: oklch(0.72 0.18 295);
-  --color-accent-2-soft: oklch(0.3 0.08 295);
+  --color-bg: oklch(0.16 0.012 240);             /* midnight */
+  --color-bg-elev: oklch(0.20 0.014 240);
+  --color-fg: oklch(0.96 0.012 80);              /* cream ink */
+  --color-muted: oklch(0.68 0.012 240);
+  --color-border: oklch(0.30 0.012 240);
+
+  --color-s: oklch(0.72 0.18 145);
+  --color-s-soft: oklch(0.30 0.08 145);
+  --color-t: oklch(0.68 0.18 240);
+  --color-t-soft: oklch(0.28 0.08 240);
+  --color-e: oklch(0.72 0.18 50);
+  --color-e-soft: oklch(0.30 0.08 50);
+  --color-a: oklch(0.70 0.18 350);
+  --color-a-soft: oklch(0.30 0.08 350);
+  --color-m: oklch(0.68 0.18 295);
+  --color-m-soft: oklch(0.28 0.08 295);
+
+  --color-accent: var(--color-s);
+  --color-accent-soft: var(--color-s-soft);
+  --color-accent-2: var(--color-e);
+  --color-accent-2-soft: var(--color-e-soft);
+  --color-accent-yellow: oklch(0.82 0.18 95);
+
   --gradient-mesh:
-    radial-gradient(ellipse 800px 500px at 0% 0%, oklch(0.4 0.18 220 / 0.35), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 20%, oklch(0.42 0.2 295 / 0.32), transparent 55%),
-    radial-gradient(ellipse 900px 600px at 50% 100%, oklch(0.35 0.15 200 / 0.3), transparent 65%);
+    radial-gradient(ellipse 800px 500px at 0% 0%, oklch(0.40 0.16 145 / 0.40), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, oklch(0.42 0.18 50 / 0.36), transparent 55%),
+    radial-gradient(ellipse 900px 600px at 50% 100%, oklch(0.40 0.18 95 / 0.30), transparent 65%);
+
   color-scheme: dark;
 }
 

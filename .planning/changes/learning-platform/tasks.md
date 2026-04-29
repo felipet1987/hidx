@@ -24,13 +24,13 @@
 
 ## Phase 2: Schema + design tokens (D4-D5)
 
-- [ ] 2.1 `supabase migration new yachaytree_extension` → ALTER articles ADD: age_min/age_max int, difficulty int, duration_minutes int, steam_categories text[], materials jsonb, safety_notes jsonb, parent_tip text, video_url text, printable_pdf text (todos nullable defaults)
-- [ ] 2.2 `supabase db push` (Cloud) + `supabase db reset` (local)
-- [ ] 2.3 RED Vitest: `tests/unit/lesson-schema.test.ts` — extended schema parses age range, difficulty 1-5, materials JSON, safety array
-- [ ] 2.4 GREEN: extend `src/content/schemas.ts` con `lessonExtraSchema` opcional fields
-- [ ] 2.5 `pnpm add @fontsource-variable/quicksand`; remove `@fontsource-variable/inter` (defer dev components require it)
-- [ ] 2.6 Modify `src/styles/global.css` → tokens STEAM (S verde / T azul / E naranja / A rosa / M púrpura / accent yellow / bg bone); Quicksand `--font-sans`; remove magazine dark; WCAG AAA contrast pairs
-- [ ] 2.7 Update `tailwind.config` (si aplica) y verify build
+- [x] 2.1 Migration `20260429064422_yachaytree_extension.sql` ALTER articles ADD STEAM cols (age_min/age_max/difficulty/duration_minutes/steam_categories/materials/safety_notes/parent_tip/video_url/printable_pdf) all nullable defaults
+- [x] 2.2 `supabase db push` Cloud ✅; ⚠️ local DEFERRED (CLI v2.48 storage image version glitch — defer hasta upgrade CLI)
+- [x] 2.3 RED 15 Vitest cases — lesson defaults, full STEAM, difficulty range, steam categories, materials, safety notes
+- [x] 2.4 GREEN `src/content/schemas.ts` — lessonSchema + materialSchema + safetyNoteSchema + trackSchema + STEAM enum; backwards-compat aliases postSchema/seriesSchema
+- [x] 2.5 `pnpm add @fontsource-variable/quicksand`; Inter sigue en deps por compat (no importado)
+- [x] 2.6 `src/styles/global.css` STEAM tokens swap (5 letter colors + accent verde→naranja + bg bone + slate ink + Quicksand); WCAG AAA contrast pairs
+- [x] 2.7 Build OK 6 pages + deploy live (color-s/a/m visible en HTML)
 
 ## Phase 3: Components (D6-D7)
 

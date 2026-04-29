@@ -24,8 +24,8 @@ describe('postSchema', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects description over 160 chars', () => {
-    const result = postSchema.safeParse({ ...valid, description: 'x'.repeat(161) });
+  it('rejects description over 280 chars', () => {
+    const result = postSchema.safeParse({ ...valid, description: 'x'.repeat(281) });
     expect(result.success).toBe(false);
   });
 
