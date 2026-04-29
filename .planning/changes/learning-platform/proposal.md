@@ -1,12 +1,12 @@
-# Proposal: ChispaLab — STEAM LatAm Mini-MVP (S1)
+# Proposal: YachayTree — STEAM LatAm Mini-MVP (S1)
 
-**Project**: `hidx` → renombrar a `ChispaLab` · **Date**: 2026-04-29 · **Phase**: sdd-propose (REWRITE) · **Change**: `learning-platform` · **Status**: Draft v1
+**Project**: `hidx` → renombrar a `YachayTree` · **Date**: 2026-04-29 · **Phase**: sdd-propose (REWRITE) · **Change**: `learning-platform` · **Status**: Draft v1
 
-> **PIVOT TOTAL**. hidx dev pub → ChispaLab plataforma STEAM LatAm para kids 8-12. Engineering + Arte hands-on con materiales económicos. NO compite Khan head-on; complementa LatAm hands-on gap.
+> **PIVOT TOTAL**. hidx dev pub → YachayTree plataforma STEAM LatAm para kids 8-12. Engineering + Arte hands-on con materiales económicos. NO compite Khan head-on; complementa LatAm hands-on gap.
 
 ## Intent
 
-Lanzar **ChispaLab** — micro-MVP STEAM enfocado: **10 actividades hands-on E+A (Engineering + Arte) para niños 8-12 años, en español rioplatense/neutro, materiales <$5 USD por proyecto**. Validación tracción 3 meses antes escalar a S+T+M y otras audiencias. Mantiene infra técnica de hidx (Astro 6 + Supabase + CF Pages); reescribe contenido + design system + monetización + branding.
+Lanzar **YachayTree** — micro-MVP STEAM enfocado: **10 actividades hands-on E+A (Engineering + Arte) para niños 8-12 años, en español rioplatense/neutro, materiales <$5 USD por proyecto**. Validación tracción 3 meses antes escalar a S+T+M y otras audiencias. Mantiene infra técnica de hidx (Astro 6 + Supabase + CF Pages); reescribe contenido + design system + monetización + branding.
 
 ## Scope
 
@@ -14,11 +14,11 @@ Lanzar **ChispaLab** — micro-MVP STEAM enfocado: **10 actividades hands-on E+A
 
 #### Rebrand
 
-1. **Renombrar repo**: `hidx` → `chispalab` (GitHub → repo settings → rename); push origin
-2. **Comprar dominio**: `chispalab.lat` (sugerido) o `.com` o `.com.ar`; apuntar DNS a CF Pages
-3. **CF Pages project rename**: dashboard → Pages → hidx → Settings → rename a `chispalab`
+1. **Renombrar repo**: `hidx` → `yachaytree` (GitHub → repo settings → rename); push origin
+2. **NO comprar dominio MVP** — usar `yachaytree.pages.dev` (CF Pages free subdomain). Custom domain defer hasta validación tracción.
+3. **CF Pages project rename**: dashboard → Pages → hidx → Settings → rename a `yachaytree` (URL pasa de `hidx.pages.dev` → `yachaytree.pages.dev`)
 4. **README + meta tags + OG + manifest** reescribir
-5. **Logo nuevo**: SVG monogram "C" con paleta STEAM (5 colores) — CSS-only o Figma simple
+5. **Logo nuevo**: SVG monogram "Y" + ícono árbol mini, paleta STEAM gradient — CSS-only
 6. **Favicon nuevo** + apple-touch-icon
 7. **Site copy reescribir**: header/footer/about/now/privacy/disclosure todos
 
@@ -236,7 +236,7 @@ Lanzar **ChispaLab** — micro-MVP STEAM enfocado: **10 actividades hands-on E+A
 
 | Mes | Focus | Días dev | Días content |
 |-----|-------|----------|--------------|
-| **M1 — Rebrand + infra** | rename hidx→chispalab, dominio, schema migrations, design system swap, components base | 10 | 0 |
+| **M1 — Rebrand + infra** | rename hidx→yachaytree, dominio, schema migrations, design system swap, components base | 10 | 0 |
 | **M2 — Content production** | 10 lessons + 3 rutas writing + foto/video shots + PDFs printable | 5 | 25 |
 | **M3 — Polish + launch** | Lighthouse + a11y WCAG AAA + mobile pass + analytics + soft launch | 8 | 5 |
 
@@ -259,21 +259,21 @@ Total: ~23 días dev + 30 días content production.
 
 ```bash
 # Local (rename mostly cosmetic — git history preserved)
-gh repo rename chispalab --repo felipet1987/hidx
-git remote set-url origin git@github.com:felipet1987/chispalab.git
-mv hidx chispalab
-# package.json name: hidx -> chispalab
+gh repo rename yachaytree --repo felipet1987/hidx
+git remote set-url origin git@github.com:felipet1987/yachaytree.git
+mv hidx yachaytree
+# package.json name: hidx -> yachaytree
 # README + manifest + meta tags update
-# CF Pages: dashboard rename project hidx -> chispalab (URL chispalab.pages.dev)
-# Supabase: project name "hidx" -> "chispalab" (cosmetic; ref ID stays jztvajdsuixxgfdluvqt)
+# CF Pages: dashboard rename project hidx -> yachaytree (URL yachaytree.pages.dev)
+# Supabase: project name "hidx" -> "yachaytree" (cosmetic; ref ID stays jztvajdsuixxgfdluvqt)
 ```
 
 ## Success Criteria
 
 ### Technical gates
 
-- [ ] Repo renombrado a `chispalab`, push exitoso
-- [ ] Dominio `chispalab.lat` (o alt) apunta a CF Pages
+- [ ] Repo renombrado a `yachaytree`, push exitoso
+- [ ] Dominio `yachaytree.lat` (o alt) apunta a CF Pages
 - [ ] Schema migration aplica clean local + Cloud (extiende articles + tracks)
 - [ ] 10 lessons publicadas con materials/safety/parent_tip completos
 - [ ] 3 rutas curadas con outline ordenado
@@ -302,7 +302,7 @@ mv hidx chispalab
 
 ## Open Questions
 
-- [ ] **Domain final**: `chispalab.lat` / `.com` / `.com.ar` / `.org` — sugiero `.lat` (LatAm specific TLD)
+- [ ] **Domain final**: `yachaytree.lat` / `.com` / `.com.ar` / `.org` — sugiero `.lat` (LatAm specific TLD)
 - [ ] **Logo design**: CSS monogram "C" o Figma profi (~$200 fiverr)? Sugiero CSS-only MVP
 - [ ] **Voice rioplatense vs neutral LatAm**: rioplatense (vos/tenés) o neutral (tú/tienes) para no excluir audience MX/CO/PE? Sugiero **neutral con guiños rioplatenses** (ej "che" raro, "tu" base)
 - [ ] **Foto/video tools**: smartphone + iMovie/CapCut OK MVP, o invertir Sony ZV-1 ($600)? Sugiero smartphone MVP
@@ -329,7 +329,7 @@ mv hidx chispalab
 
 ## Architectural Decisions Record (ADR seeds)
 
-- **ADR-501**: Pivot total hidx dev → ChispaLab STEAM LatAm (supersedes prior hidx ADRs)
+- **ADR-501**: Pivot total hidx dev → YachayTree STEAM LatAm (supersedes prior hidx ADRs)
 - **ADR-502**: S1 mini-MVP scope (1 audience kids 8-12, E+A categorías) — defer S+T+M y otras audiences
 - **ADR-503**: Reuse infra hidx 100%; rename project, no replatform
 - **ADR-504**: Schema extension `articles` table (no `lessons` separate) + opt columns STEAM
@@ -342,21 +342,21 @@ mv hidx chispalab
 - **ADR-511**: COPPA strict mode (kids <13) — sin PII collection sin consent verificable padres
 - **ADR-512**: Foto/video smartphone MVP (no studio production)
 - **ADR-513**: PDF build-time (defer tool decision: pdfkit/puppeteer/satori-pdf)
-- **ADR-514**: Domain `.lat` TLD LatAm-specific (sugerido)
-- **ADR-515**: Logo CSS monogram MVP, no profi design
+- **ADR-514**: NO custom domain MVP — `yachaytree.pages.dev` CF Pages free subdomain hasta validación tracción
+- **ADR-515**: Logo CSS monogram "Y" + tree icon MVP, no profi design
 
 ## Next Phase
 
 → `/sdd-design learning-platform` — finalize: project rename steps, schema migration SQL, components per-design, content template MDX skeleton, design tokens shift, monetización setup detail.
 
 → Coordinación crítica:
-- **Antes design**: confirmar nombre final `ChispaLab` + dominio
+- **Antes design**: confirmar nombre final `YachayTree` + dominio
 - **Después design**: pausa rich-articles + supabase-cf-integration changes para reusar trabajo (rename CF project, etc)
 
 → Otros changes en curso (impacto):
 - `inject-articles` Phase 2 (loader Supabase) — sigue válido (compartido)
-- `supabase-cf-integration` Phase 1-3 — sigue válido (rename CF project hidx→chispalab solo cambio dashboard)
+- `supabase-cf-integration` Phase 1-3 — sigue válido (rename CF project hidx→yachaytree solo cambio dashboard)
 - `rich-articles` Phase 8 — descartar (tests E2E para components dev borrar)
 - `design-uplift-adsense` — replanificar Capa 1+2 con Mediavine Family + Mercado Libre affiliate
 
-¿Confirmás `ChispaLab` + `.lat` domain + arrancamos design phase?
+¿Confirmás `YachayTree` + `.lat` domain + arrancamos design phase?
