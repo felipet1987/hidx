@@ -1,0 +1,23 @@
+---
+import '../styles/global.css';
+const title = 'hidx — How I Do X';
+const description = 'Long-form, opinionated walkthroughs of how I solve real problems with code, infrastructure, and tools.';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-8">
+    <main class="max-w-2xl text-center space-y-6">
+      <h1 class="text-5xl font-bold tracking-tight">hidx</h1>
+      <p class="text-xl text-(--color-muted)">{description}</p>
+      <p class="text-sm text-(--color-muted)">First pillar posts coming soon.</p>
+    </main>
+  </body>
+</html>

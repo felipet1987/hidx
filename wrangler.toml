@@ -1,0 +1,8 @@
+name = "hidx"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+# Env vars (set via Cloudflare dashboard or `wrangler pages secret put`)
+# - BEEHIIV_API_KEY        secret (Beehiiv subscribe API)
+# - BEEHIIV_PUBLICATION_ID secret (Beehiiv publication identifier)

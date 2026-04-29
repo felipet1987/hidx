@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-bg: oklch(0.18 0.01 260);
+  --color-fg: oklch(0.96 0.005 260);
+  --color-muted: oklch(0.65 0.01 260);
+  --color-accent: oklch(0.78 0.14 200);
+  --color-accent-soft: oklch(0.32 0.06 200);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  color-scheme: dark;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
