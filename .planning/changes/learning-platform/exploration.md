@@ -1,196 +1,277 @@
-# Exploration: hidx → Plataforma de Aprendizaje
+# Exploration: Pivot Total → Plataforma STEAM LatAm
 
-**Project**: `hidx` · **Date**: 2026-04-29 · **Phase**: sdd-explore · **Change**: `learning-platform`
+**Project**: `hidx` (rename probable) · **Date**: 2026-04-29 · **Phase**: sdd-explore (REWRITE) · **Change**: `learning-platform`
 
-## Current State
+> **PIVOT TOTAL**. Audiencia previa (senior devs Spanish) → STEAM kids/teens/non-STEM adultos LatAm. Competidor target: Khan Academy en español. Reescritura completa de scope, design, monetización y posicionamiento.
 
-hidx hoy:
-- Long-form articles MDX en Supabase (1 post hello)
-- Astro 6 SSG en CF Pages live (`hidx.pages.dev`)
-- 24 MDX components rich (Image, Video, CodeTabs, Mermaid, etc)
-- License: CC-BY-NC content + MIT code
-- Monetización Capa 1 (Affiliate + TipJar) implementada; Capa 2-4 (ads, sponsorships, paywall) en roadmap
-- Auth: ninguna (SSG puro). Supabase auth disponible pero no usada
-- Sin progress tracking, sin quizzes, sin courses, sin user accounts
+## Pushback honesto antes de empezar
 
-**Pivot ambicioso** — hidx hoy es publicación, learning platform es producto distinto. Comparten contenido pero divergen en data + UX + monetización + ops.
+**Competir head-on con Khan Academy** es David vs Goliath:
+- Khan: $200M+/año endowment, Bill Gates Foundation, equipo 300+, 20k videos, 10+ años, 130 idiomas
+- hidx (vos solo): $0 budget, equipo 1, 0 videos, recién empezado
+- Resultado probable head-on: **invisibilidad**
 
-## Plataformas de referencia (estudio)
+**Estrategia ganadora real**: NO competir donde Khan es fuerte. Atacar **gaps específicos**:
+1. **LatAm Spanish nativo** (Khan ES suena "neutral España", no rioplatense/mexicano/colombiano)
+2. **Hands-on experiments + proyectos** (Khan = video + practice; weak en lab físico)
+3. **Multinivel mismo tema** (Khan estructura por edad; gap = "ciencia para todos" — kid + teen + adult del mismo tópico)
+4. **Padres/maestros toolkit** (Khan tiene pero modesto; oportunidad LatAm escuelas públicas)
+5. **Materiales económicos** (LatAm bajo presupuesto familiar — proyectos con materiales reciclados)
 
-| Plataforma | Modelo | Fortaleza | Adoptable hidx |
-|------------|--------|-----------|----------------|
-| **freeCodeCamp** | Free curriculum + certificaciones | Curricula gigante, comunidad, no-frills | Estructura tracks gratis |
-| **The Odin Project** | OS curriculum + projects | Project-based, comunidad Discord | Tracks + projects pattern |
-| **fullstackopen.com** | University-grade free MOOC | Long-form + ejercicios autoevaluados | Modelo content + ejercicios |
-| **Frontend Masters** | Paid video courses | Prod quality video, pros como instructores | Premium tier modelo |
-| **Egghead.io** | Short videos + transcripts | Bite-sized, project-focused | Lecciones cortas formato |
-| **Scrimba** | Interactive screencasts | Code-along en browser | UX innovadora (heavy build) |
-| **Exercism** | Mentored exercises 60+ langs | Mentor model + autograde | Exercise testing pattern |
-| **roadmap.sh** | Visual learning paths | Discovery + path navigation | Roadmap UI gratis |
-| **LeetCode** | Coding puzzles + auto-graded | Test runner integrado | Code playground + tests |
-| **Brilliant** | Gamified math/CS | Streaks, mastery, animations | Gamification pattern |
-| **Hyperskill (JetBrains)** | Project-based tracks | Hands-on en IDE | Track + projects + IDE |
-| **Smashing/web.dev** | Long-form free + workshops | Editorial quality + premium events | Content + premium events |
+Mi recomendación firme: **NO digas "competimos con Khan"**. Decí "**llenamos los gaps de Khan en LatAm**". Eso es defensible.
 
-### Patrón común
-1. Estructura jerárquica: **Track/Path → Course/Module → Lesson → Exercise/Quiz**
-2. **User accounts** (siempre — para progress)
-3. **Progress state** persistido (lesson completion, streaks, XP)
-4. **Search + tags + filters** robustos
-5. **Comunidad** (Discord/forum/comments)
-6. **Monetización**: free tier curriculum + paid tier (mentorship/cert/video)
+## Current State (descartado en pivot)
 
-### Lo que NO comparten
-- Video first vs text first (FCC text + video; FE Masters video heavy)
-- Free vs paid balance varía
-- Autograde vs peer review vs mentor
+Todo lo siguiente debe re-evaluarse:
+- ❌ Identidad "hidx" (How I Do X) — no encaja con STEAM kids
+- ❌ Posicionamiento "senior dev publication"
+- ❌ 5 pillar posts dev planeados (Astro, Supabase, monetización web, etc)
+- ❌ Components dev-céntricos (`CodeTabs`, `CodeDiff`, `Terminal`, `RepoCard`)
+- ❌ AffiliateLink Cloudflare/Beehiiv
+- ❌ Tono "magazine grade dev aesthetic" (zinc + cyan)
+- ❌ Article 5min reads sin ilustración
 
-## Affected Areas
+✅ **Reusable**:
+- Astro 6 + Supabase + CF Pages stack (100%)
+- MDX pipeline + content collections
+- Auth Supabase (cuando llegue server-side state)
+- 24 components base (Image/Video/Gallery/Quote/Aside/etc — útiles para STEAM)
+- Theme tokens infrastructure (re-color, no re-arch)
+- CLI scaffold (new-post, upload-asset)
+- Backup + monitoring infra (supabase-cf-integration en curso)
 
-Casi todo cambia/se extiende:
+## Plataformas referencia (estudio focused STEAM)
+
+| Plataforma | Modelo | Fortaleza | Gap aprovechable |
+|------------|--------|-----------|------------------|
+| **Khan Academy ES** | Free video + practice | Curricula matemáticas+ciencia top | Tono ES neutro (suena foreign LatAm); poco hands-on |
+| **Khan Academy Kids** | Free app niños 2-8 | UX kids excelente | No cubre 8-12, ES limitado |
+| **Code.org** | Free coding kids | Hour of Code viral, scratch | Solo coding (no STEAM full) |
+| **Brilliant** | Paid premium gamificado | Math/CS interactivo top | $250/año caro LatAm; only ENG (gap ES) |
+| **Tinkercad** | Free 3D/circuits/codeblocks Autodesk | Kids/teens engineering hands-on | EN-first; complejo iniciales |
+| **NASA STEM** | Free recursos NASA | Autoridad cientifica | EN; no progressive curriculum |
+| **Curiosamente** (YT) | Spanish science YT | LatAm voice native | Solo videos; no curriculum |
+| **QuantumFracture** | Spanish physics YT | Production quality alta | Solo YT; no platform |
+| **Educa Mass** | Mexicana primaria | Cubre ed básica MX | Site dated, UX pobre |
+| **Argentina-BA Aprende** | Gov ed plataforma BA | Curriculum oficial AR | Centralizado gov, no agnostic LatAm |
+| **edX/Coursera ES** | MOOCs cert | Profesional cert | Adult only, no kids |
+| **Scratch** | MIT free coding | Visual programming kids | Solo coding |
+| **PhET (Colorado)** | Free simulations sci/math ES | Simulaciones top calidad | EN-first, sin curriculum guiado |
+| **Crash Course ES** | YT science | Production John Green team | YouTube only, no platform |
+
+### Patrón competitivo
+
+| Categoría | Khan domina | Gap LatAm |
+|-----------|-------------|-----------|
+| Math básica/avanzada | ✅ | escasa diff |
+| Ciencias (física/química/bio) | ✅ | LatAm voice |
+| Coding | ⚪ (limitado) | español + proyectos LatAm |
+| Engineering hands-on | ❌ | grande |
+| Arte (A en STEAM) | ❌ | enorme |
+| Lab experiments materiales reciclados | ❌ | enorme (presupuesto LatAm familiar) |
+| Padres toolkit ES | ❌ | mediano |
+| Multinivel mismo tópico | ❌ | unique angle |
+
+**Sweet spot**: A (Arte) + E (Engineering hands-on) + LatAm voice + multinivel. NO compitas en M/S/T donde Khan reina.
+
+## Affected Areas (TODO se reescribe)
+
 ```
-Schema Supabase (NUEVO):
-├── users (Supabase Auth)
-├── tracks                        — top-level path
-├── courses (FK tracks.id)        — module dentro de track
-├── lessons (FK courses.id)       — unit
-├── exercises (FK lessons.id)     — checkpoint
-├── user_progress (uid, lesson_id, status, ts)
-├── quiz_attempts                  — score history
-├── certifications                 — completion proof
-├── comments / discussions         — per lesson
-├── enrollments                    — user joined track
+Renombre proyecto (decisión usuario):
+- Sugerencias: SteamigosLab, CuriosaLab, MundoSTEAM, ArmoLatAm, Lab Curiosa,
+  CienciAR, Tinkercosmos, ManosSTEAM, ChispaLatAm, EduMagia
+- Sugiero: "ChispaLab" o "MundoSTEAM" (memorable Spanish, registra .lat o .com.ar)
 
-Astro / Routes (NUEVO):
-├── /learn                         — landing tracks index
-├── /learn/[track]                 — track overview + courses
-├── /learn/[track]/[course]        — course outline + lessons
-├── /learn/[track]/[course]/[lesson]  — lesson content + exercise
-├── /dashboard                     — user progress + streaks
-├── /profile                       — user settings + cert downloads
-├── /auth/(login|signup|callback)  — Supabase Auth flows
+Schema Supabase (re-design):
+├── tracks (re-purpose)        → "rutas" o "exploraciones STEAM"
+├── articles                   → "lecciones" / "actividades"
+├── audiences                  → kids-8-12 / teens-13-17 / adultos-no-stem
+├── difficulty                 → 1-5 estrellas (vs beginner/intermediate/advanced)
+├── lesson_type                → enum: video / lectura / experimento / proyecto / quiz / juego
+├── materials                  → JSON list para experimentos
+├── duration_minutes           → tiempo estimado actividad
+├── steam_category             → S/T/E/A/M (multi-select; cada lección puede crossover)
+├── parents_guide              → text section pedagogía padres/maestros
 
-Components (NUEVO):
-├── Quiz                           — multi-choice / fill-in
-├── ExerciseRunner                 — code editor + test runner
-├── ProgressBar / Trail            — track completion viz
-├── Streak / XPBadge / LevelMeter
-├── DiscussionThread               — comments per lesson
-├── Certificate (PDF generator)
-├── EnrollButton
+Astro / routes:
+├── /                          → landing reposicionado (kids friendly + adults secondary CTA)
+├── /explorar                  → catálogo lessons filterable por edad/tema/tipo
+├── /rutas                     → curated paths estilo Khan
+├── /rutas/[slug]              → ruta overview
+├── /rutas/[slug]/[lesson]     → activity page
+├── /padres                    → pedagogical guide for parents
+├── /escuelas                  → outreach maestros LatAm
+├── /labs                      → standalone interactive simulations (PhET-style)
+├── /comunidad                 → user submissions / projects (defer Phase 2)
 
-Render mode pivot:
-- SSG (article reading) → Hybrid (auth-gated + dynamic state)
-- Cloudflare adapter requires output: 'hybrid' o 'server' (revisar ADR-003 inject-articles)
+Components nuevos (reemplazar dev components):
+├── ExperimentLab              → step-by-step hands-on con materials list + safety + foto/video
+├── InteractiveSim             → embed canvas (p5.js / d3 / vanilla) simulación física
+├── DragDropQuiz               → drag answer to slot (kids friendly)
+├── MultipleChoice             → quiz visual con feedback inmediato
+├── StoryFrame                 → narrative slides con personajes (storytelling kids)
+├── LabsLayout                 → wide canvas para simulations
+├── MaterialsList              → checklist materiales fácil compra/casa
+├── SafetyNote                 → warnings (cortantes, calor, químicos)
+├── AgeBadge                   → 8-12 / 13-17 / 18+
+├── STEAMBadge                 → S/T/E/A/M iconos coloreados
+├── PrintablePDF               → genera PDF descargable lección (kids/teachers)
+├── VideoPlayer                → YouTube embed pero sin cookies (privacy-first)
+├── ParentTip                  → callout para guía padres/maestros
+├── MakerProject               → multi-session project con checkpoints
 
-Monetización (cambio):
-- Free curriculum + paid certs/mentorship (vs current sponsorship/affiliate)
-- Stripe full integration (Capa 4 mover a P0)
+Components dev (eliminar/relegar):
+├── CodeTabs / CodeDiff / Terminal / RepoCard / AffiliateLink TipJar
+└── → Mantener solo si futura ruta "Programación para chicos"
+
+Design system (reescribir):
+├── Paleta colores: vibrante (purple, orange, teal, yellow); 4 colores per STEAM letter
+├── Typography: friendly humanist sans (Quicksand, Nunito, Comic Neue NO)
+├── Iconografía: Heroicons + Tabler educational pack
+├── Ilustraciones: undraw.co (free), open-peeps, blush.design — kid-friendly
+├── Animaciones: Lottie embeds para loading/feedback
+├── Theme: cero "magazine dark"; bright + accessible WCAG AAA
+
+Monetización STEAM:
+├── Ads OK para >13 (COPPA libre); para <13 usar redes COPPA-compliant:
+│   - Mediavine Family
+│   - Ezoic Edu
+│   - SuperAwesome
+│   - Adsense for Kids (existe pero limitado)
+├── Sponsorships: marcas STEAM friendly (Lego, Makey Makey, Adafruit, MakeBlock)
+├── Subscription familiar opcional ($3-5/mes — modelo Brilliant)
+├── Curso pago ocasional (workshop, bootcamp niños)
+├── Contenido editorial/escuelas — venta paquetes a colegios
+├── Affiliate Amazon items educativos (kits, libros)
+
+i18n:
+├── Spanish-only MVP (LatAm voice; rioplatense/neutral mix)
+├── Defer EN, PT-BR (mercado Brasil enorme — Fase 2)
 ```
 
 ## Approaches
 
-### A1 — **Curated Reading Path** (mínimo viable)
-Estructura jerárquica simple ENCIMA del blog actual: agregar tabla `tracks` que agrupa posts existentes. Sin user accounts, sin progress, sin quizzes — solo discovery.
-- Pros: 1-2 sprints, mantiene SSG, cero auth complejidad
-- Cons: NO es plataforma de aprendizaje real — solo blog organizado
-- Effort: Low (~1 semana)
-- Inspiración: roadmap.sh + curated lists tipo Awesome-X
+### S1 — **Mini-MVP nicho** (defendible)
+Pick 1 sub-categoría STEAM + 1 audiencia + lanzar 10 lessons. Ej: **"E (Engineering) hands-on para kids 8-12"** — proyectos de ingeniería con cartón, popotes, gomas. Diferencia: cero competencia LatAm específica; Khan no cubre.
+- Pros: niche defendible, lanzamiento rápido, validación clara
+- Cons: limita audience inicialmente
+- Effort: Low-Medium (~3-4 sem)
 
-### A2 — **Course MVP con Auth + Progress** (LMS lite)
-Auth (Supabase) + tracks + courses + lessons + progress tracking + dashboard básico. Sin quizzes/exercises/certs. Lessons = posts MDX existentes.
-- Pros: Plataforma real, escalable, mantiene quality content first
-- Cons: Pivot SSG → hybrid (output: 'server'); auth UX; ops user data
-- Effort: Medium-High (~6-8 semanas)
-- Inspiración: fullstackopen baseline (text + light progress)
+### S2 — **Multi-categoría 1 audiencia** (medium scope)
+Cubrir S+T+E+A+M para kids 8-12 (única audiencia inicial). Lanzar 5-10 lessons por cada letra (25-50 total).
+- Pros: ofrece variedad → más retention
+- Cons: scope amplio = velocity content alto; sin enfoque
+- Effort: Medium-High (~8-12 sem)
 
-### A3 — **Course MVP + Quizzes + Exercises** (real LMS)
-A2 + componentes Quiz (multi-choice/fill) + ExerciseRunner (code editor + tests via Pyodide/StackBlitz/SDK) + certificates PDF.
-- Pros: Diferenciación dev audience real
-- Cons: ExerciseRunner es proyecto enorme solo (sandbox + tests + judge); cert PDF infra
-- Effort: Very High (~3-6 meses)
-- Inspiración: freeCodeCamp + Exercism
+### S3 — **Triple audiencia diferenciada** (lo que pediste)
+Mismas STEAM categorías pero contenido distinto para kids/teens/adults non-STEM. Cada lección tiene 3 versiones (kids, teens, adults).
+- Pros: ambicioso, defendible "STEAM para todos"
+- Cons: 3x content writing; UX confunde si mal navegado; producción gigante
+- Effort: Very High (~6-12 meses)
 
-### A4 — **Full Learning Platform** (FE Masters tier)
-A3 + video hosting + live workshops + mentorship + community forum + paid tier + multi-author + certifications con autoridad.
-- Pros: Producto serio, monetización clara
-- Cons: Equipo de 3-5 personas mínimo; meses-años de build; competencia feroz
-- Effort: Massive (~12-18 meses team de 3+)
-- Inspiración: Frontend Masters / Pluralsight
+### S4 — **Triple audiencia + tracks separados** (mismo target user pidió, mejor execution)
+3 sub-sites/sub-paths separados (`/kids`, `/teens`, `/adultos`) con curriculum independiente cada uno. Comparten infra + design tokens pero contenido divergente.
+- Pros: navegación clara per audiencia; SEO targeting per persona
+- Cons: 3 productos paralelos = team grande necesario
+- Effort: Very High (~12-18 meses solo)
 
-### A5 — **Hybrid: Blog + Tracks visuales** (no LMS, solo navigation)
-Blog actual mantiene + agregar UI tracks/roadmaps visuales tipo roadmap.sh, sin auth ni state. Pure SSG. Posts agrupados en paths.
-- Pros: Visual upgrade enorme con costo bajo, mantiene SSG/perf, free content
-- Cons: NO hay progress tracking real; no es "learning platform" técnico
-- Effort: Low-Medium (~2-3 semanas)
-- Inspiración: roadmap.sh + Awesome-X lists
+### S5 — **Aggregator + light originals** (creativo)
+Curate links a YouTube channels Spanish STEAM (Curiosamente, QuantumFracture, etc) + tracks editoriales propias hilando contenido externo + 5-10 originales. Like "Awesome list" curated for STEAM ES.
+- Pros: bypass content velocity bottleneck, lanzamiento rápido, valor real curaduria
+- Cons: dependencia content externos; menos diferenciación; revenue limited
+- Effort: Low-Medium (~4-6 sem)
+- Inspiración: Awesome lists + Brain Pickings
 
 ## Recommendation
 
-**Pregunta primero — qué querés construir realmente?**
+### Realista solo: **S1 → escalar S2 → escalar S3**
 
-Sin clarificar el target, pushback honesto:
+**Mi propuesta firme**:
 
-**Si querés "learning platform" real → A2 mínimo, A3 ideal**, pero implica:
-- 6+ semanas dev solo (vs lo proyectado de hidx hasta ahora ~2 semanas total)
-- Pivot técnico: SSG → hybrid (rompe ADR-003 y proposal original)
-- Auth + user data + GDPR + retention compliance
-- Compete con freeCodeCamp / Odin gratis + FE Masters pago — diferenciación clara requerida
+**Mes 1-3 (S1 launch):**
+- 1 audiencia: **kids 8-12** (sweet spot motivacional + COPPA-aware desde día 1)
+- 1 categoría: **E (Engineering hands-on) + A (Arte)** combinados
+- 10 lessons proyecto-based (catapulta cartón, circuito limón, kaleidoscopio CD, etc)
+- Materiales todos < $5 USD por proyecto
+- LatAm voice (rioplatense neutro)
+- Ad networks COPPA-compliant (Mediavine Family)
+- Differentiation: "Lab STEAM en casa con cosas que ya tenés — para hijos LatAm"
 
-**Si querés impacto rápido sin pivot técnico → A5 (Hybrid blog + tracks visuales)**:
-- 2-3 semanas dev
-- Mantiene SSG perfectamente
-- Tracks/roadmaps visuales agregados como nueva sección `/roadmaps`
-- Posts existentes se agrupan en paths
-- NO auth, NO progress (state local en localStorage si quiere)
-- Beneficio: discovery enorme, comunidad puede contribuir tracks, SEO++
+**Mes 4-6 (S2 expand):**
+- Sumar S+T+M para kids
+- Lanzar `/escuelas` outreach maestros públicos
+- Sumar segunda audiencia: **teens 13-17** mismo curriculum nivel 2
 
-**Mi sugerencia**: empezá con **A5**, validá demanda 3-6 meses (analytics + feedback), después pivote a A2/A3 cuando tengas señal de que la audiencia quiere progress tracking pago.
+**Mes 7-12 (S3 escalar):**
+- Sumar **adultos no-STEM** ("redescubrí ciencia que olvidaste")
+- Multi-version lessons (3 niveles per topic)
 
-Razones técnicas:
-1. **Sunken cost bajo**: si nadie usa los roadmaps, perdés 2 semanas no 6 meses
-2. **SSG preservado**: Lighthouse 100, costos cero, deploy simple
-3. **Diferenciación clara desde día 1**: roadmap.sh + Smashing-quality articles = nicho propio
-4. **Monetización Capa 4 (paywall) puede ser per-track** después
-5. **A2 sin demanda real = build trampolín nadie usa** (sucede con 80% de side projects ambiciosos)
+**No empezar por S3 directo** — gigantesco con cero validación.
+
+### Project rename
+
+`hidx` (How I Do X) NO encaja STEAM kids/family. Sugerencias evaluadas:
+
+| Nombre | Pros | Cons | Domain probable |
+|--------|------|------|-----------------|
+| **ChispaLab** | Memorable Spanish, "chispa" = curiosity LatAm | Genérico | chispalab.lat / .com |
+| **MundoSTEAM** | Descriptivo claro | Largo + STEAM extranjero | mundosteam.com |
+| **Tinkercosmos** | Tinker + cosmos = aspiracional | Kids no entienden tinker | tinkercosmos.com |
+| **CuriosaLab** | Curiosa = curiosidad | Femenino puede sesgar | curiosa.lat |
+| **EduMagia** | Educa + magia kids | Magia = no-ciencia (paradoja) | edumagia.com |
+| **Steamigos** | STEAM + amigos | Kids friendly + LatAm | steamigos.com |
+| **HandsOn STEAM** | Descriptivo | EN — gap audience | handson.lat |
+
+**Sugerencia firme**: **ChispaLab** o **Steamigos**. Comprá ambos dominios mientras decidís ($10/c/u, decisión final puede tomar semanas).
 
 ## Risks
 
-- **Scope creep masivo**: A3-A4 son producto-completo, no feature. Sin co-founder/equipo, plazos doblan o triplican
-- **Competencia gratuita feroz**: FCC, Odin, MDN — nadie paga por curriculum básico. Diferenciación = depth + opinionated take + craft visual
-- **Auth + user data**: rompe privacy-first promise actual (zero cookies). Solo Supabase Auth + hipotético consent banner
-- **Monetización pivot**: Capa 1 (affiliate) ahora pasa a P3 vs Capa 4 (paywall) sube a P0 — contradice proposal original
-- **SSG → Hybrid técnico**: cambia adapter, env, build pipeline; nuevo testing strategy
-- **Content velocity**: una "platform" sin >50 lessons al lanzamiento se ve vacía. Pillar posts (5 ya programados) no alcanzan
-- **Cert legalidad**: certificados de aprendizaje sin acreditación oficial son señal de marketing, no valor real
-- **Burnout**: 6+ meses solo construyendo platform sin contenido = motivación cae
+- **Compete con Khan = invisibilidad SEO** — atacar nicho LatAm hands-on es defendible; "competir Khan" es rendirse de antemano
+- **Content velocity bottleneck** — lessons STEAM con experimentos requieren testeo físico + foto/video proceso → 1 lesson = 4-6h producción. 10 lessons = 40-60h
+- **COPPA / GDPR-K compliance** — kids <13 datos = regulación estricta. Cero PII collection MVP. Ads networks COPPA-only
+- **Diseño infantil = dificultad UX adult** — paleta vibrante + iconos kids puede repeler audience adult-non-STEM. Mitigar: 3 sub-sites separados en S3/S4
+- **Materiales experimentos LatAm**: lo que cuesta $1 USA cuesta $5 LatAm (importación). Curate alternatives reciclados
+- **Rename + restart marca** = SEO authority cero; lo bueno: hidx tampoco tenía
+- **Producción multimedia** — fotos, videos cortos demos, ilustraciones — sin equipo design = bottleneck
+- **Aceptación maestros LatAm**: escuelas públicas tienen procesos burocráticos lentos para adopción contenido externo
+- **Modelo subscription LatAm difícil**: poder adquisitivo bajo + cards no-credit + Stripe LatAm friction
+- **Khan Academy partner program**: en vez competir, considerar partnership (translation + LatAm voice complement)
 
 ## Ready for Proposal
 
-**No directamente** — necesito clarificación bloqueante.
+**No** — clarificación bloqueante antes de proposal:
 
-### Preguntas críticas antes de `/sdd-propose`
+### Decisiones críticas
 
-1. **Target real**: 
-   - **A5** (blog + visual tracks, sin LMS real)?
-   - **A2** (LMS lite con auth + progress)?
-   - **A3** (LMS con quizzes + exercises)?
-   - **A4** (full platform — solo si tenés team)?
+1. **Approach scope inicial (mes 1-3)**:
+   - **S1** (1 audiencia kids + 1-2 STEAM categorías) ⭐ recomendado realista
+   - S2 (1 audiencia kids + STEAM full)
+   - S3 (3 audiencias) — **no recomendado start**
+   - S5 (Aggregator) — alternativa creativa
+   
+2. **Project name**: ChispaLab / Steamigos / otro. Decidir antes de implementar (afecta dominio, branding, copy, assets)
 
-2. **Time budget**: ¿2 semanas, 2 meses, 6 meses?
+3. **Audiencia primaria mes 1-3**: kids 8-12 (sugiero) o otra?
 
-3. **Modelo monetización shift**: ¿free curriculum + paid certs/mentorship? ¿Subscription? ¿Mantener current (sponsorship + affiliate)?
+4. **STEAM categoría inicial**: E+A (sugiero) o S/T/M?
 
-4. **Content existente**: 5 pillar posts planeados — ¿se convierten en lessons o quedan como blog separado del curriculum?
+5. **Stake en aceptar pushback**: ¿Aceptás reposicionar "complementamos Khan en LatAm hands-on" en vez de "competimos head-on"?
 
-5. **Diferenciación vs FCC/Odin**: ¿Qué hace única hidx vs gratis competition? Sugerencias:
-   - Spanish-first (FCC/Odin son EN — mercado LatAm subatendido)
-   - Opinionated takes (no "neutral" intro)
-   - Production-ready focus (vs "hello world" tutorials)
-   - Senior dev mentorship lens
+6. **Khan Academy partnership exploration**: ¿abierto a investigar partnership (traduccón + adaptación LatAm) en vez compete?
 
-6. **Competition acceptance**: ¿OK competir directamente con FCC gratis, o nicho hyper-specific?
+7. **Tiempo budget realista**: 3 meses S1, 12+ meses S3?
 
-**Mi sugerencia firme**: respondé 1+2+3 mínimo. Si no estás 100% seguro de querer 6+ meses pivot, **arrancá con A5** (validation barata). Después decidís si saltar a A2/A3 con data real de tracción.
+8. **Equipo solo o querés sumar (illustrator, content writer, video editor)?**
 
-Si decidís A2/A3 sin más analysis, propose va a ser largo (50-100 tasks) y querrá 6+ meses ejecución. ¿Estás dispuesto?
+9. **Inversión $$**: ¿hosting + dominios + ads tools paid + asset library budget?
+
+### Acciones inmediatas tuyas (independiente respuesta)
+
+1. **Comprar ambos dominios candidatos** ($10 c/u) para no perderlos
+2. **Validar mercado** con 5-10 padres/maestros LatAm: "¿pagarías $3/mes por experimentos STEAM en español para tu hijo?"
+3. **Espiar Khan Academy ES partnership program** (se aceptan colaboradores volunteers traducción)
+4. **Decidir si tirar todo trabajo hidx** (5 commits dev, supabase backend, components dev) o pivotear reusando infra solo
+
+**Mi recomendación firme una vez más**: empezá por S1 mini-MVP (3 meses, 1 audiencia, 1 categoría). Si tracción real → escalá. Si no → pivot barato. **No arranques S3 directo, perdés 12 meses sin saber si interesa.**
+
+Si confirmás S1 + nombre + audiencia, escribo proposal.md realista.
