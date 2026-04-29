@@ -1,0 +1,15 @@
+---
+interface Props {
+  href: string;
+  label?: string;
+  rel?: string;
+}
+
+const { href, label, rel = 'sponsored noopener noreferrer' } = Astro.props;
+---
+<span class="inline-affiliate inline-flex items-baseline gap-1">
+  <a href={href} rel={rel} target="_blank">
+    <slot>{label ?? href}</slot>
+  </a>
+  <small class="text-xs text-(--color-muted)" aria-label="Affiliate link">[aff]</small>
+</span>

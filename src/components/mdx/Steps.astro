@@ -1,0 +1,30 @@
+---
+// Wrap any sequence of <h3> + content blocks; each <h3> becomes a numbered step.
+---
+<div class="not-prose my-6 [counter-reset:step] space-y-6">
+  <slot />
+</div>
+
+<style is:global>
+  .steps-step {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .steps-step::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+</style>

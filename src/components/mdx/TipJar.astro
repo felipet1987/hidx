@@ -1,0 +1,22 @@
+---
+interface Props {
+  provider?: 'ko-fi' | 'buymeacoffee';
+  handle: string;
+  label?: string;
+}
+
+const { provider = 'ko-fi', handle, label } = Astro.props;
+const urls: Record<string, string> = {
+  'ko-fi': `https://ko-fi.com/${handle}`,
+  buymeacoffee: `https://buymeacoffee.com/${handle}`,
+};
+const href = urls[provider];
+---
+<a
+  href={href}
+  rel="noopener noreferrer"
+  target="_blank"
+  class="not-prose inline-block px-4 py-2 rounded bg-(--color-accent-soft) text-(--color-accent) no-underline font-semibold"
+>
+  ☕ {label ?? `Tip me on ${provider}`}
+</a>

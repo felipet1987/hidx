@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description, canonical, ogImage, type = 'website' } = Astro.props;
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://hidx.dev';
+const url = canonical ?? new URL(Astro.url.pathname, site).toString();
+const ogUrl = ogImage ?? `${site}/og/default.png`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={url} />
+    <link rel="alternate" type="application/rss+xml" title="hidx" href="/rss.xml" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <title>{title}</title>
+
+    <!-- Cloudflare Web Analytics — replace token at deploy -->
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "TOKEN_PLACEHOLDER"}'
+    ></script>
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-(--color-accent-soft)">
+      <nav class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="/" class="text-lg font-bold tracking-tight no-underline">hidx</a>
+        <ul class="flex gap-6 text-sm">
+          <li><a href="/posts">posts</a></li>
+          <li><a href="/about">about</a></li>
+          <li><a href="/now">now</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="flex-1 max-w-3xl mx-auto px-6 py-10 w-full">
+      <slot />
+    </main>
+    <footer class="border-t border-(--color-accent-soft) text-sm text-(--color-muted)">
+      <div class="max-w-3xl mx-auto px-6 py-8 flex flex-wrap gap-4 justify-between">
+        <p>© {new Date().getFullYear()} hidx. Content CC BY-NC 4.0 · Code MIT.</p>
+        <ul class="flex gap-4">
+          <li><a href="/disclosure">disclosure</a></li>
+          <li><a href="/privacy">privacy</a></li>
+          <li><a href="/rss.xml">rss</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+---
+interface Props {
+  type?: 'info' | 'warn' | 'tip' | 'danger';
+  title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const styles: Record<string, string> = {
+  info: 'border-cyan-500 bg-cyan-950/40',
+  warn: 'border-amber-500 bg-amber-950/40',
+  tip: 'border-emerald-500 bg-emerald-950/40',
+  danger: 'border-red-500 bg-red-950/40',
+};
+
+const icons: Record<string, string> = {
+  info: 'ℹ',
+  warn: '⚠',
+  tip: '✦',
+  danger: '⛔',
+};
+---
+<aside class={`not-prose my-6 border-l-4 ${styles[type]} px-4 py-3 rounded-r`}>
+  <p class="font-semibold flex items-center gap-2">
+    <span aria-hidden="true">{icons[type]}</span>
+    <span>{title ?? type.toUpperCase()}</span>
+  </p>
+  <div class="mt-2 text-sm">
+    <slot />
+  </div>
+</aside>

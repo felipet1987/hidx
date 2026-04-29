@@ -1,0 +1,24 @@
+---
+import { codeToHtml } from 'shiki';
+
+interface Props {
+  code: string;
+  lang?: string;
+  title?: string;
+}
+
+const { code, lang = 'ts', title } = Astro.props;
+const html = await codeToHtml(code, {
+  lang,
+  themes: { light: 'github-light', dark: 'github-dark' },
+  defaultColor: 'dark',
+});
+---
+<figure class="not-prose my-6 rounded border border-(--color-accent-soft) overflow-hidden">
+  {title && (
+    <figcaption class="px-4 py-2 text-xs font-mono bg-(--color-accent-soft)">
+      {title}
+    </figcaption>
+  )}
+  <div class="text-sm overflow-x-auto" set:html={html} />
+</figure>

@@ -1,0 +1,58 @@
+---
+title: Hello, hidx
+description: A first post that exercises every MDX component so we can see them rendered.
+publishedAt: 2026-04-28
+tags: [meta, astro]
+---
+
+import { Callout, Steps, CodeDemo, AffiliateLink, TipJar } from '../../components/mdx';
+
+## Why this post exists
+
+This is a sanity post. It exists to prove that the Astro + MDX pipeline renders correctly,
+that components are wired up, and that the post layout works end-to-end.
+
+## A callout
+
+<Callout type="info" title="What you'll learn">
+  How the rest of the components on this page work — and why each one exists.
+</Callout>
+
+## A multi-step walkthrough
+
+<Steps>
+  <div class="steps-step">
+    <h3>Install dependencies</h3>
+    <p>Run <code>pnpm install</code>.</p>
+  </div>
+  <div class="steps-step">
+    <h3>Start the dev server</h3>
+    <p>Run <code>pnpm dev</code> and open <code>http://localhost:4321</code>.</p>
+  </div>
+  <div class="steps-step">
+    <h3>Edit and reload</h3>
+    <p>Astro hot-reloads on save.</p>
+  </div>
+</Steps>
+
+## A syntax-highlighted code demo
+
+<CodeDemo
+  lang="ts"
+  title="src/lib/greet.ts"
+  code={`export function greet(name: string): string {
+  return \`hello, \${name}\`;
+}`}
+/>
+
+## An affiliate link
+
+If you need a hosting provider, I use <AffiliateLink href="https://www.cloudflare.com/">Cloudflare</AffiliateLink> for everything on hidx.
+
+## A tip jar
+
+<TipJar provider="ko-fi" handle="felipet1987" />
+
+## Wrapping up
+
+If you can read this with the components rendered, the pipeline works.

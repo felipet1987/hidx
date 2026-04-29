@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  featured: CollectionEntry<'posts'>[];
+}
+
+const { featured } = Astro.props;
+---
+<BaseLayout
+  title="hidx — How I Do X"
+  description="Long-form, opinionated walkthroughs of how I solve real problems with code, infrastructure, and tools."
+>
+  <section class="space-y-6 text-center py-16">
+    <h1 class="text-5xl md:text-6xl font-bold tracking-tight">how i do x</h1>
+    <p class="text-xl text-(--color-muted) max-w-xl mx-auto">
+      Long-form, opinionated walkthroughs of how I solve real problems with code, infrastructure, and tools.
+    </p>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="space-y-4 py-8">
+      <h2 class="text-2xl font-bold">Recent</h2>
+      <ul class="space-y-3">
+        {featured.map((p) => (
+          <li>
+            <a href={`/posts/${p.id}`} class="block no-underline border border-(--color-accent-soft) rounded p-4 hover:border-(--color-accent) transition">
+              <h3 class="font-semibold text-lg">{p.data.title}</h3>
+              <p class="text-sm text-(--color-muted) mt-1">{p.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="py-12 border-t border-(--color-accent-soft) text-center space-y-3">
+    <h2 class="text-2xl font-bold">Subscribe</h2>
+    <p class="text-(--color-muted)">New posts straight to your inbox. No spam.</p>
+    <p class="text-sm text-(--color-muted)">[Newsletter form lands in S4]</p>
+  </section>
+</BaseLayout>
