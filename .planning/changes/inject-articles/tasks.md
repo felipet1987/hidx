@@ -8,7 +8,7 @@
 - [x] 1.2 `supabase migration new articles` → table SQL with cols + checks + RLS policies + trigger updated_at + indexes
 - [x] 1.3 `supabase migration new storage` → bucket `article-assets` + public-read/auth-write policies
 - [x] 1.4 `supabase start` local → migrations apply clean (verified ports 54321/54322/54323)
-- [ ] 1.5 Create Cloud project `hidx` (Postgres 17), `supabase link`, `supabase db push` to Cloud (BLOCKED — needs Cloud account access)
+- [x] 1.5 Cloud project `hidx` (ref `jztvajdsuixxgfdluvqt`, region us-east-1, org `xoyyqhadzmaznlcibvhw`), linked, migrations pushed; Cloud RLS smoke 6/6 pass; GitHub Secrets set (URL + ANON only — SERVICE_ROLE excluded per ADR-204)
 - [x] 1.6 RED Vitest: anon client INSERT fails, anon SELECT only published returns (covered by `scripts/rls-smoke.ts`)
 - [x] 1.7 GREEN: `scripts/rls-smoke.ts` runnable standalone — all 6 assertions pass
 
