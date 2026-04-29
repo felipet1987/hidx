@@ -30,6 +30,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight, Quote,
+  MultipleChoiceQuiz, NumericInput,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -102,6 +103,36 @@ La misma fórmula vale para CONOS vs CILINDROS: V_cono = (1/3) × V_cilindro.
 - ¿Cuánto vale el volumen de tu pirámide en cm³? (V = 1/3 × 64 × 12 = 256 cm³)
 - ¿Por qué los egipcios construyeron pirámides en vez de cubos? (Pista: estabilidad estructural + economía material — usás 3× menos roca para misma altura).
 - Construí un cono y un cilindro con misma base circular + altura. Repetí el experimento. ¿Funciona la misma proporción 3:1?
+
+## 🖥️ Ejercicios para resolver acá
+
+<NumericInput
+  question="Volumen de un prisma cuadrangular de base 5×5 cm y altura 8 cm. (V = base × altura)"
+  answer={200}
+  unit="cm³"
+  hint="Base = 5 × 5 = 25 cm². V = 25 × 8."
+  explain="V = 25 × 8 = 200 cm³."
+/>
+
+<NumericInput
+  question="Volumen de pirámide MISMA base + altura (5×5×8). (V = (1/3) × base × altura)"
+  answer={66.67}
+  tolerance={0.5}
+  unit="cm³"
+  hint="Pirámide = un tercio del prisma. 200 / 3 = ?"
+  explain="V = (1/3) × 25 × 8 ≈ 66.67 cm³. Exactamente 1/3 del prisma."
+/>
+
+<MultipleChoiceQuiz
+  question="Si un cilindro tiene 100 cm³ de volumen, ¿cuánto tiene un cono con misma base y altura?"
+  choices={[
+    { text: '50 cm³', explain: 'No: la relación es 1/3, no 1/2.' },
+    { text: '33.33 cm³', correct: true, explain: 'V_cono = (1/3) × V_cilindro = 100/3 ≈ 33.33 cm³.' },
+    { text: '100 cm³', explain: 'No: cono es siempre menor.' },
+    { text: '300 cm³', explain: 'No: cilindro es siempre MAYOR (3×).' },
+  ]}
+  hint="La misma proporción 1:3 que pirámide:prisma."
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubierto**:

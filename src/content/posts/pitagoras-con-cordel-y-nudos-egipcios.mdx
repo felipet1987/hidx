@@ -26,6 +26,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Quote, Highlight,
+  MultipleChoiceQuiz, NumericInput,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -87,6 +88,35 @@ Esta relación funciona para CUALQUIER triángulo rectángulo. Si conocés dos l
 - Verificá la fórmula con OTRA terna pitagórica: 5-12-13. ¿Cumple a² + b² = c²?
 - Calculá la diagonal de tu cuaderno usando Pitágoras: medí ancho (a) y alto (b), calculá la diagonal (c). Verificá con regla.
 - Diseñá una rampa para skate de 30° con base de 2 metros — ¿cuánta madera necesitás? (Hipotenusa = base / cos(30°))
+
+## 🖥️ Ejercicios para resolver acá
+
+<NumericInput
+  question="Si los catetos miden 6 y 8, ¿cuánto mide la hipotenusa?"
+  answer={10}
+  hint="6² + 8² = c². Calculá c² y después √c²."
+  explain="6² + 8² = 36 + 64 = 100. √100 = 10. ¡Es otra terna pitagórica!"
+/>
+
+<NumericInput
+  question="Tu cuaderno mide 30 cm de ancho × 22 cm de alto. ¿Cuánto mide la diagonal? (Redondeá a 1 decimal.)"
+  answer={37.2}
+  tolerance={0.3}
+  unit="cm"
+  hint="diagonal² = ancho² + alto². 30² + 22² = ?"
+  explain="30² + 22² = 900 + 484 = 1384. √1384 ≈ 37.2 cm."
+/>
+
+<MultipleChoiceQuiz
+  question="¿Cuál NO es una terna pitagórica?"
+  choices={[
+    { text: '3-4-5', explain: '9 + 16 = 25. ¡Sí es!' },
+    { text: '5-12-13', explain: '25 + 144 = 169. ¡Sí es!' },
+    { text: '7-24-25', explain: '49 + 576 = 625. ¡Sí es!' },
+    { text: '4-5-6', correct: true, explain: '16 + 25 = 41, pero 6² = 36. NO es terna pitagórica.' },
+  ]}
+  hint="Probá a² + b² = c² con cada uno."
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubierto**:

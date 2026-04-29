@@ -31,6 +31,8 @@ export { default as DurationBadge } from './DurationBadge.astro';
 export { default as ExperimentSteps } from './ExperimentSteps.astro';
 export { default as MaterialsList } from './MaterialsList.astro';
 export { default as MercadoLibreProduct } from './MercadoLibreProduct.astro';
+export { default as MultipleChoiceQuiz } from './MultipleChoiceQuiz.astro';
+export { default as NumericInput } from './NumericInput.astro';
 export { default as ParentTip } from './ParentTip.astro';
 export { default as PrintablePDFButton } from './PrintablePDFButton.astro';
 export { default as SafetyNote } from './SafetyNote.astro';
@@ -69,6 +71,8 @@ export const MDX_COMPONENT_WHITELIST = [
   'ExperimentSteps',
   'MaterialsList',
   'MercadoLibreProduct',
+  'MultipleChoiceQuiz',
+  'NumericInput',
   'ParentTip',
   'PrintablePDFButton',
   'SafetyNote',

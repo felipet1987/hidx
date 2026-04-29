@@ -1,0 +1,157 @@
+---
+interface Choice {
+  text: string;
+  correct?: boolean;
+  explain?: string;
+}
+
+interface Props {
+  question: string;
+  choices: Choice[];
+  hint?: string;
+}
+
+const { question, choices, hint } = Astro.props;
+const id = `mcq-${Math.random().toString(36).slice(2, 9)}`;
+---
+<div class="mcq not-prose" data-mcq={id}>
+  <p class="mcq-q"><span class="mcq-icon" aria-hidden="true">❓</span> {question}</p>
+  <ul class="mcq-choices">
+    {choices.map((c, i) => (
+      <li>
+        <button
+          type="button"
+          class="mcq-choice"
+          data-mcq-choice
+          data-correct={c.correct ? 'true' : 'false'}
+          data-explain={c.explain ?? ''}
+        >
+          <span class="mcq-letter">{String.fromCharCode(65 + i)}</span>
+          <span class="mcq-text">{c.text}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+  <div class="mcq-feedback" data-mcq-feedback hidden></div>
+  {hint && <details class="mcq-hint"><summary>💡 Pista</summary><p>{hint}</p></details>}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-mcq]').forEach((root) => {
+    const feedback = root.querySelector<HTMLElement>('[data-mcq-feedback]');
+    root.querySelectorAll<HTMLButtonElement>('[data-mcq-choice]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const correct = btn.dataset.correct === 'true';
+        const explain = btn.dataset.explain;
+        root.querySelectorAll<HTMLButtonElement>('[data-mcq-choice]').forEach((b) => {
+          b.classList.remove('correct', 'incorrect');
+          if (b === btn) b.classList.add(correct ? 'correct' : 'incorrect');
+          if (b.dataset.correct === 'true') b.classList.add('correct');
+        });
+        if (feedback) {
+          feedback.hidden = false;
+          feedback.className = `mcq-feedback ${correct ? 'fb-correct' : 'fb-incorrect'}`;
+          feedback.textContent = correct
+            ? `✓ ¡Correcto! ${explain ?? ''}`
+            : `✗ Probá de nuevo. ${explain ?? ''}`;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .mcq {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 2px solid var(--color-t);
+    border-radius: 12px;
+    background: color-mix(in oklch, var(--color-t-soft) 25%, var(--color-bg));
+  }
+  .mcq-q {
+    margin: 0 0 1rem;
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--color-fg);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .mcq-icon {
+    font-size: 1.4rem;
+  }
+  .mcq-choices {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .mcq-choice {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-fg);
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .mcq-choice:hover {
+    border-color: var(--color-t);
+    transform: translateX(2px);
+  }
+  .mcq-choice.correct {
+    border-color: oklch(0.55 0.18 145);
+    background: color-mix(in oklch, oklch(0.55 0.18 145) 12%, var(--color-bg));
+  }
+  .mcq-choice.incorrect {
+    border-color: oklch(0.6 0.18 25);
+    background: color-mix(in oklch, oklch(0.6 0.18 25) 12%, var(--color-bg));
+  }
+  .mcq-letter {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background: var(--color-t-soft);
+    color: var(--color-t);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+  .mcq-feedback {
+    margin-top: 0.85rem;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .fb-correct {
+    background: color-mix(in oklch, oklch(0.55 0.18 145) 18%, var(--color-bg));
+    color: oklch(0.45 0.18 145);
+  }
+  .fb-incorrect {
+    background: color-mix(in oklch, oklch(0.6 0.18 25) 18%, var(--color-bg));
+    color: oklch(0.5 0.18 25);
+  }
+  .mcq-hint {
+    margin-top: 0.85rem;
+    font-size: 0.9rem;
+  }
+  .mcq-hint summary {
+    cursor: pointer;
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+  .mcq-hint p {
+    margin: 0.4rem 0 0;
+    color: var(--color-muted);
+  }
+</style>

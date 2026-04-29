@@ -25,6 +25,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+  MultipleChoiceQuiz, NumericInput,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -91,6 +92,45 @@ Hacé lo mismo en 2D recortando cuadrados de 2×2 cm:
 - ¿Cuánto es 5³? Sin contar — calculálo. (Pista: 5 × 5 × 5)
 - Si tu pieza mide 3 metros de largo × 3 ancho × 3 alto, ¿cuántos metros cúbicos de aire tiene?
 - ¿Qué crece más rápido: 10² o 5³? Calculá ambos. ¿Y 2¹⁰?
+
+## 🖥️ Ejercicios para resolver acá
+
+<MultipleChoiceQuiz
+  question="¿Cuánto vale 2³?"
+  choices={[
+    { text: '6', explain: 'Eso sería 2 × 3. Potencia es 2 × 2 × 2.' },
+    { text: '8', correct: true, explain: '2 × 2 × 2 = 8. Tres dimensiones de un cubo de lado 2.' },
+    { text: '9', explain: 'Eso sería 3². Probá de nuevo.' },
+    { text: '12', explain: 'No. 2³ = 2×2×2 = 8.' },
+  ]}
+  hint="Pensá en un cubo de lado 2: cuántos cubitos chicos caben adentro."
+/>
+
+<NumericInput
+  question="Si tu pieza mide 3 metros de lado (3×3×3), ¿cuántos m³ de aire tiene?"
+  answer={27}
+  unit="m³"
+  hint="3³ = 3 × 3 × 3."
+  explain="¡3³ = 27 m³! Esa es la fórmula de volumen del cubo: lado³."
+/>
+
+<NumericInput
+  question="¿Cuánto es 5³?"
+  answer={125}
+  hint="5 × 5 = 25. Después × 5 más."
+  explain="5³ = 5 × 5 × 5 = 125."
+/>
+
+<MultipleChoiceQuiz
+  question="¿Qué crece más rápido a partir del exponente 4?"
+  choices={[
+    { text: '2ⁿ', correct: true, explain: '2ⁿ duplica cada paso. 2⁴=16, 2⁵=32, 2⁶=64...' },
+    { text: 'n²', explain: 'Crece más lento (cuadrático vs exponencial).' },
+    { text: 'n³', explain: 'También cúbico, pero exponencial 2ⁿ supera a partir de n=10.' },
+    { text: 'Todos iguales', explain: 'No, exponencial 2ⁿ siempre gana eventualmente.' },
+  ]}
+  hint="Probá calcular 2¹⁰ vs 10² vs 10³."
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubierto**:

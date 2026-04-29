@@ -26,6 +26,7 @@ parentTip: |
 import {
   MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight,
+  MultipleChoiceQuiz, NumericInput,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -84,6 +85,40 @@ Lo mismo con multiplicar y dividir: <Highlight variant="cyan">si dividís un lad
 - Resolvé con la balanza: **3x + 2 = 14**. (Sacá 2 monedas, divididí entre 3.)
 - ¿Qué pasa si tenés monedas en AMBOS lados con vasos x? Por ejemplo: **2x + 5 = x + 9**. (Pista: sacá 1 vaso "x" del lado derecho y otro del izquierdo simultaneamente.)
 - Diseñá una ecuación que tu hermano/a tenga que resolver con tu balanza.
+
+## 🖥️ Ejercicios para resolver acá
+
+<NumericInput
+  question="Resolvé: 3x + 2 = 14. ¿Cuánto vale x?"
+  answer={4}
+  hint="Restá 2 de ambos lados. Después dividí entre 3."
+  explain="3x = 12, después dividís entre 3 → x = 4."
+/>
+
+<NumericInput
+  question="Resolvé: 5x - 7 = 18. ¿x?"
+  answer={5}
+  hint="Sumá 7 de ambos lados. Después dividí entre 5."
+  explain="5x = 25 → x = 5."
+/>
+
+<MultipleChoiceQuiz
+  question="¿Por qué 'pasar el +3 al otro lado restando' funciona?"
+  choices={[
+    { text: 'Es una regla mágica que hay que memorizar.', explain: 'No es magia — es lógica.' },
+    { text: 'Porque restás 3 a ambos lados, manteniendo el equilibrio de la igualdad.', correct: true, explain: 'Exacto. La igualdad se mantiene si hacés lo mismo en ambos lados.' },
+    { text: 'Porque los números cambian de signo cuando se mueven.', explain: 'No es por moverse: es por restar a ambos lados (axioma de igualdad).' },
+    { text: 'Por convención de los matemáticos.', explain: 'No, viene de la propiedad de la igualdad.' },
+  ]}
+  hint="Pensá en la balanza física: si sacás 3 monedas de un lado, ¿qué hacés del otro?"
+/>
+
+<NumericInput
+  question="Resolvé: 2x + 5 = x + 9. ¿x?"
+  answer={4}
+  hint="Sacá 'x' de ambos lados. Después restá 5 de ambos lados."
+  explain="2x - x = 9 - 5 → x = 4. Restaste 1x y 5 de ambos lados."
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubierto**:
