@@ -21,7 +21,8 @@
     "astro": "astro",
     "rls:smoke": "tsx scripts/rls-smoke.ts",
     "lint:images": "tsx scripts/lint-images.ts",
-    "upload": "tsx scripts/upload-asset.ts"
+    "upload": "tsx scripts/upload-asset.ts",
+    "new:lesson": "tsx scripts/new-lesson.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^11.2.0",
