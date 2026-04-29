@@ -3,6 +3,9 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import ReadingBar from '../components/ReadingBar.astro';
 import CopyButton from '../components/CopyButton.astro';
+import RelatedPosts from '../components/RelatedPosts.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import AuthorBio from '../components/AuthorBio.astro';
 
 interface Props {
   post: CollectionEntry<'posts'>;
@@ -64,7 +67,10 @@ const articleSchema = {
       <slot />
 
       <footer class="post-footer not-prose">
-        <p>
+        <ShareButtons url={`https://hidx.dev/posts/${post.id}/`} title={title} />
+        <RelatedPosts currentId={post.id} currentTags={tags} />
+        <AuthorBio />
+        <p class="post-disclosure">
           Algunos enlaces son de afiliado. Si haces clic y compras, este sitio puede ganar una comisión sin costo extra para ti.
           Ver <a href="/disclosure">divulgación</a>.
         </p>
@@ -160,6 +166,11 @@ const articleSchema = {
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
     font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+  .post-disclosure {
+    margin-top: 2rem;
+    font-size: 0.78rem;
     color: var(--color-muted);
   }
 

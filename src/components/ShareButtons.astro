@@ -1,0 +1,95 @@
+---
+interface Props {
+  url: string;
+  title: string;
+}
+
+const { url, title } = Astro.props;
+const enc = (s: string) => encodeURIComponent(s);
+
+const shares = [
+  { label: 'X', href: `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}` },
+  { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}` },
+  { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${enc(`${title} ${url}`)}` },
+  { label: 'Mastodon', href: `https://mastodon.social/share?text=${enc(`${title} ${url}`)}` },
+];
+---
+<div class="share-buttons not-prose">
+  <span class="share-label">Compartir:</span>
+  <ul>
+    {shares.map((s) => (
+      <li>
+        <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`Compartir en ${s.label}`}>{s.label}</a>
+      </li>
+    ))}
+    <li>
+      <button type="button" class="copy-url" data-copy-url={url} aria-label="Copiar URL">Copiar URL</button>
+    </li>
+  </ul>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-url]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.dataset.copyUrl;
+      if (!url) return;
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.textContent = 'Copiado ✓';
+        btn.classList.add('done');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('done');
+        }, 1800);
+      } catch {
+        btn.textContent = 'Falló';
+      }
+    });
+  });
+</script>
+
+<style>
+  .share-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+  }
+  .share-label {
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+  .share-buttons ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .share-buttons a,
+  .share-buttons button {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg-elev);
+    color: var(--color-muted);
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .share-buttons a:hover,
+  .share-buttons button:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  .share-buttons button.done {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+</style>

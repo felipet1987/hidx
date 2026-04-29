@@ -1,0 +1,86 @@
+---
+import { DEFAULT_AUTHOR_ID, getAuthor } from '../lib/authors';
+
+interface Props {
+  authorId?: string;
+}
+
+const { authorId = DEFAULT_AUTHOR_ID } = Astro.props;
+const author = getAuthor(authorId);
+if (!author) return null;
+---
+<aside class="author-bio not-prose">
+  <div class="bio-avatar" set:html={author.avatarSvg ?? ''}>
+    {!author.avatarSvg && author.avatarUrl && (
+      <img src={author.avatarUrl} alt={`${author.name} avatar`} width="48" height="48" loading="lazy" />
+    )}
+  </div>
+  <div class="bio-body">
+    <p class="bio-name">{author.name}</p>
+    <p class="bio-text">{author.bio}</p>
+    <ul class="bio-links">
+      {author.github && <li><a href={`https://github.com/${author.github}`} target="_blank" rel="noopener noreferrer">github</a></li>}
+      {author.mastodon && <li><a href={author.mastodon} target="_blank" rel="noopener noreferrer">mastodon</a></li>}
+      {author.bluesky && <li><a href={author.bluesky} target="_blank" rel="noopener noreferrer">bluesky</a></li>}
+      {author.url && <li><a href={author.url}>perfil</a></li>}
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .author-bio {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin: 3rem 0 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-bg-elev);
+  }
+  .bio-avatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .bio-avatar :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .bio-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .bio-name {
+    margin: 0 0 0.35rem;
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .bio-text {
+    margin: 0 0 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .bio-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+  .bio-links a {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .bio-links a:hover {
+    color: var(--color-accent);
+  }
+</style>
