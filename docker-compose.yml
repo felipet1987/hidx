@@ -1,0 +1,67 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hidx-dev:latest
+    container_name: hidx-dev
+    command: ["pnpm", "dev", "--host", "0.0.0.0", "--port", "4321"]
+    ports:
+      - "4321:4321"
+    volumes:
+      - .:/app
+      - hidx_node_modules:/app/node_modules
+      - hidx_astro_cache:/app/.astro
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4321').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  preview:
+    image: hidx-dev:latest
+    container_name: hidx-preview
+    profiles: ["preview"]
+    command: ["sh", "-c", "pnpm build && pnpm preview --host 0.0.0.0 --port 4322"]
+    ports:
+      - "4322:4322"
+    volumes:
+      - .:/app
+      - hidx_node_modules:/app/node_modules
+      - hidx_astro_cache:/app/.astro
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - dev
+
+  wrangler:
+    image: hidx-dev:latest
+    container_name: hidx-wrangler
+    profiles: ["edge"]
+    command: ["sh", "-c", "pnpm build && pnpm exec wrangler pages dev dist --port 8788 --ip 0.0.0.0"]
+    ports:
+      - "8788:8788"
+    volumes:
+      - .:/app
+      - hidx_node_modules:/app/node_modules
+      - hidx_astro_cache:/app/.astro
+      - hidx_wrangler_state:/app/.wrangler
+    environment:
+      - NODE_ENV=production
+
+  test:
+    image: hidx-dev:latest
+    container_name: hidx-test
+    profiles: ["test"]
+    command: ["pnpm", "test"]
+    volumes:
+      - .:/app
+      - hidx_node_modules:/app/node_modules
+
+volumes:
+  hidx_node_modules:
+  hidx_astro_cache:
+  hidx_wrangler_state:
