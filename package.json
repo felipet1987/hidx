@@ -18,7 +18,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "astro": "astro"
+    "astro": "astro",
+    "rls:smoke": "tsx scripts/rls-smoke.ts",
+    "lint:images": "tsx scripts/lint-images.ts",
+    "upload": "tsx scripts/upload-asset.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^11.2.0",
