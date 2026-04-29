@@ -4,7 +4,7 @@ import ThemeToggle from './ThemeToggle.astro';
 ---
 <header class="site-header">
   <nav class="site-nav">
-    <a href="/" class="brand" aria-label="hidx home">
+    <a href="/" class="brand" aria-label="hidx — inicio">
       <Logo size={32} />
       <span class="wordmark">hidx</span>
     </a>
@@ -12,7 +12,7 @@ import ThemeToggle from './ThemeToggle.astro';
     <button
       type="button"
       class="hamburger"
-      aria-label="Toggle navigation"
+      aria-label="Abrir menú"
       aria-expanded="false"
       aria-controls="primary-nav"
       data-hamburger
@@ -23,9 +23,9 @@ import ThemeToggle from './ThemeToggle.astro';
     </button>
 
     <ul id="primary-nav" class="nav-links" data-nav-links>
-      <li><a href="/posts">posts</a></li>
-      <li><a href="/about">about</a></li>
-      <li><a href="/now">now</a></li>
+      <li><a href="/posts">artículos</a></li>
+      <li><a href="/about">sobre</a></li>
+      <li><a href="/now">ahora</a></li>
       <li class="theme-slot"><ThemeToggle /></li>
     </ul>
   </nav>

@@ -10,33 +10,33 @@ const { featured } = Astro.props;
 
 const pillarTopics = [
   'edge functions',
-  'observability',
-  'ai-assisted dev',
-  'database internals',
+  'observabilidad',
+  'desarrollo asistido por ia',
+  'internals de bases de datos',
   'prompt engineering',
   'cloudflare workers',
-  'tdd at scale',
-  'monorepo ergonomics',
+  'tdd a escala',
+  'ergonomía de monorepos',
   'astro islands',
-  'systems design',
+  'diseño de sistemas',
 ];
 ---
 <BaseLayout
-  title="hidx — How I Do X"
-  description="Long-form, opinionated walkthroughs of how I solve real problems with code, infrastructure, and tools."
+  title="hidx — Cómo lo hago"
+  description="Guías largas y opinadas sobre cómo resuelvo problemas reales con código, infraestructura y herramientas."
 >
   <section class="hero">
     <div class="hero-mesh" aria-hidden="true"></div>
     <div class="hero-inner">
-      <p class="eyebrow">how i do x</p>
+      <p class="eyebrow">cómo lo hago</p>
       <h1>
-        Long-form walkthroughs<br />
-        for <span class="text-gradient">developers who care</span>.
+        Guías largas<br />
+        para <span class="text-gradient">quienes les importa</span>.
       </h1>
       <p class="lede">
-        Opinionated, reproducible, end-to-end guides on code, infrastructure, and tooling.
+        Walkthroughs opinados, reproducibles y de punta a punta sobre código, infraestructura y herramientas.
       </p>
-      <a href="/posts" class="cta">Read the posts →</a>
+      <a href="/posts" class="cta">Leer los artículos →</a>
 
       <div class="marquee" aria-hidden="true">
         <div class="marquee-track">
@@ -50,7 +50,7 @@ const pillarTopics = [
 
   {featured.length > 0 && (
     <section class="featured">
-      <h2>Recent</h2>
+      <h2>Recientes</h2>
       <ul class="featured-list">
         {featured.map((p) => (
           <li>
@@ -59,7 +59,7 @@ const pillarTopics = [
               <h3>{p.data.title}</h3>
               <p>{p.data.description}</p>
               <time datetime={p.data.publishedAt.toISOString()}>
-                {p.data.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                {p.data.publishedAt.toLocaleDateString('es', { year: 'numeric', month: 'short', day: 'numeric' })}
               </time>
             </a>
           </li>
@@ -69,9 +69,9 @@ const pillarTopics = [
   )}
 
   <section class="newsletter">
-    <h2>Subscribe</h2>
-    <p>New posts straight to your inbox. No spam.</p>
-    <p class="placeholder">[Newsletter form lands in S4]</p>
+    <h2>Suscríbete</h2>
+    <p>Nuevas publicaciones directo a tu correo. Sin spam.</p>
+    <p class="placeholder">[Formulario de newsletter llega en S4]</p>
   </section>
 </BaseLayout>
 

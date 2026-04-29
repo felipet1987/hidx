@@ -11,5 +11,5 @@ const { href, label, rel = 'sponsored noopener noreferrer' } = Astro.props;
   <a href={href} rel={rel} target="_blank">
     <slot>{label ?? href}</slot>
   </a>
-  <small class="text-xs text-(--color-muted)" aria-label="Affiliate link">[aff]</small>
+  <small class="text-xs text-(--color-muted)" aria-label="Enlace de afiliado">[afil]</small>
 </span>

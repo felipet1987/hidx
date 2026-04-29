@@ -42,10 +42,10 @@ const articleSchema = {
         <p class="lede">{description}</p>
         <div class="meta">
           <time datetime={publishedAt.toISOString()}>
-            {publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {publishedAt.toLocaleDateString('es', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
           <span class="dot" aria-hidden="true">·</span>
-          <span>{readingMinutes} min read</span>
+          <span>{readingMinutes} min de lectura</span>
           {tags.length > 0 && (
             <>
               <span class="dot" aria-hidden="true">·</span>
@@ -65,16 +65,16 @@ const articleSchema = {
 
       <footer class="post-footer not-prose">
         <p>
-          Some links may be affiliate links. If you click and buy, this site may earn a commission at no extra cost to you.
-          See <a href="/disclosure">disclosure</a>.
+          Algunos enlaces son de afiliado. Si haces clic y compras, este sitio puede ganar una comisión sin costo extra para ti.
+          Ver <a href="/disclosure">divulgación</a>.
         </p>
       </footer>
     </article>
 
     {tocHeadings.length > 1 && (
       <aside class="post-toc">
-        <nav aria-label="Table of contents">
-          <p class="toc-title">On this page</p>
+        <nav aria-label="Tabla de contenidos">
+          <p class="toc-title">En esta página</p>
           <ul>
             {tocHeadings.map((h) => (
               <li class={h.depth === 3 ? 'l3' : ''}>

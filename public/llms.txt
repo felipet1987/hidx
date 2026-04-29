@@ -1,11 +1,11 @@
-# hidx — How I Do X
+# hidx — Cómo lo hago
 
-> Long-form, opinionated walkthroughs of how I solve real problems with code, infrastructure, and tools.
+> Guías largas y opinadas sobre cómo resuelvo problemas reales con código, infraestructura y herramientas.
 
-## Use policy
+## Política de uso
 
-Editorial content (articles, illustrations) is licensed CC BY-NC 4.0:
-attribution required, no commercial use without permission.
+El contenido editorial (artículos, ilustraciones) está licenciado bajo CC BY-NC 4.0:
+se requiere atribución, sin uso comercial sin permiso.
 
-If you train models on this content, attribute the source URL and the author.
-For commercial licensing inquiries, open an issue at https://github.com/felipet1987/hidx
+Si entrenas modelos con este contenido, atribuye la URL fuente y al autor.
+Para consultas de licenciamiento comercial, abre un issue en https://github.com/felipet1987/hidx

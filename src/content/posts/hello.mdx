@@ -1,58 +1,58 @@
 ---
-title: Hello, hidx
-description: A first post that exercises every MDX component so we can see them rendered.
+title: Hola, hidx
+description: Un primer artículo que ejercita cada componente MDX para verlos renderizados.
 publishedAt: 2026-04-28
 tags: [meta, astro]
 ---
 
 import { Callout, Steps, CodeDemo, AffiliateLink, TipJar } from '../../components/mdx';
 
-## Why this post exists
+## Por qué existe este artículo
 
-This is a sanity post. It exists to prove that the Astro + MDX pipeline renders correctly,
-that components are wired up, and that the post layout works end-to-end.
+Este es un artículo de prueba. Existe para verificar que el pipeline Astro + MDX renderiza correctamente,
+que los componentes están conectados y que el layout del artículo funciona de punta a punta.
 
-## A callout
+## Un callout
 
-<Callout type="info" title="What you'll learn">
-  How the rest of the components on this page work — and why each one exists.
+<Callout type="info" title="Lo que aprenderás">
+  Cómo funciona el resto de los componentes en esta página — y por qué cada uno existe.
 </Callout>
 
-## A multi-step walkthrough
+## Un walkthrough de varios pasos
 
 <Steps>
   <div class="steps-step">
-    <h3>Install dependencies</h3>
-    <p>Run <code>pnpm install</code>.</p>
+    <h3>Instalar dependencias</h3>
+    <p>Ejecuta <code>pnpm install</code>.</p>
   </div>
   <div class="steps-step">
-    <h3>Start the dev server</h3>
-    <p>Run <code>pnpm dev</code> and open <code>http://localhost:4321</code>.</p>
+    <h3>Iniciar el servidor de desarrollo</h3>
+    <p>Ejecuta <code>pnpm dev</code> y abre <code>http://localhost:4321</code>.</p>
   </div>
   <div class="steps-step">
-    <h3>Edit and reload</h3>
-    <p>Astro hot-reloads on save.</p>
+    <h3>Editar y recargar</h3>
+    <p>Astro recarga en caliente al guardar.</p>
   </div>
 </Steps>
 
-## A syntax-highlighted code demo
+## Una demo de código con resaltado de sintaxis
 
 <CodeDemo
   lang="ts"
-  title="src/lib/greet.ts"
-  code={`export function greet(name: string): string {
-  return \`hello, \${name}\`;
+  title="src/lib/saludo.ts"
+  code={`export function saludo(nombre: string): string {
+  return \`hola, \${nombre}\`;
 }`}
 />
 
-## An affiliate link
+## Un enlace de afiliado
 
-If you need a hosting provider, I use <AffiliateLink href="https://www.cloudflare.com/">Cloudflare</AffiliateLink> for everything on hidx.
+Si necesitas un proveedor de hosting, yo uso <AffiliateLink href="https://www.cloudflare.com/">Cloudflare</AffiliateLink> para todo en hidx.
 
-## A tip jar
+## Una caja de propinas
 
 <TipJar provider="ko-fi" handle="felipet1987" />
 
-## Wrapping up
+## Cierre
 
-If you can read this with the components rendered, the pipeline works.
+Si puedes leer esto con los componentes renderizados, el pipeline funciona.
