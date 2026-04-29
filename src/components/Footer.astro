@@ -1,0 +1,56 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>
+      © {year} <span class="brand-mini">hidx</span>. Content
+      <a href="/disclosure" rel="noopener">CC BY-NC 4.0</a> · Code
+      <a href="https://opensource.org/license/mit" target="_blank" rel="noopener noreferrer">MIT</a>.
+    </p>
+    <ul>
+      <li><a href="/disclosure">disclosure</a></li>
+      <li><a href="/privacy">privacy</a></li>
+      <li><a href="/rss.xml">rss</a></li>
+      <li><a href="https://github.com/felipet1987/hidx" target="_blank" rel="noopener noreferrer">github</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    margin-top: 4rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+  .footer-inner {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand-mini {
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .footer-inner ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-inner a {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .footer-inner a:hover {
+    color: var(--color-accent);
+  }
+</style>
