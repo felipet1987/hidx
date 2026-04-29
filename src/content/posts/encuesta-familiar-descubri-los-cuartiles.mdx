@@ -29,6 +29,7 @@ parentTip: |
 import {
   MaterialsList, ExperimentSteps, ParentTip, AgeBadge,
   STEAMBadge, DifficultyStars, DurationBadge, Callout, Highlight, Compare,
+  MultipleChoiceQuiz, NumericInput,
 } from '../../components/mdx';
 
 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
@@ -93,6 +94,42 @@ Los medios usan promedios cuando quieren INFLAR cifras. Cuando hay desigualdad, 
 - Hacé otra encuesta — esta vez sobre altura. Anotá altura de 11 familiares. Calculá Q1, Q2, Q3.
 - Calculá el **rango intercuartílico** = Q3 - Q1. Te dice qué tan "concentrados" están los datos.
 - Buscá una **tabla pediátrica de altura por edad**. Vas a ver percentiles 5, 25, 50, 75, 95. ¿Sabés tu percentil?
+
+## 🖥️ Ejercicios para resolver acá
+
+Datos: 5, 7, 9, 12, 14, 15, 18, 20, 22, 25, 30 (11 valores ordenados).
+
+<NumericInput
+  question="¿Cuál es la mediana (Q2)?"
+  answer={15}
+  hint="Es el valor del medio. Con 11 valores → posición 6."
+  explain="Posición 6 = 15."
+/>
+
+<NumericInput
+  question="¿Cuál es Q1 (cuartil 1)?"
+  answer={9}
+  hint="Es el valor en posición 3 (mitad de la primera mitad)."
+  explain="Q1 = 9. El 25% inferior está aquí o debajo."
+/>
+
+<NumericInput
+  question="¿Cuál es Q3 (cuartil 3)?"
+  answer={22}
+  hint="Posición 9 (mitad de la segunda mitad)."
+  explain="Q3 = 22. El 75% está aquí o debajo."
+/>
+
+<MultipleChoiceQuiz
+  question="En una empresa, 10 personas ganan $500 y 1 (jefe) gana $50.000. ¿Cuál es la mediana?"
+  choices={[
+    { text: '$500', correct: true, explain: 'La mediana ignora outliers. 10 personas ganan $500 → mediana cae ahí.' },
+    { text: '$5.000', explain: 'Eso es el promedio (engañoso por outlier).' },
+    { text: '$50.000', explain: 'Ese es el máximo (outlier extremo).' },
+    { text: '$25.250', explain: 'No tiene sentido estadístico.' },
+  ]}
+  hint="Ordená los 11 valores y buscá el del medio."
+/>
 
 <ParentTip>
 **OA del currículum nacional chileno cubierto**:
