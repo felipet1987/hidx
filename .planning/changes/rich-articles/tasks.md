@@ -70,11 +70,11 @@
 
 ## Phase 7: CLI + Whitelist + Docs (S4g)
 
-- [ ] 7.1 Modify `src/components/mdx/index.ts` — export 18 new + extend `MDX_COMPONENT_WHITELIST` array
-- [ ] 7.2 Modify `scripts/upload-asset.ts` (from inject-articles) — emit `<Image src="..." alt="..." caption="..." />` snippet to clipboard
-- [ ] 7.3 Add `scripts/check-mermaid-syntax.ts` pre-commit hook — runs `mmdc --quiet` on each `.mdx` with mermaid block
-- [ ] 7.4 `docs/components.md` — 18 component catalog with signature + MDX example each
-- [ ] 7.5 `docs/diagrams.md` — 5 Mermaid copy-paste examples (flowchart, sequence, gantt, ER, state)
+- [x] 7.1 `src/components/mdx/index.ts` — 24 components in WHITELIST (incremental across phases)
+- [x] 7.2 `scripts/upload-asset.ts` — Supabase Storage upload + `<Image>`/`<Video>` snippet + macOS clipboard; 50MB free-tier guard; mime auto-detect
+- [ ] 7.3 ~~mermaid syntax pre-commit~~ SKIPPED per Phase 3 deviation (client-side renders error fallback inline)
+- [x] 7.4 `docs/components.md` — 24 component catalog with signature + MDX example + extension instructions
+- [x] 7.5 `docs/diagrams.md` — 5 Mermaid examples + theme variables table + perf + a11y notes
 
 ## Phase 8: Verification
 
