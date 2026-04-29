@@ -1,6 +1,8 @@
 ---
 import Logo from './Logo.astro';
+import StreakBadge from './StreakBadge.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import XPCounter from './XPCounter.astro';
 ---
 <header class="site-header">
   <nav class="site-nav">
@@ -26,6 +28,8 @@ import ThemeToggle from './ThemeToggle.astro';
       <li><a href="/explorar">explorar</a></li>
       <li><a href="/rutas">rutas</a></li>
       <li><a href="/padres">padres</a></li>
+      <li class="gamification-slot"><StreakBadge /></li>
+      <li class="gamification-slot"><XPCounter /></li>
       <li class="theme-slot"><ThemeToggle /></li>
     </ul>
   </nav>

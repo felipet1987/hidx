@@ -1,0 +1,69 @@
+---
+---
+<button
+  type="button"
+  class="xp-counter"
+  data-xp-counter
+  aria-label="Tu XP total"
+  title="Click para ver tu progreso"
+>
+  <span class="xp-icon" aria-hidden="true">⚡</span>
+  <span class="xp-value" data-xp-value>0</span>
+  <span class="xp-label">XP</span>
+</button>
+
+<script>
+  import { getXP } from '../lib/xp';
+
+  function update() {
+    const els = document.querySelectorAll<HTMLElement>('[data-xp-value]');
+    const xp = getXP();
+    els.forEach((el) => (el.textContent = String(xp)));
+  }
+
+  update();
+  window.addEventListener('yachaytree:xp', (e) => {
+    update();
+    document.querySelectorAll<HTMLElement>('.xp-counter').forEach((el) => {
+      el.classList.add('xp-pulse');
+      setTimeout(() => el.classList.remove('xp-pulse'), 600);
+    });
+  });
+  document.addEventListener('astro:page-load', update);
+</script>
+
+<style>
+  .xp-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.65rem;
+    background: linear-gradient(135deg, var(--color-accent-yellow), var(--color-e));
+    color: var(--color-fg);
+    border: 0;
+    border-radius: 9999px;
+    font: inherit;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .xp-counter:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--color-e) 30%, transparent);
+  }
+  .xp-counter.xp-pulse {
+    animation: xp-pulse 0.6s ease;
+  }
+  @keyframes xp-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); filter: brightness(1.3); }
+    100% { transform: scale(1); }
+  }
+  .xp-icon { font-size: 0.95rem; }
+  .xp-value { font-family: var(--font-mono); }
+  .xp-label { font-size: 0.7rem; opacity: 0.75; }
+  @media (prefers-reduced-motion: reduce) {
+    .xp-counter, .xp-counter.xp-pulse { animation: none; transition: none; }
+  }
+</style>

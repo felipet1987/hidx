@@ -1,0 +1,76 @@
+---
+---
+<button
+  type="button"
+  class="streak-badge"
+  data-streak-badge
+  aria-label="Días consecutivos de actividad"
+  title="Tu racha activa"
+>
+  <span class="streak-icon" aria-hidden="true">🔥</span>
+  <span class="streak-value" data-streak-value>0</span>
+</button>
+
+<script>
+  import { getStreak } from '../lib/xp';
+
+  function update() {
+    const els = document.querySelectorAll<HTMLElement>('[data-streak-value]');
+    const { count } = getStreak();
+    els.forEach((el) => (el.textContent = String(count)));
+    document.querySelectorAll<HTMLElement>('.streak-badge').forEach((el) => {
+      el.classList.toggle('streak-zero', count === 0);
+    });
+  }
+
+  update();
+  window.addEventListener('yachaytree:streak', () => {
+    update();
+    document.querySelectorAll<HTMLElement>('.streak-badge').forEach((el) => {
+      el.classList.add('streak-pulse');
+      setTimeout(() => el.classList.remove('streak-pulse'), 800);
+    });
+  });
+  document.addEventListener('astro:page-load', update);
+</script>
+
+<style>
+  .streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.65rem;
+    background: linear-gradient(135deg, oklch(0.7 0.18 50), oklch(0.65 0.18 25));
+    color: white;
+    border: 0;
+    border-radius: 9999px;
+    font: inherit;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .streak-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px color-mix(in oklch, oklch(0.65 0.18 25) 35%, transparent);
+  }
+  .streak-badge.streak-zero {
+    background: var(--color-bg-elev);
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+  }
+  .streak-badge.streak-pulse {
+    animation: streak-pulse 0.8s ease;
+  }
+  @keyframes streak-pulse {
+    0% { transform: scale(1) rotate(0); }
+    25% { transform: scale(1.3) rotate(-8deg); }
+    50% { transform: scale(1.2) rotate(8deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .streak-icon { font-size: 1rem; }
+  .streak-value { font-family: var(--font-mono); }
+  @media (prefers-reduced-motion: reduce) {
+    .streak-badge, .streak-badge.streak-pulse { animation: none; transition: none; }
+  }
+</style>

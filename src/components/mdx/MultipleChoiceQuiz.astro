@@ -37,8 +37,11 @@ const id = `mcq-${Math.random().toString(36).slice(2, 9)}`;
 </div>
 
 <script>
+  import { awardXP } from '../../lib/xp';
+
   document.querySelectorAll<HTMLElement>('[data-mcq]').forEach((root) => {
     const feedback = root.querySelector<HTMLElement>('[data-mcq-feedback]');
+    const id = root.dataset.mcq ?? '';
     root.querySelectorAll<HTMLButtonElement>('[data-mcq-choice]').forEach((btn) => {
       btn.addEventListener('click', () => {
         const correct = btn.dataset.correct === 'true';
@@ -52,9 +55,10 @@ const id = `mcq-${Math.random().toString(36).slice(2, 9)}`;
           feedback.hidden = false;
           feedback.className = `mcq-feedback ${correct ? 'fb-correct' : 'fb-incorrect'}`;
           feedback.textContent = correct
-            ? `✓ ¡Correcto! ${explain ?? ''}`
+            ? `✓ ¡Correcto! ${explain ?? ''} (+5 XP)`
             : `✗ Probá de nuevo. ${explain ?? ''}`;
         }
+        if (correct) awardXP(5, `mcq:${id}`);
       });
     });
   });
