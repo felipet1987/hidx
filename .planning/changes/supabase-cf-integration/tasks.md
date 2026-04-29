@@ -33,23 +33,30 @@
 - [ ] 2.11 E2E test: insert+publish article via CLI → CF Pages dashboard shows new build < 90s
 - [ ] 2.12 Throttle test: rapid 3 publishes → 1 build (verify CF dashboard count)
 
-## Phase 3: R2 backup nightly 12h (S5g-i)
+## Phase 3: R2 backup ~~nightly 12h~~ — DISABLED
 
-- [ ] 3.1 BLOCKED USER: CF dashboard → R2 → Create bucket `hidx-backups`
-- [ ] 3.2 BLOCKED USER: R2 → Manage R2 API Tokens → Create token, scope `Object Read & Write` on `hidx-backups` only; copy Access Key + Secret + Account ID
-- [ ] 3.3 `gh secret set R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY R2_ACCOUNT_ID` (3 calls)
-- [ ] 3.4 `gh secret set SUPABASE_DB_PASSWORD` (the `8IkNj1xl...` from earlier)
-- [ ] 3.5 Create `.github/workflows/backup.yml` — cron `0 */12 * * *` + workflow_dispatch; install postgresql-client-17; pg_dump → gzip-9 → aws s3 cp to R2 endpoint
-- [ ] 3.6 Manual smoke: `gh workflow run backup.yml` → verify file in R2 dashboard
-- [ ] 3.7 BLOCKED USER: R2 dashboard → bucket → Lifecycle → Add rule "delete after 30 days"
-- [ ] 3.8 Create `.github/workflows/backup-restore-test.yml` — cron `0 4 * * 1` (Monday 4am UTC); pull latest dump from R2, spin postgres:17 container, psql restore, assert `count(*) > 0` AND tag `meta` exists
-- [ ] 3.9 Manual smoke restore: `gh workflow run backup-restore-test.yml` → verify pass
+> **DISABLED 2026-04-29**. Razones:
+> - GitHub Actions removidas (decisión usuario) → no hay runner cron disponible
+> - Backup pipeline no es prioridad MVP ChispaLab (sin contenido pago, RPO laxo)
+> - Supabase Cloud free tier ya tiene daily backups automáticos (7d retention) — defensa básica gratis
+>
+> **Alternativas si se reactiva**:
+> - Supabase Edge Function cron (pg_dump no disponible Deno; necesita workaround)
+> - External cron (cron-job.org → trigger Edge Fn)
+> - CF Workers Cron Trigger (free tier limitado)
+> - Local script `pnpm backup` manual ad-hoc cuando contenido importante
+>
+> Defer hasta tener tracción real (>1k visits/mo) que justifique infra extra.
+
+- [~] 3.1 R2 bucket `hidx-backups` — DISABLED
+- [~] 3.2 R2 API Token — DISABLED
+- [~] 3.3-3.9 — TODO DISABLED
 
 ## Phase 4: Docs (S5j)
 
 - [ ] 4.1 Create `docs/secrets.md` — table of 8+ secrets: name / location (GH/CF Pages/Supabase/R2/.env.local) / scope / rotation steps
 - [ ] 4.2 Create `docs/cloudflare.md` — CF Pages config, Deploy Hook setup, R2 bucket setup, custom domain (defer pointer)
-- [ ] 4.3 Create `docs/backup-restore.md` — manual restore command, automated test schedule, troubleshooting
+- [~] 4.3 ~~`docs/backup-restore.md`~~ DISABLED (backup pipeline disabled; default = Supabase Cloud free tier 7d auto-backups)
 - [ ] 4.4 Modify `wrangler.toml` — comments documenting all CF Pages env vars
 - [ ] 4.5 Modify `README.md` — add `https://hidx.pages.dev` URL once Phase 1 verified
 
