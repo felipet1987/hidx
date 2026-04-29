@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import STEAMBadge from '../../components/mdx/STEAMBadge.astro';
+import AgeBadge from '../../components/mdx/AgeBadge.astro';
+
+const tracks = (await getCollection('series')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout
+  title="Rutas — YachayTree"
+  description="Caminos curados de experimentos STEAM agrupados por tema."
+>
+  <header class="rutas-head">
+    <h1>Rutas STEAM</h1>
+    <p>Caminos curados que agrupan lecciones por tema.</p>
+  </header>
+
+  <ul class="track-grid">
+    {tracks.map((t) => (
+      <li>
+        <a href={`/rutas/${t.id}`} class="track-card">
+          <div class="tc-badges">
+            <AgeBadge min={t.data.ageMin} max={t.data.ageMax} />
+            {t.data.steamCategories.length > 0 && (
+              <STEAMBadge categories={t.data.steamCategories} size="sm" />
+            )}
+          </div>
+          <h2>{t.data.title}</h2>
+          <p>{t.data.description}</p>
+          <p class="tc-meta">
+            📚 {t.data.lessons.length} {t.data.lessons.length === 1 ? 'lección' : 'lecciones'}
+          </p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .rutas-head {
+    margin: 1.5rem 0 2rem;
+  }
+  .rutas-head h1 {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+  }
+  .rutas-head p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+  .track-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .track-card {
+    display: block;
+    padding: 1.5rem;
+    border: 2px solid var(--color-accent-soft);
+    border-radius: 14px;
+    background: var(--color-bg-elev);
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .track-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+    color: var(--color-fg);
+  }
+  .tc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .track-card h2 {
+    margin: 0 0 0.5rem;
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--color-accent);
+  }
+  .track-card p {
+    margin: 0;
+    color: var(--color-fg);
+    line-height: 1.5;
+  }
+  .tc-meta {
+    margin-top: 0.85rem !important;
+    color: var(--color-muted) !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+</style>

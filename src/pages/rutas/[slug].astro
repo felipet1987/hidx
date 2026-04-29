@@ -1,0 +1,212 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import STEAMBadge from '../../components/mdx/STEAMBadge.astro';
+import AgeBadge from '../../components/mdx/AgeBadge.astro';
+import DifficultyStars from '../../components/mdx/DifficultyStars.astro';
+import DurationBadge from '../../components/mdx/DurationBadge.astro';
+
+export async function getStaticPaths() {
+  const tracks = await getCollection('series');
+  return tracks.map((track) => ({ params: { slug: track.id }, props: { track } }));
+}
+
+const { track } = Astro.props;
+const { title, description, lessons: lessonSlugs, steamCategories, ageMin, ageMax } = track.data;
+
+const lessons = await Promise.all(
+  lessonSlugs.map(async (slug) => {
+    const e = await getEntry('posts', slug);
+    return e ? { id: slug, ...e.data } : null;
+  }),
+);
+const validLessons = lessons.filter((l): l is NonNullable<typeof l> => l !== null);
+const totalMinutes = validLessons.reduce((sum, l) => sum + (l.durationMinutes ?? 0), 0);
+---
+<BaseLayout title={`${title} — YachayTree`} description={description}>
+  <article class="track-page">
+    <header class="tp-head">
+      <p class="breadcrumb"><a href="/rutas">Rutas</a> · <span>{title}</span></p>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      <div class="tp-badges">
+        <AgeBadge min={ageMin} max={ageMax} />
+        {steamCategories.length > 0 && <STEAMBadge categories={steamCategories} />}
+        <span class="meta">📚 {validLessons.length} lecciones</span>
+        <span class="meta">⏱️ ~{Math.round(totalMinutes / 60 * 10) / 10}h totales</span>
+      </div>
+    </header>
+
+    <hr class="grad-rule" />
+
+    <h2 class="outline-title">Outline</h2>
+    <ol class="lesson-outline">
+      {validLessons.map((l, i) => (
+        <li>
+          <a href={`/rutas/${track.id}/${l.id}`} class="ol-link">
+            <span class="ol-num" aria-hidden="true">{i + 1}</span>
+            <div class="ol-body">
+              <h3>{l.title}</h3>
+              <p>{l.description}</p>
+              <div class="ol-meta">
+                <DifficultyStars level={(l.difficulty ?? 2) as 1 | 2 | 3 | 4 | 5} label={false} />
+                <DurationBadge minutes={l.durationMinutes ?? 30} />
+                {l.steamCategories && l.steamCategories.length > 0 && (
+                  <STEAMBadge categories={l.steamCategories} size="sm" />
+                )}
+              </div>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    {validLessons.length > 0 && (
+      <div class="cta-row">
+        <a href={`/rutas/${track.id}/${validLessons[0].id}`} class="cta primary">
+          Empezar la primera lección →
+        </a>
+      </div>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .track-page {
+    max-width: 60rem;
+  }
+  .breadcrumb {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin: 0 0 0.5rem;
+  }
+  .breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
+    color: var(--color-accent);
+  }
+  .tp-head h1 {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+  .tp-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .tp-badges .meta {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+  .grad-rule {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-accent),
+      var(--color-accent-2),
+      transparent
+    );
+    margin: 2rem 0;
+  }
+  .outline-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  .lesson-outline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .ol-link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-bg-elev);
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .ol-link:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    color: var(--color-fg);
+  }
+  .ol-num {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+  .ol-body h3 {
+    margin: 0 0 0.3rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+  .ol-body p {
+    margin: 0 0 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+  .ol-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .cta-row {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta.primary {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+    color: white;
+  }
+  .cta.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px color-mix(in oklch, var(--color-accent-2) 35%, transparent);
+    color: white;
+  }
+</style>

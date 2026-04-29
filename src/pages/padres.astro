@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Para padres y maestros — YachayTree"
+  description="Guía pedagógica para acompañar a chicos LatAm en experimentos STEAM hands-on."
+>
+  <article class="prose dark:prose-invert max-w-none padres-page">
+    <h1>Para padres y maestros</h1>
+    <p class="lede">
+      YachayTree no es un sitio "para que el chico se entretenga solo en pantalla". Es una caja de herramientas
+      hands-on para hacer ciencia, arte e ingeniería <strong>juntos</strong>, con materiales que ya tenés en casa.
+    </p>
+
+    <h2>Cómo usar el sitio</h2>
+    <ol>
+      <li><strong>Elegí una lección</strong> según la edad y el tiempo disponible. Cada actividad muestra duración estimada y dificultad.</li>
+      <li><strong>Revisá los materiales antes</strong>. Todos cuestan menos de $5 USD, pero algunos requieren búsqueda en casa.</li>
+      <li><strong>Leé las notas de seguridad</strong> con tu hijo/a. Los chicos respetan las normas cuando entienden el por qué.</li>
+      <li><strong>Hacelo con ellos</strong>. La magia no está solo en el experimento — está en la conversación que provoca.</li>
+      <li><strong>Leé el "Tip para padres"</strong> al final de cada lección. Tiene contexto curricular y preguntas para profundizar.</li>
+    </ol>
+
+    <h2>¿Por qué hands-on y no videos?</h2>
+    <p>
+      Los videos son consumo pasivo. La <strong>experimentación física</strong> activa más áreas del cerebro:
+      motricidad fina, planificación, paciencia, manejo de la frustración cuando algo no sale al primer intento.
+      Esos son los músculos cognitivos que la educación tradicional pocas veces ejercita.
+    </p>
+    <p>
+      Khan Academy y otros tienen excelente material en video. Nosotros complementamos con las manos.
+    </p>
+
+    <h2>¿Qué edad es ideal?</h2>
+    <p>
+      Apuntamos primero a <strong>chicos de 8 a 12 años</strong> — la edad donde la curiosidad explota y todavía
+      no llegó la timidez adolescente. Pero las actividades son adaptables: pueden hacerlas hermanos menores con
+      ayuda extra, o mayores con desafíos extendidos (los "retos extra" de cada lección).
+    </p>
+
+    <h2>Para maestros</h2>
+    <p>
+      Si das clases en escuela primaria LatAm y querés usar estas lecciones en aula, son <strong>gratis</strong>
+      bajo licencia <a href="/disclosure">CC BY-NC 4.0</a>. Te pedimos solo:
+    </p>
+    <ul>
+      <li>Atribuir la fuente (link a la lección o a yachaytree).</li>
+      <li>No revender el contenido sin permiso (uso comercial requiere consulta).</li>
+      <li>Si modificás o adaptás, mencionalo.</li>
+    </ul>
+    <p>
+      ¿Querés que armemos un paquete específico para tu aula (PDF imprimible + currícula adaptada al programa
+      de tu país)? Escribinos un issue en
+      <a href="https://github.com/felipet1987/yachaytree/issues" target="_blank" rel="noopener noreferrer">GitHub</a>
+      o esperá la sección <a href="/escuelas">Escuelas</a> que estamos construyendo.
+    </p>
+
+    <h2>Sobre privacidad</h2>
+    <p>
+      Estricto cumplimiento <strong>COPPA</strong>: no recolectamos datos de menores de 13 años. Sin signup,
+      sin tracking, sin cookies de terceros. Más detalles en <a href="/privacy">Privacidad</a>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .padres-page .lede {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    line-height: 1.55;
+    border-left: 4px solid var(--color-m);
+    padding-left: 1rem;
+  }
+</style>

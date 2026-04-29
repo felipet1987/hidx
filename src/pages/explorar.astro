@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AgeBadge from '../components/mdx/AgeBadge.astro';
+import STEAMBadge from '../components/mdx/STEAMBadge.astro';
+import DifficultyStars from '../components/mdx/DifficultyStars.astro';
+import DurationBadge from '../components/mdx/DurationBadge.astro';
+import type { STEAMCategory } from '../content/schemas';
+
+const lessons = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+
+// Aggregate filter options
+const allCategories = [...new Set(lessons.flatMap((l) => l.data.steamCategories ?? []))] as STEAMCategory[];
+const allAgeRanges = ['8-12', '13-17', '18+'];
+---
+<BaseLayout
+  title="Explorar lecciones — YachayTree"
+  description="Catálogo de experimentos STEAM hands-on filtrable por edad, área y dificultad."
+>
+  <header class="explorar-head">
+    <h1>Explorar lecciones</h1>
+    <p>{lessons.length} {lessons.length === 1 ? 'experimento' : 'experimentos'} listos para hacer en casa.</p>
+  </header>
+
+  <ul class="lesson-grid">
+    {lessons.map((l) => (
+      <li>
+        <a href={`/rutas/inventos-caseros/${l.id}`} class="lesson-card">
+          <div class="lc-badges">
+            <AgeBadge min={l.data.ageMin ?? 8} max={l.data.ageMax ?? 12} />
+            {l.data.steamCategories && l.data.steamCategories.length > 0 && (
+              <STEAMBadge categories={l.data.steamCategories} size="sm" />
+            )}
+          </div>
+          <h2>{l.data.title}</h2>
+          <p>{l.data.description}</p>
+          <div class="lc-foot">
+            <DifficultyStars level={(l.data.difficulty ?? 2) as 1 | 2 | 3 | 4 | 5} label={false} />
+            <DurationBadge minutes={l.data.durationMinutes ?? 30} />
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .explorar-head {
+    margin: 1.5rem 0 2rem;
+  }
+  .explorar-head h1 {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+  }
+  .explorar-head p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+  .lesson-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .lesson-card {
+    display: block;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-elev);
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .lesson-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+    color: var(--color-fg);
+  }
+  .lc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+  .lesson-card h2 {
+    margin: 0 0 0.4rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+  .lesson-card p {
+    margin: 0 0 0.85rem;
+    font-size: 0.92rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .lc-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6rem;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Escuelas — YachayTree"
+  description="Cómo adoptamos contenido STEAM YachayTree en aulas LatAm. (Próximamente)"
+>
+  <article class="prose dark:prose-invert max-w-none">
+    <h1>Para escuelas</h1>
+    <p class="lede">
+      Estamos diseñando un programa específico para escuelas primarias LatAm. Por ahora,
+      estas son las opciones disponibles:
+    </p>
+
+    <h2>Lo que ya podés usar hoy</h2>
+    <ul>
+      <li>Todas las <a href="/explorar">lecciones</a> son <strong>gratis</strong> bajo licencia <a href="/disclosure">CC BY-NC 4.0</a>.</li>
+      <li>Podés <strong>imprimir</strong> cualquier lección desde el navegador (Cmd/Ctrl + P).</li>
+      <li>Las <a href="/rutas">rutas curadas</a> agrupan experimentos por tema — útil para planificar trimestres.</li>
+      <li>Cada lección tiene una sección <strong>"Tip para padres y maestros"</strong> con conexión curricular y preguntas guía.</li>
+    </ul>
+
+    <h2>Lo que estamos construyendo</h2>
+    <ul>
+      <li><strong>PDFs printables</strong> con formato aula (1 página, blanco y negro, materiales y pasos claros).</li>
+      <li><strong>Paquetes trimestrales</strong> de 12-15 actividades alineadas con currícula LatAm (Argentina, México, Colombia, Chile, Perú).</li>
+      <li><strong>Guía docente</strong> con objetivos pedagógicos, evaluación sugerida y variantes por edad.</li>
+      <li><strong>Soporte directo</strong> vía email/Discord para profes que adoptan el programa.</li>
+    </ul>
+
+    <h2>¿Querés colaborar?</h2>
+    <p>
+      Si sos maestro/a en LatAm y querés:
+    </p>
+    <ul>
+      <li>Probar lecciones en tu aula y darnos feedback,</li>
+      <li>Sugerir adaptaciones para tu currícula nacional,</li>
+      <li>Co-crear actividades nuevas con tu experiencia docente,</li>
+      <li>Recibir el programa Escuelas cuando esté listo (Q3 2026 esperado),</li>
+    </ul>
+    <p>
+      Escribinos un issue en
+      <a href="https://github.com/felipet1987/yachaytree/issues" target="_blank" rel="noopener noreferrer">GitHub</a>
+      o un email (próximamente form de contacto). ¡Gracias por hacer ciencia con tus alumnos!
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  article .lede {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+</style>

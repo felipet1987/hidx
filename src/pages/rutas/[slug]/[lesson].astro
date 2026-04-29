@@ -1,0 +1,128 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+import * as mdxComponents from '../../../components/mdx';
+import { readingMinutes } from '../../../lib/reading-time';
+
+export async function getStaticPaths() {
+  const tracks = await getCollection('series');
+  const paths = [];
+  for (const track of tracks) {
+    for (const lessonSlug of track.data.lessons) {
+      const lesson = await getEntry('posts', lessonSlug);
+      if (!lesson) continue;
+      paths.push({
+        params: { slug: track.id, lesson: lessonSlug },
+        props: { track, lesson },
+      });
+    }
+  }
+  return paths;
+}
+
+const { track, lesson } = Astro.props;
+const { Content, headings } = await render(lesson);
+const minutes = lesson.data.durationMinutes ?? readingMinutes(lesson.body ?? '');
+
+const idx = track.data.lessons.indexOf(lesson.id);
+const prev = idx > 0 ? track.data.lessons[idx - 1] : null;
+const next = idx < track.data.lessons.length - 1 ? track.data.lessons[idx + 1] : null;
+---
+<PostLayout post={lesson} headings={headings} readingMinutes={minutes}>
+  <nav class="breadcrumb-nav not-prose" slot="head" />
+  <Content components={mdxComponents} />
+
+  <nav class="lesson-nav not-prose">
+    {prev ? (
+      <a href={`/rutas/${track.id}/${prev}`} class="nav-link nav-prev">
+        <span class="nav-arrow">←</span>
+        <span class="nav-text">
+          <small>Anterior</small>
+          <span>Lección {idx} / {track.data.lessons.length}</span>
+        </span>
+      </a>
+    ) : <span></span>}
+    <a href={`/rutas/${track.id}`} class="nav-link nav-up">
+      Volver a {track.data.title}
+    </a>
+    {next ? (
+      <a href={`/rutas/${track.id}/${next}`} class="nav-link nav-next">
+        <span class="nav-text">
+          <small>Siguiente</small>
+          <span>Lección {idx + 2} / {track.data.lessons.length}</span>
+        </span>
+        <span class="nav-arrow">→</span>
+      </a>
+    ) : <span></span>}
+  </nav>
+</PostLayout>
+
+<style is:global>
+  /* Add breadcrumb at top of post — done via CSS injection since slot:head is not standard */
+  /* Fallback: simple bottom nav only for MVP */
+</style>
+
+<style>
+  .lesson-nav {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--color-fg);
+    background: var(--color-bg-elev);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .nav-link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  .nav-prev { justify-self: start; }
+  .nav-next { justify-self: end; }
+  .nav-up {
+    justify-self: center;
+    background: transparent;
+    border: 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+  .nav-up:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+  .nav-arrow {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .nav-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .nav-text small {
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .nav-text span {
+    font-weight: 600;
+  }
+  @media (max-width: 640px) {
+    .lesson-nav {
+      grid-template-columns: 1fr;
+    }
+    .nav-prev, .nav-next, .nav-up { justify-self: stretch; }
+  }
+</style>
