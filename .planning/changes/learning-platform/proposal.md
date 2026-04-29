@@ -1,262 +1,362 @@
-# Proposal: hidx Learning Tracks (A5 + 5-min articles)
+# Proposal: ChispaLab — STEAM LatAm Mini-MVP (S1)
 
-**Project**: `hidx` · **Date**: 2026-04-29 · **Phase**: sdd-propose · **Change**: `learning-platform` · **Status**: Draft v1
+**Project**: `hidx` → renombrar a `ChispaLab` · **Date**: 2026-04-29 · **Phase**: sdd-propose (REWRITE) · **Change**: `learning-platform` · **Status**: Draft v1
+
+> **PIVOT TOTAL**. hidx dev pub → ChispaLab plataforma STEAM LatAm para kids 8-12. Engineering + Arte hands-on con materiales económicos. NO compite Khan head-on; complementa LatAm hands-on gap.
 
 ## Intent
 
-Pivot content strategy: long-form pillar posts (1500w) → **bite-sized 5-min articles (~1100w)** agrupados en **tracks visuales** estilo roadmap.sh. Mantiene SSG (cero auth, cero pivot técnico). Diferenciación: Spanish-first + opinionated senior-dev lens. Sin LMS state, sin progress tracking server-side (localStorage opcional para "leído").
-
-**Monetización pivot: PUBLICIDAD primary** (mover de Capa 1 affiliate de roadmap original a P0). Aplica B3 propuesto en `design-uplift-adsense` change (EthicalAds + Carbon Ads; **NO Google AdSense** — RPM bajo + UX hostil + rejection blocker). Tracks aceleran inventory: más page-views por sesión (article → next article → next…) = más impressions = más revenue. Affiliate + TipJar quedan como capa secundaria.
+Lanzar **ChispaLab** — micro-MVP STEAM enfocado: **10 actividades hands-on E+A (Engineering + Arte) para niños 8-12 años, en español rioplatense/neutro, materiales <$5 USD por proyecto**. Validación tracción 3 meses antes escalar a S+T+M y otras audiencias. Mantiene infra técnica de hidx (Astro 6 + Supabase + CF Pages); reescribe contenido + design system + monetización + branding.
 
 ## Scope
 
-### IN scope (Sprint S6 — ~2-3 semanas)
+### IN scope (Sprint S6 — 3 meses MVP)
 
-#### Schema Supabase (extensión)
+#### Rebrand
 
-1. **Migration `tracks` table**: top-level learning path
-   - `id` uuid PK
-   - `slug` text unique (regex `^[a-z0-9-]+$`)
-   - `title` text (1-80)
-   - `description` text (1-280) — más largo que article
-   - `cover` text optional
-   - `level` enum (`beginner`/`intermediate`/`advanced`)
-   - `tags` text[] (1-6)
-   - `published_at` timestamptz
-   - `draft` boolean default true
-   - RLS pública lectura published only
+1. **Renombrar repo**: `hidx` → `chispalab` (GitHub → repo settings → rename); push origin
+2. **Comprar dominio**: `chispalab.lat` (sugerido) o `.com` o `.com.ar`; apuntar DNS a CF Pages
+3. **CF Pages project rename**: dashboard → Pages → hidx → Settings → rename a `chispalab`
+4. **README + meta tags + OG + manifest** reescribir
+5. **Logo nuevo**: SVG monogram "C" con paleta STEAM (5 colores) — CSS-only o Figma simple
+6. **Favicon nuevo** + apple-touch-icon
+7. **Site copy reescribir**: header/footer/about/now/privacy/disclosure todos
 
-2. **Migration `track_articles` join table**:
-   - `track_id` uuid FK
-   - `article_id` uuid FK
-   - `position` int (orden dentro del track)
-   - `chapter` text optional (agrupa lessons en sub-secciones del track)
-   - PK composite (track_id, article_id)
-   - Index on (track_id, position)
+#### Schema Supabase (re-design)
 
-3. **Migration `articles.reading_minutes` denormalized column** (auto-computed via trigger)
-   - Calcula `body_mdx` words / 220, redondea a min 1
-   - Trigger AFTER INSERT/UPDATE recalcula
-   - Permite filtrar tracks por tiempo total
+8. **Migration `lessons` table** (deprecates `articles` for STEAM context):
+   - id uuid PK
+   - slug text unique
+   - title text (1-80)
+   - description text (1-280)
+   - body_mdx text (lección body)
+   - cover text optional
+   - age_min int (8 default), age_max int (12 default)
+   - difficulty int 1-5 estrellas
+   - duration_minutes int (15-60 típico hands-on)
+   - steam_categories text[] (subset de S/T/E/A/M; min 1)
+   - materials jsonb (lista `[{name, qty, optional, source_url}]`)
+   - safety_notes text[] (warnings cortantes/calor/químicos/adulto-supervisión)
+   - parent_tip text (guía pedagógica)
+   - video_url text optional (YouTube ID)
+   - printable_pdf text optional (URL R2 PDF)
+   - draft, published_at, updated_at, created_at, author_id (igual que articles)
 
-#### Astro routes (nuevas)
+9. **Migration `routes` table** (deprecates `tracks`):
+   - id, slug, title, description, cover, age_range, draft, published_at
+   - "ruta" = path curado (ej "Inventos con cartón", "Arte con luz")
 
-4. **`/tracks`** — landing index todos los tracks publicados
-   - Cards con cover + title + descripción + N articles + tiempo total + level badge
-   - Filter por level + tags
-   - Sort por posicion editorial o popularidad (sin metric real → sort estable por título)
+10. **Migration `route_lessons` join table**: route_id + lesson_id + position + chapter
 
-5. **`/tracks/[slug]`** — track overview
-   - Hero con title + descripción + cover + nivel + tags + tiempo total
-   - Sidebar/inline TOC navegable: lista de articles ordenados con `position` + chapter dividers
-   - Each article entry: title + reading minutes + checkbox "leído" (localStorage)
-   - CTA "Empezar track" → primer article
-   - Previous/next nav entre tracks (si pertenece a series)
+11. **Migration data**: backup current `articles` table; truncate + drop NOT needed (reusar `articles` table extendida con nuevas columnas en vez de duplicar)
+    - **Decisión simpler**: mantener tabla `articles`, agregar columnas `age_min`, `age_max`, `difficulty`, `duration_minutes`, `steam_categories`, `materials`, `safety_notes`, `parent_tip`, `video_url`, `printable_pdf` opcionales con defaults seguros
 
-6. **`/tracks/[slug]/[articleSlug]`** — article view dentro de track context
-   - Mismo PostLayout que `/posts/[slug]` PERO con:
-   - Breadcrumb: Tracks → Track Title → Article Title
-   - Sticky bottom bar "← Anterior | Marcar leído | Siguiente →"
-   - Mini progress bar arriba mostrando posición en el track (X de N)
-   - Checkbox "leído" persiste localStorage (key: `hidx:read:{trackSlug}:{articleSlug}`)
-   - Related articles (en el mismo track) reemplaza related global
+12. **Decisión consolidación**: `tracks` ya planeado en learning-platform anterior — renombrarlo a `routes` o mantener `tracks`. Sugiero **mantener `tracks`** (genérico, futureproof) y `articles` (no `lessons` — evita migration nombre)
 
-7. **`/tracks/[slug]/visual.svg.ts`** (opcional) — endpoint Satori que renderiza diagrama del track tipo roadmap.sh
-   - Útil para OG image + share link
-   - Defer si bloquea — usar cover image fija en MVP
+#### Astro routes (reescribir)
 
-#### Components nuevos
+13. **`/`** landing kids-friendly:
+    - Hero ilustración (undraw.co) + tagline "Experimentos STEAM en casa con cosas que ya tenés"
+    - 3 CTA: "Explorar" + "Para padres" + "Para escuelas (próx)"
+    - Featured ruta + 3 lessons recientes
+    - Newsletter sign-up "Recibí 1 experimento por semana"
 
-8. **`<TrackProgress>`** — visual bar showing N de M articles read (localStorage source)
-9. **`<TrackOutline>`** — sidebar/inline TOC con chapters + articles + reading time + read state
-10. **`<TrackCard>`** — card preview en /tracks index
-11. **`<ArticleNavBar>`** — sticky bottom anterior/siguiente + marcar leído
-12. **`<ReadCheckbox>`** — Web Component minimal que toggle localStorage flag
-13. **`<LevelBadge>`** — pill colorada per level (beginner verde, intermediate cyan, advanced violet)
+14. **`/explorar`**: catálogo lessons filtrable por edad/categoría STEAM/dificultad/duración
 
-#### Layout updates
+15. **`/rutas`**: index rutas curadas (Engineering hands-on, Arte luz, etc)
 
-14. **`PostLayout.astro`** — accept optional `track` prop; if present, render breadcrumb + ArticleNavBar + replace RelatedPosts with TrackOutline mini
-15. **Header**: agregar nav link "Tracks" entre "artículos" y "sobre"
-16. **`<RelatedPosts>`** — extender lib `related.ts` para opcionalmente agrupar por track (priorizar same-track first)
+16. **`/rutas/[slug]`**: ruta overview con outline lessons
 
-#### Content strategy
+17. **`/rutas/[slug]/[lesson]`**: actividad page (replaces /tracks/[t]/[a] previo):
+    - Hero: cover + title + age badge + STEAM badges + difficulty stars + duration
+    - **Materiales** section (checklist visual con MaterialsList component)
+    - **Seguridad** section (SafetyNote callouts)
+    - **Pasos** (Steps component reused; iconos kids-friendly)
+    - **Foto/Video proceso** (Image + VideoPlayer privacy-first)
+    - **Tip para padres** (ParentTip callout collapsible)
+    - **PDF descargable** botón
+    - Sticky bottom: "Marcar completado" + Anterior/Siguiente
+    - Comments defer
 
-17. **Split pillar posts existentes**: cada uno (~1500-3000w) → 3-5 articles cortos (~1100w c/u). Total objetivo: 20-25 articles cortos en 5 tracks
-18. **Track inicial sugerido (5 propuestos)**:
-    - "Astro 6 producción de cero a CF Pages" (~5 articles)
-    - "Supabase como backend SSG" (~4 articles)
-    - "Patterns de monetización web sin AdSense" (~4 articles)
-    - "Postgres para devs JS/TS" (~5 articles)
-    - "MDX rich content con Astro" (~4 articles)
+18. **`/padres`**: guía pedagógica para padres (cómo usar la plataforma con sus hijos)
 
-#### CLI updates (coord con inject-articles)
+19. **`/escuelas`** (placeholder MVP): "próximamente; cómo adoptamos contenido en aulas"
 
-19. **Modify `scripts/new-post.ts`**: nuevo flag `--track=<slug>` que inserta join row + auto-asigna position al final
-20. **New `scripts/new-track.ts`**: `pnpm new:track "Title" --slug=astro-prod --level=intermediate --tags=astro,deploy` crea row tracks
-21. **New `scripts/reorder-track.ts`**: `pnpm reorder:track <slug>` UI CLI inline para reordenar articles por position
+20. **`/labs`** (defer Phase 2): standalone interactive simulations PhET-style
+
+#### Components nuevos (reemplazar dev components)
+
+21. **`<MaterialsList>`** — checklist visual materiales con qty, opcional, source link
+22. **`<SafetyNote>`** — callout con icono per type (cortante/calor/químico/supervisión)
+23. **`<AgeBadge>`** — pill colorada (kids 8-12 verde / teens 13-17 azul / adultos púrpura)
+24. **`<STEAMBadge>`** — 5 iconos cuadrados (S verde / T azul / E naranja / A rosa / M púrpura)
+25. **`<DifficultyStars>`** — 1-5 estrellas
+26. **`<DurationBadge>`** — clock icon + minutes
+27. **`<ParentTip>`** — collapsible callout estilo Aside pero target padres
+28. **`<ExperimentSteps>`** — extension de Steps con foto/video por paso
+29. **`<PrintablePDFButton>`** — descarga PDF lección
+30. **`<MakerProject>`** — multi-session project con checkpoints
+31. **`<DragDropQuiz>`** — quiz visual kids friendly (defer Fase 2)
+32. **`<MultipleChoice>`** — quiz feedback inmediato (defer Fase 2)
+
+#### Components mantener (relevantes)
+
+- `Image`, `Video`, `YouTubeEmbed`, `Gallery`, `Figure` — reused
+- `Callout`, `Steps`, `Spoiler`, `Highlight`, `KeyboardKey` — reused
+- `Quote`, `Aside`, `FullBleed` — reused
+- `RelatedPosts`, `ShareButtons`, `AuthorBio` — reused
+
+#### Components eliminar (descartar dev)
+
+- `CodeTabs`, `CodeDiff`, `Terminal`, `Mermaid` (defer hasta tema "código para chicos")
+- `RepoCard`, `TweetStatic`, `Compare` (defer)
+- `AffiliateLink` (re-implementar como link Amazon STEAM kits)
+- `TipJar` (re-target padres support)
+- `CodeDemo` (defer)
+
+#### Design system reescribir
+
+33. **Paleta colores** STEAM-themed:
+    - Science: verde `oklch(0.7 0.18 145)`
+    - Tech: azul `oklch(0.65 0.18 240)`
+    - Engineering: naranja `oklch(0.72 0.18 50)`
+    - Arts: rosa `oklch(0.72 0.18 350)`
+    - Math: púrpura `oklch(0.65 0.18 295)`
+    - Background light bone `oklch(0.98 0.01 80)` (default)
+    - Background dark midnight `oklch(0.18 0.02 240)` (opcional kids menos vibrante)
+    - Accent kid-friendly amarillo `oklch(0.85 0.16 95)`
+
+34. **Typography swap**: Inter → **Quicksand Variable** (más friendly kids/family) + JetBrains Mono solo para code rare
+
+35. **Iconografía**: Heroicons → **Tabler Icons** (más educational variety)
+
+36. **Ilustraciones inline**: undraw.co (free) + open-peeps + blush.design — categorías kids/lab/school
+
+37. **Animaciones**: Lottie embeds para feedback (correct answer ✓, loading, etc)
+
+38. **WCAG AAA**: contraste alto, font ≥18px body, focus rings visibles, alt text estricto
+
+#### Monetización STEAM
+
+39. **Ads networks COPPA-compliant** (kids <13):
+    - **Mediavine Family** (preferido) — requirement 50k visits/mo (long road)
+    - **Ezoic Edu** (alt) — lower threshold
+    - **SuperAwesome KidsTech** (premium kids ads)
+    - **AdSense for Kids** (last resort)
+    - MVP: lanzar SIN ads hasta 10k visits/mo; aplicar Mediavine después
+
+40. **Affiliate Amazon kits STEAM** (high relevancia):
+    - Kits robotics kids (Makeblock, Sphero, Lego Mindstorms)
+    - Materiales lab (popotes, cartón, gomas, baterías, motores DC)
+    - Libros STEAM kids español
+    - Componente `<AmazonProduct>` con disclosure auto
+
+41. **Sponsorships brands STEAM** (long-term):
+    - Lego Education
+    - Makey Makey
+    - MakeBlock
+    - National Geographic Kids ES
+    - Tinkercad Autodesk
+
+42. **Tip jar padres** Ko-fi mantener (re-target audience adulta)
+
+43. **Subscription familiar** (Fase 2): $3-5 USD/mes acceso PDFs printable + early access lessons + comunidad privada
+
+44. **Venta paquetes escuelas LatAm** (Fase 3): currículum STEAM trimestral $50-100 USD per aula
+
+45. **NO Google AdSense general** — sigue rejected por:
+    - Approval blocker sitio nuevo
+    - UX hostil para kids
+    - Cookie consent obligatorio (rompe COPPA strict mode)
+
+#### Content strategy MVP
+
+46. **10 lessons E+A para kids 8-12**:
+    - Catapulta de palitos de helado (E)
+    - Circuito de limón con LED (E+S)
+    - Caleidoscopio con CD viejo (A+S)
+    - Brújula casera con aguja imantada (S+E)
+    - Mosaico con papel reciclado (A)
+    - Auto que rueda con globo (E)
+    - Pintura con sal y acuarelas (A+S)
+    - Hilado con bobina y motor (E)
+    - Dibujo simétrico con espejos (A+M)
+    - Reloj de sol portátil (S+E+M)
+
+47. **3 rutas curadas**:
+    - "Inventos con cartón" (4 lessons E)
+    - "Arte y ciencia con luz" (3 lessons A+S)
+    - "Mecánica para chicos" (3 lessons E+M)
+
+48. **Producción por lesson** (~4-6h c/u):
+    - Investigación / testeo físico
+    - Foto/video del proceso (smartphone OK)
+    - Redacción MDX
+    - Materiales list precisión
+    - Safety notes
+    - Parent tip pedagógico
+
+#### CLI updates
+
+49. **`scripts/new-lesson.ts`** (replaces new-post): scaffold con todos campos STEAM
+50. **`scripts/upload-lesson-media.ts`** (extends upload-asset): subir foto/video/PDF a Supabase Storage por slug
 
 #### Docs
 
-22. **`docs/tracks.md`** — autoría: cómo crear track, cómo dividir long-form en short articles, naming conventions
-23. **Update `docs/components.md`** con nuevos 6 components
+51. **`docs/authoring-stem.md`**: cómo escribir lección STEAM, foto/video tips smartphone, safety guidelines
+52. **`docs/voice.md`**: tono LatAm rioplatense kids-friendly examples
+53. **`docs/parent-tips.md`**: pedagogía padres-niños lab home
 
-#### Monetización publicidad (coordina con `design-uplift-adsense` Phase 7)
+### OUT of scope (defer Fase 2/3)
 
-24. **Acelera implementación de `<EthicalAdSlot>` y `<CarbonAdSlot>`** ya proposed (mover de roadmap futuro a parte de este change)
-25. **Slot placement nuevo en tracks UX**:
-    - `/tracks/[slug]` overview: 1 EthicalAd slot debajo de hero, antes del outline
-    - `/tracks/[slug]/[article]`: 1 EthicalAd slot mid-article (after first H2) — same as PostLayout regular
-    - `/tracks` index: 1 CarbonAd slot debajo de hero (sidebar-like dimensions 130×100)
-    - **MAX 1 slot per page** (UX guardrail per ADR-106)
-26. **Disclosure existing** `/disclosure` page actualizar mencionando ad networks usados
-27. **`PUBLIC_ETHICAL_PUBLISHER_ID` + `PUBLIC_CARBON_SERIAL` env vars**: agregar a CF Pages secrets cuando aplicación networks aprobada
-28. **Apply EthicalAds**: requirement publishar 5+ tracks (~25 articles) primero (mejor approval rate). Track inicial cuenta
-29. **Apply Carbon Ads**: requirement 10k unique/mo — defer hasta tener tráfico
-30. **Métricas básicas baseline**: medir CTR, RPM, fill rate por slot via CF Web Analytics (ya wired en `supabase-cf-integration` change)
-
-### OUT of scope (defer)
-
-- **Google AdSense** explícitamente rechazado (rationale en `design-uplift-adsense` exploration §B): RPM dev sites $0.50-2 vs Carbon $3-10; >70% adblock dev audience; rompe cookie-free promise; build perf regression; approval rejection probable site sin contenido suficiente
-- **Cookie consent banner** (no necesario con EthicalAds + Carbon Ads — networks privacy-first sin cookies)
-- **Newsletter sponsorships** (Capa 3 original, defer hasta tener subs)
-- **Paid subscription / paywall** (Capa 4 original, defer indefinido — modelo free + ads contradice)
-- **User accounts / auth** — todo state via localStorage MVP
-- **Server-side progress tracking** (futuro Fase 2 si demanda)
-- **Quizzes / assessments**
-- **Code exercises con autograde**
-- **Certificates PDF**
-- **Comments / discussion** (defer Giscus integration)
-- **Mentorship / live workshops**
-- **Subscriptions / payments dedicated** (mantiene Capa 1 affiliate)
-- **Search global** (defer Pagefind)
-- **Streaks / gamification / XP**
-- **Mobile app**
-- **Visual roadmap interactivo SVG** (defer; static cover image MVP)
-- **Multi-author** (Felipe solo)
-- **i18n EN translation** (Spanish-only MVP)
+- **S+T+M categorías** (solo E+A MVP)
+- **Audiencia teens 13-17** (defer)
+- **Audiencia adultos no-STEM** (defer)
+- **3 sub-sites** (S4 approach defer)
+- **Visual roadmap interactivo SVG** (Satori OG defer)
+- **Quizzes interactivos** (DragDrop, MultipleChoice defer)
+- **Comments / discussion** (Giscus defer)
+- **User accounts / auth** (todo state localStorage MVP)
+- **Server-side progress tracking** (defer)
+- **Live workshops / mentorship**
+- **Subscription paywall** (defer Fase 2)
+- **Curso pago bootcamp** (defer)
+- **i18n EN, PT-BR** (defer)
+- **/labs interactive simulations** (defer)
+- **/escuelas full B2B program** (placeholder MVP)
+- **Video original production studio-grade** (smartphone OK MVP)
+- **Mobile app** (web responsive MVP)
+- **Mediavine apply** (necesita 50k mo — defer hasta tracción real)
+- **AdSense general** (rejected per ADR-105 + this ADR-511)
+- **Khan Academy partnership exploration** (interesting pero defer hasta producto launched)
 
 ## Approach
 
-### Sprint plan
+### Sprint plan (3 meses MVP)
 
-| Sub | Goal | Días |
-|-----|------|------|
-| **S6a — Schema migrations** | tracks + track_articles + reading_minutes trigger | 0.5 |
-| **S6b — Component primitives** | TrackCard, LevelBadge, ReadCheckbox, TrackProgress | 1 |
-| **S6c — /tracks index + /tracks/[slug] overview** | Astro routes + getCollection extension | 1 |
-| **S6d — Article-in-track view** | /tracks/[slug]/[article] reuse PostLayout + breadcrumb + ArticleNavBar | 1 |
-| **S6e — TrackOutline + RelatedPosts extension** | sidebar w/ chapter groups; same-track priority in related lib | 0.75 |
-| **S6f — CLI scripts** | new-track, reorder-track, new-post --track flag | 0.75 |
-| **S6g — Content split** | dividir pillar posts existentes en 20-25 short articles + crear 5 tracks | 5-7 (manual writing) |
-| **S6h — Ad slots integration** | EthicalAd slot in /tracks landing + track overview + article-in-track; CarbonAd slot Sidebar; disclosure update | 0.5 |
-| **S6i — Docs + verify** | docs/tracks.md + docs/components update + LH gate | 0.5 |
+| Mes | Focus | Días dev | Días content |
+|-----|-------|----------|--------------|
+| **M1 — Rebrand + infra** | rename hidx→chispalab, dominio, schema migrations, design system swap, components base | 10 | 0 |
+| **M2 — Content production** | 10 lessons + 3 rutas writing + foto/video shots + PDFs printable | 5 | 25 |
+| **M3 — Polish + launch** | Lighthouse + a11y WCAG AAA + mobile pass + analytics + soft launch | 8 | 5 |
 
-Total: ~6 días dev + 5-7 días content writing (paralelo).
+Total: ~23 días dev + 30 días content production.
 
 ### Architectural decisions
 
-1. **SSG mantenido 100%** (ADR-003 inject-articles intacto). Cero auth runtime
-2. **Read state vía localStorage** key `hidx:read:{trackSlug}:{articleSlug}` boolean. NO sync server-side. NO multi-device. NO histórico
-3. **Track como first-class entity** en Supabase (no tag-overlap inferred): editorialmente curado vía CLI/Studio
-4. **Position-based ordering** en track_articles (vs published_at): permite resequence sin renombrar slugs
-5. **Article reusable cross-track**: una article puede pertenecer a múltiples tracks (join table N:N)
-6. **5-min target reading time** por article: enforced soft via `reading_minutes` denormalized — articles > 7min generan warning en CLI publish
-7. **Chapter optional**: agrupa articles dentro de track sin nivel jerárquico extra (vs courses/modules separate table — YAGNI)
-8. **Level enum 3 valores** (beginner/intermediate/advanced) — vs 5+ (FCC) — simplicidad
-9. **Visual roadmap defer**: static cover image MVP; Satori SVG endpoint Fase 2
-10. **Spanish-first**: copy UI + content en español; EN i18n defer Fase 3
+1. **Reuse infra hidx 100%** (Astro 6 + Supabase + CF Pages + MDX + 80% components)
+2. **Rebrand sí, replatform no** — gana 2-3 semanas vs from-scratch
+3. **Schema extension vs replacement** — agregar columnas a `articles` (no nueva tabla `lessons`); mantiene loader + CLI + RLS
+4. **Mantener `tracks` table name** (genérico) en vez de renombrar `routes` — evita migration extra
+5. **localStorage progress** (no auth MVP) — completar lección flag local
+6. **Spanish-only LatAm voice** — no neutral España, no EN
+7. **WCAG AAA enforced** — kids friendly + accesibilidad real
+8. **Sin ads hasta 10k visits/mo** — apply Mediavine después; UX limpia mientras tanto
+9. **Stack reusable Fase 2/3** — schema cubre teens + adultos sin nueva migration
+10. **Khan complementary positioning** — copy + about explicit "complementamos Khan en LatAm hands-on"
 
-### URL structure
+### Project rename plan
 
+```bash
+# Local (rename mostly cosmetic — git history preserved)
+gh repo rename chispalab --repo felipet1987/hidx
+git remote set-url origin git@github.com:felipet1987/chispalab.git
+mv hidx chispalab
+# package.json name: hidx -> chispalab
+# README + manifest + meta tags update
+# CF Pages: dashboard rename project hidx -> chispalab (URL chispalab.pages.dev)
+# Supabase: project name "hidx" -> "chispalab" (cosmetic; ref ID stays jztvajdsuixxgfdluvqt)
 ```
-/                                    landing (no change)
-/posts                                all articles (chronological — no change)
-/posts/[slug]                         single article standalone (no change)
-/tracks                               NEW: tracks index
-/tracks/[slug]                        NEW: track overview
-/tracks/[slug]/[article]              NEW: article in track context
-/tags/[tag]                           tags filter (no change)
-/about /now /privacy /disclosure      no change
-```
-
-Articles tienen DOS URLs equivalentes: `/posts/[slug]` (standalone) + `/tracks/[track]/[article]` (in-context). Canonical apunta a track-context si pertenece a track principal del article.
 
 ## Success Criteria
 
 ### Technical gates
 
-- [ ] Schema migrations apply clean (local + Cloud)
-- [ ] `/tracks` HTTP 200 lista 5 tracks initial con metadata
-- [ ] `/tracks/[slug]` muestra outline articles ordenados + chapter groups
-- [ ] `/tracks/[slug]/[article]` renderiza article con breadcrumb + nav bar + progress bar
-- [ ] localStorage `hidx:read:*` persiste entre reloads
-- [ ] Lighthouse Mobile mantiene ≥95 perf en /tracks index + /tracks/[slug] + article-in-track
-- [ ] Build time < 3min con 25 articles + 5 tracks
-- [ ] Zero JS por default salvo ReadCheckbox (~300B vanilla)
-- [ ] Canonical URLs no se duplican (article tiene 1 canonical único)
+- [ ] Repo renombrado a `chispalab`, push exitoso
+- [ ] Dominio `chispalab.lat` (o alt) apunta a CF Pages
+- [ ] Schema migration aplica clean local + Cloud (extiende articles + tracks)
+- [ ] 10 lessons publicadas con materials/safety/parent_tip completos
+- [ ] 3 rutas curadas con outline ordenado
+- [ ] Lighthouse Mobile: perf ≥95, a11y ≥98 (WCAG AAA), SEO =100
+- [ ] WCAG AAA contraste verificado per page
+- [ ] PDF descargables funcionan (R2 storage)
+- [ ] localStorage progress persiste
+- [ ] Build time < 3min con 10 lessons
+- [ ] CSP headers incluyen Mediavine domains (preparar para futuro)
 
 ### Content gates
 
-- [ ] 5 tracks publicados con metadata completa
-- [ ] 20-25 short articles (5-min cada) split de pillar posts existentes
-- [ ] Cada article < 7 min reading time (warning soft si excede)
-- [ ] CLI `pnpm new:post --track=astro-prod` testeado funciona
-- [ ] Track outline navegable mobile + desktop
+- [ ] 10 lessons E+A producidas con foto/video proceso
+- [ ] Materiales todos < $5 USD verificable mercado LatAm
+- [ ] Safety notes per lesson (cortante / calor / químico / supervisión)
+- [ ] Parent tip per lesson (pedagogía 2-3 párrafos)
+- [ ] Voice rioplatense neutral consistente (revisión Editorial)
 
 ### UX gates
 
-- [ ] Breadcrumb claro en article-in-track (no se siente "perdido")
-- [ ] Read checkbox toggleable con feedback visual
-- [ ] Progress bar arriba muestra posición correcta
-- [ ] ArticleNavBar sticky bottom funcional
-- [ ] /tracks landing carga cards visuales atractivas
+- [ ] Niño 8-12 puede navegar landing → lección sin ayuda (test 1 niño real)
+- [ ] Padre puede entender lección + safety en <2min
+- [ ] Mobile responsive 320 → 1920 sin overflow
+- [ ] Print stylesheet PDF lección legible blanco/negro
+- [ ] Touch targets ≥44px (kids hands)
 
-## Open Questions (resolver durante design)
+## Open Questions
 
-- [ ] **Track cover images**: stock Unsplash, custom Figma, o gradient mesh CSS-only? Sugiero CSS-only MVP (matchea theme)
-- [ ] **Read state UI ubicación**: checkbox al final del article, o sticky con nav bar bottom? Sugiero ambos (final = explicit, nav bar = quick toggle)
-- [ ] **Chapter naming convention**: opcional vs requerido? Sugiero opcional (track sin chapters = lista flat)
-- [ ] **Articles dual URL canonical**: ¿`/posts/[slug]` o `/tracks/[track]/[article]` como canonical? Sugiero in-track si tiene `primary_track` field, sino /posts
-- [ ] **/tracks vs /learn route**: ¿`/tracks` (más SEO en Spanish) o `/learn`? Sugiero `/tracks` (matchea roadmap.sh patrón)
-- [ ] **Reading time warning umbral**: 5min target, 7min hard warning? Sugiero soft warn >7min, no block
+- [ ] **Domain final**: `chispalab.lat` / `.com` / `.com.ar` / `.org` — sugiero `.lat` (LatAm specific TLD)
+- [ ] **Logo design**: CSS monogram "C" o Figma profi (~$200 fiverr)? Sugiero CSS-only MVP
+- [ ] **Voice rioplatense vs neutral LatAm**: rioplatense (vos/tenés) o neutral (tú/tienes) para no excluir audience MX/CO/PE? Sugiero **neutral con guiños rioplatenses** (ej "che" raro, "tu" base)
+- [ ] **Foto/video tools**: smartphone + iMovie/CapCut OK MVP, o invertir Sony ZV-1 ($600)? Sugiero smartphone MVP
+- [ ] **PDF generation**: build-time (Astro endpoint) o tool externo (Canva)? Sugiero **build-time** via `pdfkit` o `puppeteer` worker
+- [ ] **Newsletter para padres**: Beehiiv same que hidx plan, o tool kids-friendly (ConvertKit)? Sugiero Beehiiv (gratis 2.5k subs)
+- [ ] **Analytics kids COPPA**: CF Web Analytics (sin cookies) cumple, mantener; agregar Plausible (también COPPA-safe) self-host? Sugiero CF Web Analytics solo MVP
+- [ ] **Materials sourcing list**: link Amazon affiliates o Mercado Libre LatAm primary? Sugiero **Mercado Libre primary** (LatAm) + Amazon backup
 
 ## Risks & Mitigations
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| Splitting pillar posts en short articles fragmenta narrativa | High | Medium | Cada article = 1 concepto atómico autocontenido; track outline da contexto |
-| 25 articles to write en 5-7 días = ritmo fuerte | High | High | Aceptar 10-15 articles initial launch; expandir post-launch |
-| localStorage read state se pierde si user limpia cookies | Medium | Low | Trade aceptable MVP; documentar en footer |
-| Articles sin track parent (huérfanos) confuso | Medium | Low | CLI new-post obligatorio --track o explicitamente `--standalone` |
-| SEO duplicate content (article en /posts + /tracks) | Medium | High | Canonical estricto; sitemap excluye `/tracks/*/[article]` (solo /posts/[slug] indexable) |
-| Visual roadmap defer = tracks landing se ve plain | Medium | Medium | Cover image + level badge + tag chips dan visual richness MVP |
-| Pivot mid-flight rich-articles Phase 8 + inject-articles Phase 2 incompletas | High | Medium | Completar inject-articles Phase 2 (Supabase loader) PRIMERO; tracks se monta encima del loader |
-| Content velocity bottleneck | High | High | Lanzar con 1 track + 5 articles si necesario; otros tracks "coming soon" |
-| EthicalAds rejection sin contenido suficiente | Medium | Medium | Aplicar después de 5 tracks/25 articles publicados; mientras tanto slots vacíos (env-gated) |
-| Carbon Ads requiere 10k visits/mo | High (early) | Low | Slot env-gated; renderiza vacío hasta serial set |
-| Ads degradan UX learning context | Medium | High | Max 1 slot per page; lazy loaded; no interstitials; placement post-content no antes |
-| Article reading flow interrumpido por slot mid-article | Medium | Medium | Slot solo después first H2 (lector ya engaged); A/B test después de tracking analytics ready |
-| Ads ROI bajo en sitio nuevo | Very High | Medium | Aceptado; ads = side-income, no business core MVP. Affiliate + content authority = revenue path real largo plazo |
+| Content velocity 30 días content = quemador solo | Very High | Critical | Aceptar lanzar con 5 lessons en mes 2; otros "próximamente"; reclutar voluntarios LatAm padres educadores |
+| Foto/video producción amateur baja calidad percibida | High | Medium | Ring light $20 + smartphone moderno + iMovie/CapCut suficiente MVP; iterar quality post-launch |
+| Niños 8-12 no son audience self-driven (padres seleccionan) | Very High | High | Diseñar para padre primero (descubre + comparte); kid usa después |
+| Khan Academy lanza producto similar LatAm | Low (no historial) | High | Diferenciación hands-on materiales reciclados Khan no replica fácil |
+| Sin ads hasta 10k mo = revenue $0 mes 1-12 | Very High | Medium | Affiliate Amazon kits + Ko-fi + sponsorship outreach desde día 1; aceptar runway largo |
+| Compete en niche LatAm = mercado chico revenue | High | High | Aceptar; alternativa = expand audience EN PT-BR Fase 3 |
+| WCAG AAA difícil con paleta vibrante | Medium | High | Pair colors high contrast (verde-blanco, púrpura-blanco); test contrast WAVE/axe |
+| Materials LatAm precio varia país | Medium | Medium | Lista en lección dice "aprox $5 USD"; alternativas sugeridas (cartón = papel reciclado) |
+| Safety LatAm: kids supervisión variable | Medium | High | SafetyNote estricto; "actividad para realizar con un adulto" obligatorio cualquier lección con cortes/calor/electricidad |
+| Diseño "kid-friendly" repele adult viewers | High | Medium | Aceptado para S1 (kids primary); navigation `/padres` dedicada con tono adulto |
+| Rebrand SEO authority cero | Certain | Low | hidx tampoco tenía; greenfield SEO con keyword "STEAM kids español LatAm" |
 
 ## Architectural Decisions Record (ADR seeds)
 
-- **ADR-501**: A5 SSG-preserved (no auth, no LMS) — pivot incremental
-- **ADR-502**: 5-min target article length (~1100w); soft warn >7min
-- **ADR-503**: Read state localStorage only (no server sync)
-- **ADR-504**: Tracks first-class entity (curated, not tag-inferred)
-- **ADR-505**: track_articles join table N:N + position ordering
-- **ADR-506**: Optional chapter grouping (no separate courses/modules table)
-- **ADR-507**: Level enum 3 valores (beginner/intermediate/advanced)
-- **ADR-508**: Spanish-first; EN i18n defer
-- **ADR-509**: Articles dual URL (/posts standalone + /tracks/[t]/[a] in-track); canonical via primary_track field
-- **ADR-510**: Visual roadmap SVG defer; static cover MVP
-- **ADR-511**: Monetización P0 = publicidad EthicalAds + Carbon Ads (NO AdSense — supersedes Capa 1 affiliate priority)
-- **ADR-512**: Max 1 ad slot per page (UX guardrail; consistent con `design-uplift-adsense` ADR-106)
-- **ADR-513**: NO cookie consent banner needed (privacy-first networks; preserva `/privacy` zero-cookie promise)
+- **ADR-501**: Pivot total hidx dev → ChispaLab STEAM LatAm (supersedes prior hidx ADRs)
+- **ADR-502**: S1 mini-MVP scope (1 audience kids 8-12, E+A categorías) — defer S+T+M y otras audiences
+- **ADR-503**: Reuse infra hidx 100%; rename project, no replatform
+- **ADR-504**: Schema extension `articles` table (no `lessons` separate) + opt columns STEAM
+- **ADR-505**: localStorage progress only (no auth MVP)
+- **ADR-506**: Spanish neutral LatAm con guiños rioplatenses (no España, no Mexico-only)
+- **ADR-507**: WCAG AAA enforced (kids accesibilidad strict)
+- **ADR-508**: Sin ads hasta 10k visits/mo (apply Mediavine Family después)
+- **ADR-509**: Affiliate Mercado Libre primary + Amazon backup (LatAm market fit)
+- **ADR-510**: Voz Khan-complementary, no Khan-competitive
+- **ADR-511**: COPPA strict mode (kids <13) — sin PII collection sin consent verificable padres
+- **ADR-512**: Foto/video smartphone MVP (no studio production)
+- **ADR-513**: PDF build-time (defer tool decision: pdfkit/puppeteer/satori-pdf)
+- **ADR-514**: Domain `.lat` TLD LatAm-specific (sugerido)
+- **ADR-515**: Logo CSS monogram MVP, no profi design
 
 ## Next Phase
 
-→ `/sdd-design learning-platform` — finalize schema details, route structure, component interfaces, content migration plan.
+→ `/sdd-design learning-platform` — finalize: project rename steps, schema migration SQL, components per-design, content template MDX skeleton, design tokens shift, monetización setup detail.
 
-→ DEPENDENCIA: `inject-articles` Phase 2 (Supabase loader Astro) **MUST complete before** S6c (tracks routes need loader to fetch articles + tracks de Supabase).
+→ Coordinación crítica:
+- **Antes design**: confirmar nombre final `ChispaLab` + dominio
+- **Después design**: pausa rich-articles + supabase-cf-integration changes para reusar trabajo (rename CF project, etc)
+
+→ Otros changes en curso (impacto):
+- `inject-articles` Phase 2 (loader Supabase) — sigue válido (compartido)
+- `supabase-cf-integration` Phase 1-3 — sigue válido (rename CF project hidx→chispalab solo cambio dashboard)
+- `rich-articles` Phase 8 — descartar (tests E2E para components dev borrar)
+- `design-uplift-adsense` — replanificar Capa 1+2 con Mediavine Family + Mercado Libre affiliate
+
+¿Confirmás `ChispaLab` + `.lat` domain + arrancamos design phase?
