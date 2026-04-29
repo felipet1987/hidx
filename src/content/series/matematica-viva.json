@@ -1,0 +1,14 @@
+{
+  "title": "Matemática viva con cosas que tocás",
+  "description": "Tres experimentos para ver matemática hands-on: fracciones con pizza de cartón, Fibonacci en piñas y la imposible cinta de Möbius. Sin libros, sin cuentas — solo manos y descubrimiento.",
+  "order": 2,
+  "level": "beginner",
+  "steamCategories": ["M", "A", "S", "E"],
+  "ageMin": 8,
+  "ageMax": 12,
+  "lessons": [
+    "fracciones-con-pizza-de-carton",
+    "fibonacci-escondido-en-las-pinas",
+    "cinta-de-mobius-magia-matematica"
+  ]
+}
