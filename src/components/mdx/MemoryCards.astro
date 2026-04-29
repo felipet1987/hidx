@@ -59,7 +59,11 @@ const cards = pairs.flatMap((p, i) => [
               if (status) status.textContent = `Movimientos: ${moves} · Pares: ${matched}/${totalPairs}`;
             }, 900);
           }
-          if (status) status.textContent = `Movimientos: ${moves} · Pares: ${matched}/${totalPairs}${matched === totalPairs ? ' — 🎉' : ''}`;
+          if (status) status.textContent = `Movimientos: ${moves} · Pares: ${matched}/${totalPairs}${matched === totalPairs ? ' — 🎉 (+8 XP)' : ''}`;
+          if (matched === totalPairs) {
+            const id = (root as HTMLElement).dataset.mc ?? '';
+            import('../../lib/xp').then((m) => m.awardXP(8, `mc:${id}`));
+          }
         }
       });
     });

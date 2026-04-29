@@ -57,8 +57,12 @@ const id = `ni-${Math.random().toString(36).slice(2, 9)}`;
       feedback.hidden = false;
       feedback.className = `ni-feedback ${correct ? 'fb-correct' : 'fb-incorrect'}`;
       feedback.textContent = correct
-        ? `✓ ¡Correcto! ${explain ?? ''}`
+        ? `✓ ¡Correcto! ${explain ?? ''} (+5 XP)`
         : `✗ Probá de nuevo. ${explain ?? ''}`;
+      if (correct) {
+        const id = root.dataset.ni ?? '';
+        import('../../lib/xp').then((m) => m.awardXP(5, `ni:${id}`));
+      }
     };
 
     check?.addEventListener('click', verify);

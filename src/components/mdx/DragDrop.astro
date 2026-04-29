@@ -98,8 +98,12 @@ const id = `dd-${Math.random().toString(36).slice(2, 9)}`;
         feedback.hidden = false;
         feedback.className = `dd-feedback ${correct === total ? 'fb-correct' : 'fb-incorrect'}`;
         feedback.textContent = correct === total
-          ? `✓ ¡Perfecto! ${correct}/${total}`
+          ? `✓ ¡Perfecto! ${correct}/${total} (+8 XP)`
           : `${correct}/${total} correctos. ${total - correct} están en el lugar equivocado.`;
+      }
+      if (correct === total) {
+        const id = root.dataset.dd ?? '';
+        import('../../lib/xp').then((m) => m.awardXP(8, `dd:${id}`));
       }
     });
 

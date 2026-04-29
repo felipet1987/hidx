@@ -67,8 +67,12 @@ const shuffled = [...items].sort(() => Math.random() - 0.5);
         feedback.hidden = false;
         feedback.className = `ol-feedback ${correct === total ? 'fb-correct' : 'fb-incorrect'}`;
         feedback.textContent = correct === total
-          ? `✓ ¡Perfecto orden!`
+          ? `✓ ¡Perfecto orden! (+8 XP)`
           : `${correct}/${total} en su lugar. Reorganizá los rojos.`;
+      }
+      if (correct === total) {
+        const id = root.dataset.ol ?? '';
+        import('../../lib/xp').then((m) => m.awardXP(8, `ol:${id}`));
       }
     });
   });

@@ -68,7 +68,11 @@ const shuffledRight = [...pairs.map((p, i) => ({ text: p.right, pairIdx: i }))].
         selectedLeft.classList.remove('selected');
         selectedLeft = null;
         matched++;
-        if (feedback) feedback.textContent = `${matched}/${total} pares ${matched === total ? '— ¡Completaste todos! 🎉' : ''}`;
+        if (feedback) feedback.textContent = `${matched}/${total} pares ${matched === total ? '— ¡Completaste todos! 🎉 (+8 XP)' : ''}`;
+        if (matched === total) {
+          const id = root.dataset.mp ?? '';
+          import('../../lib/xp').then((m) => m.awardXP(8, `mp:${id}`));
+        }
       } else {
         btn.classList.add('shake');
         setTimeout(() => btn.classList.remove('shake'), 400);
