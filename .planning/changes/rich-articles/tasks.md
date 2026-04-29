@@ -58,13 +58,15 @@
 
 ## Phase 6: Meta UX (S4f)
 
-- [ ] 6.1 `src/lib/authors.ts` — `{ felipe: { id, name, bio, avatarSvg, github, mastodon } }`
-- [ ] 6.2 `src/components/AuthorBio.astro` — reads `authors.ts`, renders footer card
-- [ ] 6.3 RED Vitest: `tests/unit/related.test.ts` — mock supabase, assert top-3 by tag overlap descending, current excluded, limit honored
-- [ ] 6.4 GREEN: `src/lib/related.ts` — Supabase query `tags && current.tags`, ORDER BY overlap DESC LIMIT 3
-- [ ] 6.5 `src/components/RelatedPosts.astro` — calls `getRelatedPosts`, renders 3 cards with cover thumb if exists
-- [ ] 6.6 `src/components/ShareButtons.astro` — 5 anchors (X, LinkedIn, Mastodon prompt, Bluesky, Copy URL); Copy uses `navigator.clipboard.writeText`
-- [ ] 6.7 Modify `PostLayout.astro` footer — mount `<RelatedPosts>` + `<ShareButtons>` + `<AuthorBio>`
+> **DEVIATION**: related uses Astro `getCollection()` (glob loader) Phase 1; swap to Supabase `tags && current.tags` query when inject-articles loader migrates. `rankByTagOverlap` is pure → reusable across both sources.
+
+- [x] 6.1 `src/lib/authors.ts` — `felipe` hardcoded with monogram inline SVG (F initial), bio, github
+- [x] 6.2 `AuthorBio.astro` — reads `authors.ts` via `getAuthor()`, renders avatar+name+bio+links footer card
+- [x] 6.3 RED 7 Vitest cases — exclude self, order DESC, omit zero overlap, honor limit, empty no tags, no-tag candidates, attach overlap count
+- [x] 6.4 GREEN `src/lib/related.ts` — pure `rankByTagOverlap()` (deviates from SQL: in-memory ranking until loader swap)
+- [x] 6.5 `RelatedPosts.astro` — `getCollection('posts')` + ranks via lib; 3 cards with cover; gracefully hides if zero
+- [x] 6.6 `ShareButtons.astro` — 4 anchors (X / LinkedIn / Bluesky / Mastodon) + Copy URL button (vanilla clipboard, "Copiado ✓" feedback)
+- [x] 6.7 `PostLayout.astro` footer — `<ShareButtons>` + `<RelatedPosts>` + `<AuthorBio>` + disclosure paragraph
 
 ## Phase 7: CLI + Whitelist + Docs (S4g)
 
