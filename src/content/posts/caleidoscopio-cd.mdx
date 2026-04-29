@@ -1,0 +1,85 @@
+---
+title: Caleidoscopio con CD viejo
+description: Construí un caleidoscopio reciclando un CD que ya no usás. Descubrí cómo la luz se descompone en colores y por qué los espejos crean simetrías infinitas.
+publishedAt: 2026-04-29
+tags: [arts, optics, kids]
+ageMin: 8
+ageMax: 12
+difficulty: 2
+durationMinutes: 25
+steamCategories: [A, S]
+materials:
+  - { name: 'CD viejo (que ya no uses)', qty: '1 unidad' }
+  - { name: 'Tubo de cartón (papel higiénico vacío)', qty: '1 unidad' }
+  - { name: 'Papel celofán de colores', qty: '3 colores', optional: true }
+  - { name: 'Tijera con punta redonda', qty: '1 unidad' }
+  - { name: 'Cinta adhesiva', qty: '1 rollo' }
+safetyNotes:
+  - { type: 'cortante', text: 'Si querés cortar el CD, usá tijeras de punta redonda y supervisión adulta. El CD se rompe en pedazos chicos filosos.' }
+parentTip: |
+  Esta actividad cruza **arte + óptica**: el CD funciona como una rejilla de difracción que separa la luz blanca
+  en sus colores (efecto arco iris). Conceptos: reflexión, refracción, espectro de luz, simetría rotacional.
+
+  Variante avanzada: usar una linterna LED apuntando al CD y observar el espectro proyectado en una pared blanca.
+  Es la misma física que usan los espectrómetros profesionales para analizar la composición de las estrellas.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={8} max={12} />
+  <STEAMBadge categories={['A', 'S']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={25} />
+</div>
+
+¿Tenés CDs viejos en algún cajón? **Convertí uno en un caleidoscopio mágico** que muestra arcoíris cuando lo girás.
+Sin pilas, sin app, sin internet — solo física y arte.
+
+<MaterialsList items={[
+  { name: 'CD viejo (que ya no uses)', qty: '1 unidad' },
+  { name: 'Tubo de cartón (rollo de papel higiénico)', qty: '1 unidad' },
+  { name: 'Papel celofán de colores', qty: '3 colores', optional: true },
+  { name: 'Cinta adhesiva', qty: '1 rollo' },
+]} />
+
+<SafetyNote type="cortante">
+No fuerces el CD para romperlo: se astilla en pedazos filosos. Usá tijeras de punta redonda y pedí ayuda a un adulto si necesitás cortar algo.
+</SafetyNote>
+
+## Construir el caleidoscopio
+
+<ExperimentSteps steps={[
+  { title: 'Limpiá el CD', body: 'Pasale un trapito húmedo a la cara brillante (la del lado de los datos). Tiene que estar limpia para que la luz se vea bien.' },
+  { title: 'Pegá el tubo al CD', body: 'Apoyá el tubo de cartón sobre el centro del CD (el agujero). Pegá con cinta adhesiva alrededor de la base del tubo.' },
+  { title: 'Decorá la otra punta', body: 'Si tenés celofán de colores, pegá pedacitos en la punta libre del tubo. Cuando mires, la luz que entra por ahí se va a teñir de colores.' },
+  { title: 'Apuntá a la luz', body: 'Cerrá un ojo y mirá por la punta libre del tubo apuntando hacia una luz fuerte (lámpara, ventana, NO el sol directo). Vas a ver patrones de arcoíris en el CD.' },
+  { title: 'Movélo y descubrí', body: '¡Girá el tubo! Los colores se mueven, se mezclan, cambian. Cada movimiento te muestra un patrón único.' },
+]} />
+
+## ¿Por qué se ven los colores?
+
+La superficie de un CD tiene **millones de surcos diminutos** (donde van los datos). Cuando la luz blanca rebota en esos surcos, se separa en sus colores básicos: rojo, naranja, amarillo, verde, azul, índigo, violeta. Es el mismo efecto del **arco iris** después de la lluvia, donde las gotas de agua hacen lo que el CD.
+
+<Callout type="info" title="Concepto científico">
+Esto se llama **difracción**: cuando la luz pasa por (o rebota en) algo con surcos muy pequeñitos, se descompone en sus colores. Los astrónomos usan el mismo principio para descubrir de qué están hechas las estrellas.
+</Callout>
+
+## Reto creativo
+
+- Hacé 2 caleidoscopios y miralos uno contra el otro: ¿qué pasa con los colores?
+- Probá apuntar el caleidoscopio a distintas luces (lámpara cálida, fluorescente, LED). Los colores cambian. ¿Por qué?
+- Decorá el tubo de cartón por fuera con pintura, papel o stickers — el caleidoscopio sigue funcionando igual.
+
+<ParentTip>
+**Conexión STEAM (A + S)**:
+- **Arte**: composición visual, simetría, exploración estética del color.
+- **Ciencia**: óptica, difracción, espectro electromagnético, arco iris natural.
+
+**Pregunta provocadora**: "¿Por qué la luz blanca contiene todos los colores adentro?" — esto abre conversaciones sobre el espectro electromagnético, prismas (Newton), y por qué el cielo es azul.
+
+**Reciclaje**: además de la lección STEAM, esta actividad reusa un objeto que típicamente se tira (CD obsoleto). Buena oportunidad para charlar de **basura electrónica** y reciclaje creativo.
+</ParentTip>

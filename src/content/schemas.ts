@@ -63,9 +63,14 @@ export type Lesson = z.infer<typeof lessonSchema>;
 export const trackSchema = z.object({
   title: z.string().min(1).max(80),
   description: z.string().min(1).max(280),
-  order: z.number().int().nonnegative(),
+  order: z.number().int().nonnegative().default(0),
   cover: z.string().optional(),
   level: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
+  steamCategories: z.array(steamCategoryEnum).max(5).default([]),
+  /** Ordered list of lesson slugs that compose this track. */
+  lessons: z.array(z.string().min(1)).min(1).max(50),
+  ageMin: z.number().int().min(0).max(99).default(8),
+  ageMax: z.number().int().min(0).max(99).default(12),
 });
 export type Track = z.infer<typeof trackSchema>;
 

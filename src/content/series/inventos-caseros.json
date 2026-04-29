@@ -1,0 +1,14 @@
+{
+  "title": "Inventos caseros con materiales que ya tenés",
+  "description": "Tres experimentos para chicos curiosos: catapulta de palitos, pila de limón, caleidoscopio con CD. Todo con materiales <$5 USD que conseguís en el supermercado o el cajón de casa.",
+  "order": 1,
+  "level": "beginner",
+  "steamCategories": ["E", "S", "A", "M"],
+  "ageMin": 8,
+  "ageMax": 12,
+  "lessons": [
+    "catapulta-carton",
+    "circuito-limon",
+    "caleidoscopio-cd"
+  ]
+}

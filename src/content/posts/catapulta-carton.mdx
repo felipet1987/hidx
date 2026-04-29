@@ -1,0 +1,84 @@
+---
+title: Catapulta de cartón con palitos
+description: Construí una mini catapulta usando palitos de helado, gomas y un cartón. Aprendé sobre palancas, energía elástica y trayectorias.
+publishedAt: 2026-04-29
+tags: [engineering, palanca, kids]
+ageMin: 8
+ageMax: 12
+difficulty: 2
+durationMinutes: 30
+steamCategories: [E, M]
+materials:
+  - { name: 'Palitos de helado', qty: '7 unidades', sourceUrl: 'https://articulo.mercadolibre.com.ar/MLA-palitos' }
+  - { name: 'Gomitas elásticas', qty: '5 unidades' }
+  - { name: 'Tapita de gaseosa', qty: '1 unidad' }
+  - { name: 'Pegamento o cinta', qty: '1 rollo', optional: true }
+  - { name: 'Cartón base', qty: '15x15cm', optional: true }
+safetyNotes:
+  - { type: 'cortante', text: 'Si recortás el cartón, usá tijeras con punta redonda y pedí ayuda a un adulto.' }
+parentTip: |
+  Aprovechá esta actividad para hablar de palancas (1ra clase), energía elástica almacenada en las gomas,
+  y trayectorias parabólicas (geometría / física básica). Pueden experimentar cambiando el ángulo de
+  lanzamiento y midiendo la distancia con regla — convierten el juego en mini-experimento controlado.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, MercadoLibreProduct, Callout,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={8} max={12} />
+  <STEAMBadge categories={['E', 'M']} />
+  <DifficultyStars level={2} />
+  <DurationBadge minutes={30} />
+</div>
+
+¿Te imaginás lanzar una bolita de papel a 3 metros de distancia con un mini invento que armás en 30 minutos?
+Eso es una **catapulta** — y es uno de los inventos más viejos de la humanidad.
+
+<MaterialsList items={[
+  { name: 'Palitos de helado', qty: '7 unidades' },
+  { name: 'Gomitas elásticas', qty: '5 unidades' },
+  { name: 'Tapita de gaseosa', qty: '1 unidad' },
+  { name: 'Pegamento o cinta', qty: '1 rollo', optional: true },
+]} />
+
+<SafetyNote type="cortante">
+Si vas a cortar cartón o ajustar palitos, pedile ayuda a un adulto. Las tijeras pueden lastimar.
+</SafetyNote>
+
+## Cómo armar la catapulta
+
+<ExperimentSteps steps={[
+  { title: 'Apilá 5 palitos', body: 'Juntá 5 palitos de helado uno encima del otro y atalos en los dos extremos con gomitas bien apretadas. Esta es la base de tu catapulta.' },
+  { title: 'Hacé el brazo', body: 'Tomá los 2 palitos restantes. Atalos con una gomita en uno de los extremos (formando una "X" abierta). Estos serán el brazo de lanzamiento.' },
+  { title: 'Uní la base con el brazo', body: 'Insertá la base de 5 palitos entre los 2 palitos del brazo (cerca del extremo atado). Asegurá con más gomitas cruzadas para que quede firme pero el brazo se pueda mover.' },
+  { title: 'Pegá la tapita', body: 'Con un poco de pegamento o cinta, pegá la tapita de gaseosa en el extremo libre del brazo superior. Ahí va el "proyectil".' },
+  { title: '¡Lanzá!', body: 'Ponéle una bolita de papel en la tapita, presioná el brazo para abajo, soltá y ¡mirá volar el proyectil! Probá distintos ángulos y mirá cómo cambia la distancia.' },
+]} />
+
+## Qué aprendiste
+
+Esta catapulta usa una **palanca de tercera clase** — el brazo gira en un punto (las gomitas atadas) y vos aplicás fuerza cerca del pivote para mandar el proyectil lejos.
+La **energía** que vos pusiste apretando las gomas se transforma en **energía cinética** (movimiento) cuando soltás.
+
+<Callout type="tip" title="Reto extra">
+Probá poner la tapita más cerca o más lejos del pivote y medí cuánto vuela el proyectil. ¿Qué posición lo lanza más lejos?
+</Callout>
+
+## Para ir más lejos
+
+Una catapulta más grande (con palitos largos) puede mandar bolitas de papel a 5+ metros.
+Si conseguís unos motores chicos en <MercadoLibreProduct href="https://articulo.mercadolibre.com.ar/MLA-motor" region="AR">Mercado Libre</MercadoLibreProduct>, podés hacer una catapulta automática en otra lección.
+
+<ParentTip>
+**Conexión curricular**:
+- **Física**: palancas, energía elástica, trayectoria parabólica.
+- **Matemática**: medición, comparación de distancias, ángulo de lanzamiento.
+- **Ingeniería**: prototipo + iteración (probá distintos diseños).
+
+**Para extender la actividad**: pídanle a su hijo/a que mida la distancia con cinta métrica al cambiar el ángulo, y arme una tabla. Eso introduce **método científico** sin que se note. 5 lanzamientos por ángulo = promedio para resultado más confiable.
+
+**Tiempo real**: 30 min armar + 15 min jugar/medir = 45 min total.
+</ParentTip>

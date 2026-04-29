@@ -61,9 +61,10 @@ describe('postSchema', () => {
 describe('seriesSchema', () => {
   it('accepts a valid series', () => {
     const result = seriesSchema.safeParse({
-      title: 'Building hidx',
-      description: 'Behind the scenes of building this site.',
+      title: 'Inventos caseros',
+      description: 'Track de experimentos hands-on para chicos.',
       order: 1,
+      lessons: ['catapulta-carton', 'circuito-limon'],
     });
     expect(result.success).toBe(true);
   });
@@ -73,6 +74,7 @@ describe('seriesSchema', () => {
       title: 'X',
       description: 'Y',
       order: -1,
+      lessons: ['a'],
     });
     expect(result.success).toBe(false);
   });

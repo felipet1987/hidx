@@ -1,0 +1,93 @@
+---
+title: Circuito con limón y LED
+description: Encendé un LED usando dos limones como pila. Descubrí cómo funciona la electricidad y por qué los electrolitos generan corriente.
+publishedAt: 2026-04-29
+tags: [science, electricity, kids]
+ageMin: 9
+ageMax: 12
+difficulty: 3
+durationMinutes: 45
+steamCategories: [S, E]
+materials:
+  - { name: 'Limones jugosos', qty: '2-3 unidades' }
+  - { name: 'Clavos de hierro galvanizado', qty: '2 unidades' }
+  - { name: 'Monedas de cobre (o trozos de alambre)', qty: '2 unidades' }
+  - { name: 'LED chico (rojo o amarillo)', qty: '1 unidad' }
+  - { name: 'Cables con pinzas cocodrilo', qty: '3 unidades' }
+safetyNotes:
+  - { type: 'cortante', text: 'Los clavos tienen punta. Manipulá con cuidado y pedile ayuda a un adulto para insertarlos en los limones.' }
+  - { type: 'electrico', text: 'Este experimento usa muy poca electricidad (segura), pero nunca toques cables conectados a enchufes.' }
+parentTip: |
+  El limón funciona como pila gracias a su **ácido cítrico** (electrolito). El cobre y el zinc (galvanizado)
+  son dos metales con distinto potencial eléctrico — al conectarlos a través del electrolito, los electrones
+  fluyen y generamos corriente. Es el principio de TODA pila moderna (ácido + 2 metales distintos).
+
+  Conexión curricular: química (electrolitos, reacciones redox), física (corriente eléctrica, voltaje),
+  ingeniería (circuitos en serie). Ideal antes de estudiar el tema en la escuela.
+---
+
+import {
+  MaterialsList, SafetyNote, ExperimentSteps, ParentTip, AgeBadge,
+  STEAMBadge, DifficultyStars, DurationBadge, Callout,
+} from '../../components/mdx';
+
+<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0 1.5rem;">
+  <AgeBadge min={9} max={12} />
+  <STEAMBadge categories={['S', 'E']} />
+  <DifficultyStars level={3} />
+  <DurationBadge minutes={45} />
+</div>
+
+¿Sabías que un **limón puede prender una luz**? No es magia — es química + electricidad combinadas.
+En esta lección armamos un circuito real con frutas como pila.
+
+<MaterialsList items={[
+  { name: 'Limones jugosos', qty: '2-3 unidades' },
+  { name: 'Clavos de hierro galvanizado', qty: '2 unidades' },
+  { name: 'Monedas de cobre (o trozos de alambre)', qty: '2 unidades' }
+]} />
+
+<SafetyNote type="cortante">
+Los clavos tienen punta. Pedile a un adulto que te ayude a insertarlos en los limones.
+</SafetyNote>
+
+<SafetyNote type="electrico">
+La electricidad de los limones es muy poca (no te lastima), pero **nunca** toques cables enchufados a la pared.
+</SafetyNote>
+
+## Armar el circuito paso a paso
+
+<ExperimentSteps steps={[
+  { title: 'Apretá los limones', body: 'Hacé rodar los limones sobre la mesa apretándolos suavemente. Esto rompe las celdas internas y libera más jugo (mejor conductor).' },
+  { title: 'Insertá los electrodos', body: 'En cada limón, clavá un clavo galvanizado en un extremo y una moneda de cobre en el otro. Que NO se toquen entre sí dentro del limón.' },
+  { title: 'Conectá las pilas en serie', body: 'Conectá el clavo del limón 1 con la moneda del limón 2 usando un cable con pinzas. Quedan dos extremos libres: el clavo del limón 2 y la moneda del limón 1.' },
+  { title: 'Conectá el LED', body: 'El LED tiene dos patas: una larga (+) y una corta (−). Conectá la pata larga al extremo del cobre, y la corta al extremo del clavo. Si no prende, dale vuelta el LED — se conectó al revés.' },
+  { title: 'Mirá la luz', body: '¡Tenés que ver el LED prendido tenue! Si no funciona, agregá un tercer limón en serie (más voltaje).' },
+]} />
+
+## Cómo funciona
+
+Cada limón es una **pila galvánica**: el cobre y el zinc (la cobertura del clavo) son dos metales con distinto "deseo" de soltar electrones. El **ácido cítrico** del limón actúa como **electrolito** que permite el flujo de esos electrones por el cable externo.
+
+<Callout type="info" title="¿Sabías?">
+Las pilas comunes que usás en juguetes funcionan **exactamente igual** — solo que adentro tienen químicos más concentrados que el ácido cítrico. La idea es la misma: 2 metales + electrolito = corriente.
+</Callout>
+
+## Reto extra
+
+- Probá con **papas** o **vinagre** en vez de limones — ¿qué da más voltaje?
+- Conectá un **multímetro** (si tenés en casa) entre los dos extremos para medir cuántos volts genera tu pila de limón.
+- Armá un **circuito en paralelo** con 4 limones para más corriente.
+
+<ParentTip>
+**Conceptos clave que tu hijo/a explora**:
+- **Electrolito**: sustancia que conduce corriente cuando se disuelve (limón = ácido cítrico).
+- **Reacción redox**: el zinc del clavo se oxida (pierde electrones), el cobre los gana — el flujo es la corriente.
+- **Voltaje en serie**: cada limón aporta ~0.9 V; 2 limones en serie ≈ 1.8 V (suficiente para LED tenue).
+
+**Lecciones derivadas**:
+- ¿Cuántos limones necesitás para prender un LED brillante? (Experimento de comparación)
+- Si reemplazás limón por papa, ¿funciona igual? (Variable independiente)
+
+Esto es **método científico aplicado** sin necesidad de un laboratorio escolar formal.
+</ParentTip>
